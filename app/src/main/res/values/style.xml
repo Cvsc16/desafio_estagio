@@ -1,0 +1,56 @@
+<resources>
+
+    <style name="login_">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">#172B4D</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+    <style name="encontre">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">#172B4D</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+    <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/edittext_background</item>
+    </style>
+    <style name="BottomNavigationViewCustomStyle" parent="@style/Widget.MaterialComponents.BottomNavigationView">
+        <item name="background">@drawable/menu_flutuante</item>
+        <item name="android:background">@drawable/menu_flutuante</item>
+    </style>
+    <style name="subtitulo">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#5B80BD</item>
+    </style>
+    <style name="MySpinnerStyle" parent="Widget.AppCompat.Spinner">
+        <item name="android:dropDownSelector">@color/principal</item>
+        <item name="android:background">@drawable/spinner_background</item>
+        <item name="android:popupBackground">@color/texto</item>
+        <item name="android:spinnerDropDownItemStyle">@style/MySpinnerDropDownItemStyle</item>
+        <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle
+        </item>
+        <item name="android:paddingRight">40dp</item>
+    </style>
+
+    <style name="MySpinnerDropDownItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/principal</item>
+    </style>
+
+    <style name="MySpinnerItemStyle" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:textColor">@color/principal</item>
+    </style>
+
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView">
+        <!-- Estilo para o texto na caixa de pesquisa quando está em foco -->
+        <item name="android:textColor">@color/texto</item>
+        <!-- Estilo para o texto na caixa de pesquisa quando não está em foco -->
+        <item name="queryTextColor">@color/black</item>
+        <!-- Estilo para o ícone de pesquisa -->
+        <item name="searchIcon">@drawable/ic_editar_svg</item>
+        <!-- Estilo para o ícone de fechar a pesquisa -->
+        <item name="closeIcon">@drawable/ic_editar_svg</item>
+        <!-- Estilo para o ícone de botão de voz -->
+        <item name="voiceIcon">@drawable/ic_editar_svg</item>
+        <!-- Estilo para o ícone de expansão da caixa de pesquisa -->
+        <item name="commitIcon">@drawable/ic_editar_svg</item>
+    </style>
+</resources>

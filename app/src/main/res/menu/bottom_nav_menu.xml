@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_vaga_svg"
+        android:title="Vagas" />
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_novavaga_svg"
+        android:title="Nova Vaga" />
+
+    <item
+        android:id="@+id/perfil"
+        android:icon="@drawable/ic_perfil_svg"
+        android:title="Perfil"
+        />
+
+</menu>

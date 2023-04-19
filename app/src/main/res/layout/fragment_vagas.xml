@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VagasFragment">
+
+<!--    <fragment-->
+<!--        android:id="@+id/vagasFragment"-->
+<!--        android:name="unaerp.com.desafio.VagasFragment"-->
+<!--        android:label="Vagas" />-->
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/principal"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/encontre_estagio"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="36dp"
+        android:includeFontPadding="false"
+        android:text="Encontre o seu"
+        android:textAppearance="@style/encontre"
+        android:layout_below="@id/view"
+        />
+    <TextView
+        android:id="@+id/estagio_perfeito"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="11dp"
+        android:includeFontPadding="false"
+        android:text="Estágio Perfeito"
+        android:textAppearance="@style/encontre"
+        android:textStyle="bold"
+        android:layout_below="@id/encontre_estagio"
+        />
+
+</RelativeLayout>

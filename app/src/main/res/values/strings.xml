@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Desafio</string>
+    <string name="login_">Login.</string>
+    <string name="titulo_filtragem">Filtragem.</string>
+    <string name="subtitulo_filtragem">Com base nas suas preferências, defina aqui as informações que mais são do seu interesse</string>
+    <string name="area_conhecimento">Área de Conhecimento</string>
+    <string name="localidade">Localidade</string>
+    <string name="anunciante">Anunciante</string>
+    <string name="tipoVaga">Tipo de vaga</string>
+    <string name="remuneracao">Remuneração</string>
+    <string name="filtrar">Filtrar</string>
+    <string-array name="opcoes_spinner_areaConhecimento">
+        <item>Área 1</item>
+        <item>Área 2</item>
+        <item>Área 3</item>
+    </string-array>
+    <string-array name="opcoes_spinner_localidade">
+        <item>Localidade 1</item>
+        <item>Localidade 2</item>
+        <item>Localidade 3</item>
+    </string-array>
+    <string-array name="opcoes_spinner_anunciante">
+        <item>Anunciante 1</item>
+        <item>Anunciante 2</item>
+        <item>Anunciante 3</item>
+    </string-array>
+    <string-array name="opcoes_spinner_tipoVaga">
+        <item>Remoto</item>
+        <item>Presencial</item>
+        <item>Híbrido</item>
+    </string-array>
+    <string-array name="opcoes_spinner_remuneracao">
+        <item>Até R$1000</item>
+        <item>R$1001 a R$2000</item>
+        <item>Mais de R$2000</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <attr name="queryTextColor" format="color" />
+</resources>

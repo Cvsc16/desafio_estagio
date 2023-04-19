@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+ android:background="@color/white"
+    tools:context=".VagasFragment">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/principal"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/encontre_estagio"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="36dp"
+        android:includeFontPadding="false"
+        android:lineHeight="47sp"
+        android:text="Encontre o seu"
+        android:textAppearance="@style/encontre"
+        android:layout_below="@id/view"
+        />
+    <TextView
+        android:id="@+id/estagio_perfeito"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:includeFontPadding="false"
+        android:text="Estágio perfeito"
+        android:textAppearance="@style/encontre"
+        android:textStyle="bold"
+        android:layout_below="@id/encontre_estagio"
+        />
+
+    <EditText
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/estagio_perfeito"
+        android:layout_marginTop="25dp"
+        android:imeOptions="actionSearch"
+        android:textColor="@color/principal"
+        android:inputType="text"
+        />
+
+
+</RelativeLayout>
