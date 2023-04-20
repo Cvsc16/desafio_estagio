@@ -3,11 +3,17 @@
     <string name="login_">Login.</string>
     <string name="titulo_filtragem">Filtragem.</string>
     <string name="subtitulo_filtragem">Com base nas suas preferências, defina aqui as informações que mais são do seu interesse</string>
+
+    <string name="titulo_novavaga">Nova Vaga.</string>
+    <string name="subtitulo_novavaga">Insira os detalhes da sua nova vaga, ela poderá ser consultada por todos os estágiarios e empresas cadastrados na plataforma</string>
     <string name="area_conhecimento">Área de Conhecimento</string>
+    <string name="descricao">Descrição</string>
     <string name="localidade">Localidade</string>
     <string name="anunciante">Anunciante</string>
     <string name="tipoVaga">Tipo de vaga</string>
     <string name="remuneracao">Remuneração</string>
+    <string name="telefone">Telefone</string>
+    <string name="email">Email</string>
     <string name="filtrar">Filtrar</string>
     <string-array name="opcoes_spinner_areaConhecimento">
         <item>Área 1</item>
