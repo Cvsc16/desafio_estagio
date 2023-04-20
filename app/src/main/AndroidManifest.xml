@@ -48,7 +48,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".vagas"
+            android:name=".ActivityVagas"
             android:exported="true"
             android:label="vagas"
             android:theme="@style/Theme.AppCompat.NoActionBar">
