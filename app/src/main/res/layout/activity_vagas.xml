@@ -41,14 +41,45 @@
 
     <EditText
         android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
         android:layout_below="@id/estagio_perfeito"
         android:layout_marginTop="25dp"
+        android:paddingStart="16dp"
         android:imeOptions="actionSearch"
         android:textColor="@color/principal"
         android:inputType="text"
+        android:hint="Digite o seu texto"
+        android:background="@drawable/borda_dropdown"
         />
+
+        <ImageView
+        android:id="@+id/quadrado"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@id/estagio_perfeito"
+        android:layout_marginTop="25dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toRightOf="@id/searchView"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentRight="true"
+        android:src="@drawable/filtro"
+            />
+
+        <TextView
+            android:id="@+id/ultimasVagas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ultimas Vagas"
+            android:layout_below="@id/searchView"
+            android:paddingTop="25dp"
+            android:layout_alignParentRight="@id/searchView"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/principal"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            />
 
 
 </RelativeLayout>

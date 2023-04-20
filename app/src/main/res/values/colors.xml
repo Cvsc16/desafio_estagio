@@ -13,5 +13,6 @@
     <color name="detalhe">#93BCFB</color>
     <color name="destaque">#0052CC</color>
     <color name="opcao_dropdown">#A7ACB2</color>
+    <color name="fundo_vaga">#141B28</color>
 
 </resources>
