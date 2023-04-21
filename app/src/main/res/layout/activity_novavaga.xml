@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        tools:context=".filtragem">
+        tools:context=".ActivityNovaVaga">
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
@@ -236,8 +236,8 @@
             app:layout_constraintStart_toStartOf="parent"
             />
 
-        <Spinner
-            android:id="@+id/spinner_anunciante"
+        <EditText
+            android:id="@+id/nome_anunciante"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginLeft="20dp"
@@ -245,7 +245,10 @@
             android:layout_marginTop="20dp"
             android:paddingStart="55dp"
             android:paddingEnd="8dp"
-            android:spinnerMode="dropdown"
+            android:inputType="none"
+            android:textSize="15sp"
+            android:hint="Nome da empresa"
+            android:textColorHint="@color/inserção"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:background="@drawable/borda_dropdown"
@@ -261,13 +264,12 @@
             android:layout_marginTop="10dp"
             />
         <Switch
-            android:id="@+id/switch_dropdown"
+            android:id="@+id/switch_anunciante"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center"
             android:layout_marginEnd="40dp"
             android:layout_marginTop="10dp"
-            android:thumbTint="#93BCFB"
             android:track="@drawable/custom_track"
 
             />
@@ -488,7 +490,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:paddingEnd="16dp"
-                android:text="@string/remuneracao"
+                android:text="@string/data_inicio"
                 android:textColor="@color/texto"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -504,10 +506,10 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:paddingStart="55dp"
+                android:paddingStart="45dp"
                 android:paddingEnd="8dp"
                 android:textSize="15sp"
-                android:inputType="number"
+                android:inputType="none"
                 android:textColor="@color/opcao_dropdown"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -518,7 +520,7 @@
                 android:contentDescription="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_remuneracao_svg"
+                android:src="@drawable/ic_datainicio_svg"
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="10dp"
                 />
@@ -537,7 +539,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingEnd="16dp"
-                android:text="@string/telefone"
+                android:text="@string/data_fim"
                 android:textColor="@color/texto"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -555,8 +557,9 @@
                 android:paddingStart="40dp"
                 android:paddingEnd="8dp"
                 android:textSize="15sp"
-                android:inputType="phone"
-                android:maxLength="13"
+                android:clickable="true"
+                android:focusable="false"
+                android:inputType="none"
                 android:textColor="@color/opcao_dropdown"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -568,7 +571,7 @@
                 android:contentDescription="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_telefone_svg"
+                android:src="@drawable/ic_datafim_svg"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 />
@@ -581,11 +584,12 @@
         android:background="@drawable/btn_rounded"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text="@string/filtrar"
+        android:text="@string/criar_vaga"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/framelayout_datainicio"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

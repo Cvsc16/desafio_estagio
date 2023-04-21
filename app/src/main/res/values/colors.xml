@@ -14,5 +14,8 @@
     <color name="destaque">#0052CC</color>
     <color name="opcao_dropdown">#A7ACB2</color>
     <color name="fundo_vaga">#141B28</color>
+    <color name="fundo_tipovaga">#F7F6F9</color>
+    <color name="texto_escuro">#535353</color>
 
 </resources>
+

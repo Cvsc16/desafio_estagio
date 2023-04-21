@@ -15,6 +15,16 @@
     <string name="telefone">Telefone</string>
     <string name="email">Email</string>
     <string name="filtrar">Filtrar</string>
+    <string name="data_inicio">Data Inicio</string>
+    <string name="data_fim">Data Fim</string>
+    <string name="criar_vaga">Criar Vaga</string>
+    <string name="titulo_tipoconta">Tipo de Conta</string>
+    <string name="subtitulo_tipoconta">Escolha o tipo da sua conta, depois de criada não será possível modificar</string>
+    <string name="estudante">Eu sou estudante</string>
+    <string name="frase_estudante">Acesse as vagas de estágio e encontre as melhores oportunidades do mercado</string>
+    <string name="frase_anunciante">Cadastre as suas vagas de estágio e encontre profissionais competentes</string>
+    <string name="prosseguir">Prosseguir</string>
+    <string name="empresa">Eu sou anunciante</string>
     <string-array name="opcoes_spinner_areaConhecimento">
         <item>Área 1</item>
         <item>Área 2</item>
