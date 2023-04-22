@@ -25,6 +25,11 @@
     <string name="frase_anunciante">Cadastre as suas vagas de estágio e encontre profissionais competentes</string>
     <string name="prosseguir">Prosseguir</string>
     <string name="empresa">Eu sou anunciante</string>
+    <string name="esqueceu_senha">Esqueceu \nsua senha?</string>
+    <string name="subtitulo_esqueceu_senha">Não se preocupe. Por favor,  Insira abaixo o email associado a sua conta.</string>
+    <string name="enviar">Enviar Instruções</string>
+    <string name="redefinir">Redefinir Senha</string>
+    <string name="titulo_redefinir">Redefina a \nsua senha</string>
     <string-array name="opcoes_spinner_areaConhecimento">
         <item>Área 1</item>
         <item>Área 2</item>

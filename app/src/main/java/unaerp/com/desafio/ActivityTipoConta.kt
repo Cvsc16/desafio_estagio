@@ -1,44 +1,58 @@
 package unaerp.com.desafio
-
-import android.app.DatePickerDialog
-import android.content.res.ColorStateList
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.Switch
-import androidx.appcompat.app.AppCompatDelegate
+import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+
 
 class ActivityTipoConta : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tipoconta)
+
         val layoutTipoConta = findViewById<ConstraintLayout>(R.id.layout_tipoConta)
+        val layoutTipoConta2 = findViewById<ConstraintLayout>(R.id.layout_tipoConta2)
+        val btn_prosseguir = findViewById<Button>(R.id.btn_prosseguir)
 
-        layoutTipoConta.setOnClickListener {
-            // altera a cor de fundo para mostrar que foi selecionado
-            layoutTipoConta.setBackgroundResource(R.drawable.fundo_vaga1)
-        }
+        // Variável para armazenar o ID do layout selecionado
+        var layoutSelecionadoId: Int? = null
 
-        // define o método onClick para mudar a cor de volta quando clicado novamente
-        fun onClick(view: View) {
-            val layoutTipoConta = view as ConstraintLayout
-            if (layoutTipoConta.background.constantState == resources.getDrawable(R.drawable.fundo_vaga1).constantState) {
-                layoutTipoConta.setBackgroundResource(R.drawable.fundo_tipovaga)
-            } else {
-                layoutTipoConta.setBackgroundResource(R.drawable.fundo_tipovaga)
+        // Método para selecionar o layout clicado e atualizar o background
+        fun selecionarLayout(layoutId: Int) {
+            if (layoutSelecionadoId == layoutId) {
+                // O layout já está selecionado, então não faz nada
+                return
             }
+
+            // Restaurando o background do layout desmarcado, se houver um
+            layoutSelecionadoId?.let { id ->
+                val layoutDesmarcado = findViewById<View>(id)
+                layoutDesmarcado.setBackgroundResource(R.drawable.fundo_tipovaga)
+            }
+
+            // Selecionando o novo layout e atualizando o background
+            layoutSelecionadoId = layoutId
+            val layoutSelecionado = findViewById<View>(layoutId)
+            layoutSelecionado.setBackgroundResource(R.drawable.fundo_tipovagaselecionado)
+
+            // Habilitando o botão de filtro
+            btn_prosseguir.isEnabled = true
+            btn_prosseguir.setBackgroundResource(R.drawable.btn_rounded)
         }
 
-    }
+        // Definindo os ouvintes de clique dos layouts
+        layoutTipoConta.setOnClickListener {
+            selecionarLayout(layoutTipoConta.id)
         }
+
+        layoutTipoConta2.setOnClickListener {
+            selecionarLayout(layoutTipoConta2.id)
+        }
+
+        // Desabilitando o botão de filtro inicialmente
+        btn_prosseguir.isEnabled = false
+        btn_prosseguir.setBackgroundResource(R.drawable.btn_roundeddisable)
+    }
+}
