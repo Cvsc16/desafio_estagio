@@ -91,7 +91,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="@+id/cardVaga"
         app:layout_constraintBottom_toBottomOf="@id/cardVaga"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="25dp"
         />
 
     <TextView
@@ -105,7 +105,7 @@
         app:layout_constraintEnd_toEndOf="@id/cardVaga"
         app:layout_constraintBottom_toBottomOf="@id/cardVaga"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="25dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

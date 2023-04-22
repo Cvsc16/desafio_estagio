@@ -127,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="35dp"
                 android:textColor="@color/texto"
-                android:hint="Digite a sua senha"
+                android:hint="Repita a sua senha"
                 android:textColorHint="@color/inserção"
                 style="@style/EditTextStyle"
                 android:paddingBottom="15dp"
@@ -158,7 +158,7 @@
         android:gravity="center_horizontal">
 
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_redifini"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/btn_rounded"

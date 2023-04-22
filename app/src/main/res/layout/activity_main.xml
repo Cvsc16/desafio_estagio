@@ -63,6 +63,7 @@
                 android:src="@drawable/ic_email_svg" />
 
             <EditText
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="35dp"

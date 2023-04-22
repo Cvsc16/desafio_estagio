@@ -8,9 +8,11 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +22,8 @@ class MainActivity : AppCompatActivity() {
 
         val esconde_svg = findViewById<ImageView>(R.id.esconde_svg)
         val senha = findViewById<EditText>(R.id.senha)
+        val email = findViewById<EditText>(R.id.email)
+        val btn_login= findViewById<Button>(R.id.btn_login)
 
         val semContaTextView = findViewById<TextView>(R.id.sem_conta)
         trocacor(semContaTextView, ContextCompat.getColor(this, R.color.destaque), View.OnClickListener {
@@ -27,6 +31,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         })
 
+        val esqueciSenha = findViewById<TextView>(R.id.esqueci_minha_senha)
+        esqueciSenha.setOnClickListener {
+            val intent = Intent(this, ActivityEsqueceuSenha::class.java)
+            startActivity(intent)
+        }
 
         val loginTextView = findViewById<TextView>(R.id.login_)
         trocacor_ult(loginTextView, ContextCompat.getColor(this, R.color.principal))
@@ -41,6 +50,17 @@ class MainActivity : AppCompatActivity() {
             }
 
             senha.setSelection(cursorPosition)
+        }
+
+        btn_login.setOnClickListener {
+            if (email.text.toString() == "teste@gmail.com" && senha.text.toString() == "teste123") {
+                // Login bem-sucedido
+                val intent = Intent(this, ActivityVagas::class.java)
+                startActivity(intent)
+            } else {
+                // Login mal-sucedido
+                Toast.makeText(this, "Dados incorretos", Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
