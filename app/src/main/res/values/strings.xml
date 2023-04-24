@@ -30,6 +30,7 @@
     <string name="enviar">Enviar Instruções</string>
     <string name="redefinir">Redefinir Senha</string>
     <string name="titulo_redefinir">Redefina a \nsua senha</string>
+    <string name="titulo_detalhes_vaga">Detalhes da Vaga</string>
     <string-array name="opcoes_spinner_areaConhecimento">
         <item>Área 1</item>
         <item>Área 2</item>
