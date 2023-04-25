@@ -274,8 +274,8 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <FrameLayout
-            android:id="@+id/framelayout_descricao"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_descricao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/constraintlayout_descricao3"
@@ -290,7 +290,7 @@
                 android:textColor="@color/texto"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="@+id/constraintlayout_descricao3"
+                app:layout_constraintTop_toTopOf="@+id/constraint_descricao"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 />
@@ -301,36 +301,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginTop="20dp"
-                android:paddingTop="12dp"
+                android:layout_marginTop="10dp"
                 android:paddingBottom="12dp"
-                android:spinnerMode="dropdown"
-                android:textColor="@color/texto_escuro"
                 android:text="@string/descricao_exemplo"
+                android:textColor="@color/texto_escuro"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_descricao"
                 />
 
-        </FrameLayout>
+            <Button
+                android:id="@+id/btn_filtrar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btn_rounded_escuro"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="@string/candidatar"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/textarea_descricao"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-
-
-    <Button
-        android:id="@+id/btn_filtrar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/btn_rounded"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="@string/criar_vaga"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/framelayout_descricao"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

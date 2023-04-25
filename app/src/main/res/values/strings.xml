@@ -24,6 +24,7 @@
     <string name="nome_vaga">Desenvolvedor Mobile</string>
     <string name="nome_empresa">Engenharia Ramos</string>
     <string name="titulo_empresa">Empresa</string>
+    <string name="candidatar">Candidatar-se</string>
     <string name="descricao_exemplo">\u2022 Estamos em busca de um estagiário em desenvolvimento mobile para integrar a equipe de desenvolvimento de aplicativos. O candidato selecionado irá trabalhar em projetos de desenvolvimento de aplicativos para dispositivos móveis, auxiliando na análise, desenvolvimento e implementação de novas funcionalidades, bem como na manutenção e suporte de sistemas já existentes.
 \n \u2022 Será necessário possuir conhecimentos em linguagens de programação como Java ou Kotlin, e familiaridade com plataformas de desenvolvimento como Android Studio. Além disso, o estagiário terá a oportunidade de trabalhar em equipe, aprender novas tecnologias e participar de projetos desafiadores em um ambiente de trabalho dinâmico e inovador.</string>
     <string name="titulo_tipoconta">Tipo de Conta</string>
