@@ -288,7 +288,7 @@
                 android:paddingEnd="16dp"
                 android:text="@string/descricao"
                 android:textColor="@color/texto"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="@+id/constraintlayout_descricao3"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -302,14 +302,21 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="20dp"
+                android:lineHeight="24sp"
+                android:paddingEnd="8dp"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 android:spinnerMode="dropdown"
-                android:textColor="@color/texto_escuro"
+                android:textColor="@color/opcao_dropdown"
                 android:text="@string/descricao_exemplo"
-                android:textSize="14sp"
+                android:textSize="12sp"
+                android:textColorHint="@color/opcao_dropdown"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:scrollHorizontally="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+
                 />
 
         </FrameLayout>
