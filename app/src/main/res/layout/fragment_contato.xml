@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".Fragment_contato"
+        android:background="@drawable/fundo_detalhesvaga2"
+        android:id="@+id/fragment_telefone"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <ImageView
+            android:id="@+id/ic_telefone_contato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/telefone_contato_svg"
+            android:layout_marginTop="17dp"
+            android:layout_marginBottom="17dp"
+            android:layout_marginStart="30dp"
+            app:layout_constraintTop_toTopOf="@+id/fragment_telefone"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_telefone"
+            app:layout_constraintStart_toStartOf="@id/fragment_telefone"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(16)4002-8922"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toEndOf="@id/ic_telefone_contato"
+            app:layout_constraintTop_toTopOf="@id/fragment_telefone"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_telefone"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/fragment_telefone"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".Fragment_contato"
+        android:background="@drawable/fundo_detalhesvaga2"
+        android:id="@+id/fragment_email"
+        >
+
+        <ImageView
+            android:id="@+id/ic_email_contato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/email_contato_svg"
+            android:layout_marginTop="17dp"
+            android:layout_marginBottom="17dp"
+            android:layout_marginStart="30dp"
+            app:layout_constraintTop_toTopOf="@+id/fragment_email"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_email"
+            app:layout_constraintStart_toStartOf="@id/fragment_email"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="engenharia.ramos@gmail.com"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toEndOf="@id/ic_email_contato"
+            app:layout_constraintTop_toTopOf="@id/ic_email_contato"
+            app:layout_constraintBottom_toBottomOf="@id/ic_email_contato"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

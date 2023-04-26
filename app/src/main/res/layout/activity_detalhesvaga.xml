@@ -96,6 +96,7 @@
                 android:textSize="12sp"
                 />
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintlayout_descricao2"
                 android:layout_width="match_parent"
@@ -265,7 +266,7 @@
                 android:layout_marginEnd="5dp"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:text="@string/titulo_empresa"
+                android:text="@string/titulo_contato"
                 android:textAllCaps="false"
                 app:layout_constraintTop_toTopOf="@id/constraintlayout_descricao3"
                 app:layout_constraintEnd_toEndOf="@id/constraintlayout_descricao3"
@@ -273,61 +274,108 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint_descricao"
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@+id/constraintlayout_descricao3"
-            android:layout_marginTop="20dp">
-            <TextView
-                android:id="@+id/tv_descricao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="20dp"
-                android:paddingEnd="16dp"
-                android:text="@string/descricao"
-                android:textColor="@color/texto"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="@+id/constraint_descricao"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                />
+            />
 
-            <TextView
-                android:id="@+id/textarea_descricao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                android:paddingBottom="12dp"
-                android:text="@string/descricao_exemplo"
-                android:textColor="@color/texto_escuro"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_descricao"
-                />
+        <FrameLayout
+            android:id="@+id/fragment_container2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/constraintlayout_descricao3"
+            />
 
-            <Button
-                android:id="@+id/btn_filtrar"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/btn_rounded_escuro"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:text="@string/candidatar"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/textarea_descricao"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                />
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:id="@+id/constraint_descricao"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/constraintlayout_descricao3"-->
+<!--            android:layout_marginTop="20dp">-->
+<!--            <TextView-->
+<!--                android:id="@+id/tv_descricao"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingStart="20dp"-->
+<!--                android:paddingEnd="16dp"-->
+<!--                android:text="@string/descricao"-->
+<!--                android:textColor="@color/texto"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/constraint_descricao"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                />-->
+<!--            <TextView-->
+<!--                android:id="@+id/textarea_descricao"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:paddingBottom="12dp"-->
+<!--                android:text="@string/descricao_exemplo"-->
+<!--                android:textColor="@color/texto_escuro"-->
+<!--                android:textSize="14sp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/tv_descricao"-->
+<!--                />-->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/tv_tituloAreaConhecimento"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Área de Conhecimento: "-->
+<!--                app:layout_constraintTop_toBottomOf="@id/textarea_descricao"-->
+<!--                app:layout_constraintStart_toStartOf="@id/textarea_descricao"-->
+<!--                android:textColor="@color/texto"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="14sp"-->
+<!--                />-->
 
+<!--            <TextView-->
+<!--                android:id="@+id/tv_descAreaConhecimento"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Tecnologia"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/textarea_descricao"-->
+<!--                app:layout_constraintStart_toEndOf="@id/tv_tituloAreaConhecimento"-->
+<!--                android:textColor="@color/texto_escuro"-->
+<!--                android:textSize="14sp"-->
+<!--                />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_titulodatafim"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Data Limite: "-->
+<!--                app:layout_constraintTop_toBottomOf="@id/tv_tituloAreaConhecimento"-->
+<!--                app:layout_constraintStart_toStartOf="@id/tv_tituloAreaConhecimento"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:textColor="@color/texto"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="14sp"-->
+<!--                />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_descDatafim"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="23/03/2023"-->
+<!--                app:layout_constraintTop_toTopOf="@id/tv_titulodatafim"-->
+<!--                app:layout_constraintStart_toEndOf="@id/tv_titulodatafim"-->
+<!--                android:textColor="@color/texto_escuro"-->
+<!--                android:textSize="14sp"-->
+<!--                />-->
+
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
+
