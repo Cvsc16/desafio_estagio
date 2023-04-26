@@ -60,7 +60,7 @@
             app:layout_constraintLeft_toLeftOf="@id/titulo_tipoConta" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_tipoConta"
+            android:id="@+id/conta_interessado"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginStart="20dp"
@@ -79,8 +79,8 @@
                 android:text="@string/estudante"
                 android:layout_marginTop="25dp"
                 android:layout_marginStart="10dp"
-                app:layout_constraintTop_toTopOf="@+id/layout_tipoConta"
-                app:layout_constraintStart_toStartOf="@id/layout_tipoConta"
+                app:layout_constraintTop_toTopOf="@+id/conta_interessado"
+                app:layout_constraintStart_toStartOf="@id/conta_interessado"
                 android:textColor="@color/texto"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -92,8 +92,8 @@
                 android:text="@string/frase_estudante"
                 android:layout_marginBottom="25dp"
                 android:layout_marginStart="10dp"
-                app:layout_constraintStart_toStartOf="@id/layout_tipoConta"
-                app:layout_constraintBottom_toBottomOf="@id/layout_tipoConta"
+                app:layout_constraintStart_toStartOf="@id/conta_interessado"
+                app:layout_constraintBottom_toBottomOf="@id/conta_interessado"
                 android:textColor="@color/texto_escuro"
                 android:textSize="12sp"
                  />
@@ -105,17 +105,17 @@
                 android:src="@drawable/estudante"
                 android:layout_marginTop="25dp"
                 android:layout_marginEnd="10dp"
-                app:layout_constraintTop_toTopOf="@id/layout_tipoConta"
-                app:layout_constraintEnd_toEndOf="@+id/layout_tipoConta" />
+                app:layout_constraintTop_toTopOf="@id/conta_interessado"
+                app:layout_constraintEnd_toEndOf="@+id/conta_interessado" />
 
            </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_tipoConta2"
+            android:id="@+id/conta_anunciante"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/layout_tipoConta"
+            app:layout_constraintTop_toBottomOf="@+id/conta_interessado"
             android:background="@drawable/fundo_tipovaga"
             android:layout_marginTop="30dp">
 
@@ -126,8 +126,8 @@
                 android:text="@string/empresa"
                 android:layout_marginTop="25dp"
                 android:layout_marginStart="10dp"
-                app:layout_constraintTop_toTopOf="@+id/layout_tipoConta2"
-                app:layout_constraintStart_toStartOf="@id/layout_tipoConta2"
+                app:layout_constraintTop_toTopOf="@+id/conta_anunciante"
+                app:layout_constraintStart_toStartOf="@id/conta_anunciante"
                 android:textColor="@color/texto"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -139,8 +139,8 @@
                 android:text="@string/frase_anunciante"
                 android:layout_marginBottom="25dp"
                 android:layout_marginStart="10dp"
-                app:layout_constraintStart_toStartOf="@id/layout_tipoConta2"
-                app:layout_constraintBottom_toBottomOf="@id/layout_tipoConta2"
+                app:layout_constraintStart_toStartOf="@id/conta_anunciante"
+                app:layout_constraintBottom_toBottomOf="@id/conta_anunciante"
                 android:textColor="@color/texto_escuro"
                 android:textSize="12sp"
                 />
@@ -152,8 +152,8 @@
                 android:src="@drawable/empresa"
                 android:layout_marginTop="25dp"
                 android:layout_marginEnd="10dp"
-                app:layout_constraintTop_toTopOf="@id/layout_tipoConta2"
-                app:layout_constraintEnd_toEndOf="@+id/layout_tipoConta2" />
+                app:layout_constraintTop_toTopOf="@id/conta_anunciante"
+                app:layout_constraintEnd_toEndOf="@+id/conta_anunciante" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -168,7 +168,7 @@
         android:text="@string/prosseguir"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/layout_tipoConta2"
+        app:layout_constraintTop_toBottomOf="@+id/conta_anunciante"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"
         />

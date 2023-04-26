@@ -1,6 +1,7 @@
 package unaerp.com.desafio
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -15,12 +16,14 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ActivityNovaVaga : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_novavaga)
+        supportActionBar?.hide()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         val spinner_areaConhecimento: Spinner = findViewById(R.id.spinner_areaConhecimento)
@@ -46,6 +49,42 @@ class ActivityNovaVaga : AppCompatActivity() {
         telefoneEditText.addTextChangedListener(PhoneNumberFormattingTextWatcher())
 
         val etData = findViewById<EditText>(R.id.textarea_datafim)
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        val menuFlutuante = resources.getDrawable(R.drawable.ic_novavaga_svg, null)
+        bottomNavigationView.menu.findItem(R.id.novaVaga).icon = menuFlutuante
+
+
+        bottomNavigationView.itemIconTintList = null
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.vagas -> {
+                    val intent = Intent(this, ActivityVagas::class.java)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+
+                R.id.perfil -> {
+                    val intent = Intent(this, ActivityPerfil::class.java)
+                    startActivity(intent)
+                    finish()
+                    true
+                    true
+                }
+
+                R.id.novaVaga -> {
+                    // tratamento para a seleção do item Search
+                    true
+                }
+
+                else -> false
+            }
+
+        }
+
+        bottomNavigationView.setSelectedItemId(R.id.novaVaga)
 
 // Define o listener para o clique no EditText
         etData.setOnClickListener {

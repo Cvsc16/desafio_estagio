@@ -47,14 +47,14 @@ class ActivityRedefinirSenha : AppCompatActivity() {
 
         btn_redefini.setOnClickListener {
             if (senha.text.toString() == senha2.text.toString()) {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 Toast.makeText(this, "Senha alterada com sucesso", Toast.LENGTH_SHORT).show()
             }
         }
 
         back.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 

@@ -15,10 +15,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
         val esconde_svg = findViewById<ImageView>(R.id.esconde_svg)
         val senha = findViewById<EditText>(R.id.senha)
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         val semContaTextView = findViewById<TextView>(R.id.sem_conta)
         trocacor(semContaTextView, ContextCompat.getColor(this, R.color.destaque), View.OnClickListener {
-            val intent = Intent(this, CadastroInteressado::class.java)
+            val intent = Intent(this, ActivityTipoConta::class.java)
             startActivity(intent)
         })
 

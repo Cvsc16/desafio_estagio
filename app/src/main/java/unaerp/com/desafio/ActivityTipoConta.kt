@@ -1,4 +1,5 @@
 package unaerp.com.desafio
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -12,9 +13,23 @@ class ActivityTipoConta : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tipoconta)
 
-        val layoutTipoConta = findViewById<ConstraintLayout>(R.id.layout_tipoConta)
-        val layoutTipoConta2 = findViewById<ConstraintLayout>(R.id.layout_tipoConta2)
+        val contaInteressado = findViewById<ConstraintLayout>(R.id.conta_interessado)
+        val contaAnunciante = findViewById<ConstraintLayout>(R.id.conta_anunciante)
         val btn_prosseguir = findViewById<Button>(R.id.btn_prosseguir)
+
+        var tipoConta = "" // variável para guardar o tipo de conta selecionado
+
+        btn_prosseguir.setOnClickListener {
+            if (contaInteressado.isSelected) {
+                tipoConta = "interessado"
+            } else if (contaAnunciante.isSelected) {
+                tipoConta = "anunciante"
+            }
+
+            val intent = Intent(this, ActivityCadastro::class.java)
+            intent.putExtra("tipo_conta", tipoConta)
+            startActivity(intent)
+        }
 
         // Variável para armazenar o ID do layout selecionado
         var layoutSelecionadoId: Int? = null
@@ -43,12 +58,12 @@ class ActivityTipoConta : AppCompatActivity() {
         }
 
         // Definindo os ouvintes de clique dos layouts
-        layoutTipoConta.setOnClickListener {
-            selecionarLayout(layoutTipoConta.id)
+        contaInteressado.setOnClickListener {
+            selecionarLayout(contaInteressado.id)
         }
 
-        layoutTipoConta2.setOnClickListener {
-            selecionarLayout(layoutTipoConta2.id)
+        contaAnunciante.setOnClickListener {
+            selecionarLayout(contaAnunciante.id)
         }
 
         // Desabilitando o botão de filtro inicialmente

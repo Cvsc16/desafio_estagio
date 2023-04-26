@@ -10,22 +10,27 @@ import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 
-class CadastroInteressado : AppCompatActivity() {
+class ActivityCadastro : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cadastro)
         val esconde_svg = findViewById<ImageView>(R.id.esconde_svg)
         val back = findViewById<ImageView>(R.id.back)
-        val senha = findViewById<EditText>(R.id.senha)
+        val senha = findViewById<EditText>(R.id.cadastro_senha)
+        val nome = findViewById<EditText>(R.id.cadastro_nome)
+        val email = findViewById<EditText>(R.id.cadastro_email)
+        val btn_cadastro= findViewById<Button>(R.id.btn_cadastro)
 
         val semContaTextView = findViewById<TextView>(R.id.sem_conta)
         trocacor(semContaTextView, ContextCompat.getColor(this, R.color.destaque), View.OnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         })
 
@@ -52,8 +57,24 @@ class CadastroInteressado : AppCompatActivity() {
         }
 
         back.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+        }
+
+        btn_cadastro.setOnClickListener {
+            // Verifica se todos os campos foram preenchidos
+            if (senha.text.isEmpty() || nome.text.isEmpty() || email.text.isEmpty()) {
+                Toast.makeText(this, "Por favor, preencha todos os campos!", Toast.LENGTH_SHORT).show()
+            } else {
+                // Cadastra o usuário
+                // ...
+
+                // Exibe mensagem de sucesso e volta para a tela de login
+                Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
 
     }
@@ -64,7 +85,7 @@ class CadastroInteressado : AppCompatActivity() {
         val endIndex = startIndex + "Entre".length
 
         val spannable = SpannableString(text)
-        spannable.setSpan(MainActivity.CustomClickableSpan(onClickListener), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannable.setSpan(LoginActivity.CustomClickableSpan(onClickListener), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         spannable.setSpan(ForegroundColorSpan(color), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         textView.movementMethod = LinkMovementMethod.getInstance()

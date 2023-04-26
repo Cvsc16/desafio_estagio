@@ -2,12 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/home"
+        android:id="@+id/vagas"
         android:icon="@drawable/ic_vaga_svg"
         android:title="Vagas" />
 
     <item
-        android:id="@+id/search"
+        android:id="@+id/novaVaga"
         android:icon="@drawable/ic_novavaga_svg"
         android:title="Nova Vaga" />
 

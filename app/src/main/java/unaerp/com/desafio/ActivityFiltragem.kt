@@ -1,16 +1,22 @@
 package unaerp.com.desafio
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
 
-class filtragem : AppCompatActivity() {
+class ActivityFiltragem : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filtragem)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        val back = findViewById<ImageView>(R.id.back)
+        val btn_filtro= findViewById<Button>(R.id.btn_filtrar)
 
         val spinner_areaConhecimento: Spinner = findViewById(R.id.spinner_areaConhecimento)
         val spinner_localidade: Spinner = findViewById(R.id.spinner_localidade)
@@ -37,6 +43,16 @@ class filtragem : AppCompatActivity() {
         val adapter_remuneracao = ArrayAdapter.createFromResource(this, R.array.opcoes_spinner_remuneracao, R.layout.spinner_item)
         adapter_remuneracao.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner_remuneracao.adapter = adapter_remuneracao
+
+        back.setOnClickListener {
+            val intent = Intent(this, ActivityVagas::class.java)
+            startActivity(intent)
+        }
+
+        btn_filtro.setOnClickListener {
+            val intent = Intent(this, ActivityVagas::class.java)
+            startActivity(intent)
+        }
 
     }
 }
