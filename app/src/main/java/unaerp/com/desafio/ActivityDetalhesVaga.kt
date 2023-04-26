@@ -11,6 +11,8 @@ import unaerp.com.desafio.ContatoFragment
 
 class ActivityDetalhesVaga : AppCompatActivity() {
 
+    private val detalhesFragment=DescricaoFragment()
+    private val contatosFragment=ContatoFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detalhesvaga)
@@ -20,37 +22,23 @@ class ActivityDetalhesVaga : AppCompatActivity() {
         val buttonDetalhes2 = findViewById<Button>(R.id.button_detalhes2)
 
         // Adicionar o fragmento padrão
-        val fragment1 = DescricaoFragment()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment1)
+            .replace(R.id.fragment_container, detalhesFragment)
             .commit()
 
         buttonDetalhes.setOnClickListener {
             buttonDetalhes2.setBackgroundResource(0)
             buttonDetalhes.setBackgroundResource(R.drawable.button_detalhesvaga)
-            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container2)
-            if (currentFragment != null) {
-                supportFragmentManager.beginTransaction().remove(currentFragment).commit()
-            }
-            // Adicionar o novo fragmento
-            val fragment1 = DescricaoFragment()
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment1)
-                .addToBackStack(null)
+                .replace(R.id.fragment_container, detalhesFragment)
                 .commit()
         }
 
         buttonDetalhes2.setOnClickListener {
             buttonDetalhes2.setBackgroundResource(R.drawable.button_detalhesvaga)
             buttonDetalhes.setBackgroundResource(0)
-            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-            if (currentFragment != null) {
-                supportFragmentManager.beginTransaction().remove(currentFragment).commit()
-            }
-            val fragment2 = ContatoFragment()
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container2, fragment2)
-                .addToBackStack(null)
+                .replace(R.id.fragment_container, contatosFragment)
                 .commit()
         }
     }
