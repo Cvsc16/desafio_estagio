@@ -12,6 +12,7 @@ class ActivityTipoConta : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tipoconta)
+        supportActionBar?.hide()
 
         val contaInteressado = findViewById<ConstraintLayout>(R.id.conta_interessado)
         val contaAnunciante = findViewById<ConstraintLayout>(R.id.conta_anunciante)

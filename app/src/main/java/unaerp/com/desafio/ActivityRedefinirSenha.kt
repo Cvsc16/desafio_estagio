@@ -13,6 +13,8 @@ class ActivityRedefinirSenha : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_redefinirsenha)
+        supportActionBar?.hide()
+
         val iconeEsconde = findViewById<ImageView>(R.id.esconde_svg)
         val iconeEsconde2 = findViewById<ImageView>(R.id.esconde_svg2)
         val back = findViewById<ImageView>(R.id.back)

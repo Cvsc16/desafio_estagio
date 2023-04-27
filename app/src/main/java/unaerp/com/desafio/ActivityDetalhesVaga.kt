@@ -1,8 +1,11 @@
 package unaerp.com.desafio
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 
@@ -17,9 +20,34 @@ class ActivityDetalhesVaga : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detalhesvaga)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        supportActionBar?.hide()
+
+        val back = findViewById<ImageView>(R.id.back)
+
+        val vaga = intent.getSerializableExtra("vaga") as Vaga
+
+        val nomeEmpresaTextView = findViewById<TextView>(R.id.nome_empresa)
+        nomeEmpresaTextView.text = vaga.empresa
+
+        val nomeVagaTextView = findViewById<TextView>(R.id.nomeVaga)
+        nomeVagaTextView.text = vaga.titulo
+
+        val nomeCidadeTextView = findViewById<TextView>(R.id.tv_cidade)
+        nomeCidadeTextView.text = vaga.cidadeEmpresa
+
+        val tipoVagaTextView = findViewById<TextView>(R.id.tv_tipo_vaga)
+        tipoVagaTextView.text = vaga.tipoTrabalho
+
+        val salarioTextView = findViewById<TextView>(R.id.tv_valorSalario)
+        salarioTextView.text = vaga.pagamento
 
         val buttonDetalhes = findViewById<Button>(R.id.button_detalhes)
         val buttonDetalhes2 = findViewById<Button>(R.id.button_detalhes2)
+
+        back.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         // Adicionar o fragmento padrão
         supportFragmentManager.beginTransaction()

@@ -11,6 +11,7 @@ class ActivityEsqueceuSenha : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_esqueceusenha)
+        supportActionBar?.hide()
 
         val emailRecupera = findViewById<TextView>(R.id.email_recupera)
         val btnRecupera = findViewById<Button>(R.id.btn_recupera)

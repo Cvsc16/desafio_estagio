@@ -19,6 +19,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        supportActionBar?.hide()
 
         val esconde_svg = findViewById<ImageView>(R.id.esconde_svg)
         val senha = findViewById<EditText>(R.id.senha)
@@ -55,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
         btn_login.setOnClickListener {
             if (email.text.toString() == "teste@gmail.com" && senha.text.toString() == "teste123") {
                 // Login bem-sucedido
-                val intent = Intent(this, ActivityVagas::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             } else {
                 // Login mal-sucedido

@@ -1,69 +1,37 @@
 package unaerp.com.desafio
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class ActivityPerfil : AppCompatActivity() {
+class FragmentPerfil : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_perfil)
-        supportActionBar?.hide()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_perfil, container, false)
 
-
-        val senha = findViewById<EditText>(R.id.cadastro_senha)
-        val nome = findViewById<EditText>(R.id.cadastro_nome)
-        val email = findViewById<EditText>(R.id.cadastro_email)
-        val btn_salvar = findViewById<Button>(R.id.btn_salvar)
-        val editar_nome = findViewById<ImageView>(R.id.editar_nome)
-        val editar_senha = findViewById<ImageView>(R.id.editar_senha)
-        val editar_email = findViewById<ImageView>(R.id.editar_email)
-        val esconde_svg = findViewById<ImageView>(R.id.esconde_svg)
-
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        val menuFlutuante = resources.getDrawable(R.drawable.ic_novavaga_svg, null)
-        bottomNavigationView.menu.findItem(R.id.novaVaga).icon = menuFlutuante
-
-
-        bottomNavigationView.itemIconTintList = null
-
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.vagas -> {
-                    val intent = Intent(this, ActivityVagas::class.java)
-                    startActivity(intent)
-                    finish()
-                    true
-                }
-
-                R.id.perfil -> {
-                    // tratamento para a seleção do item Perfil
-                    true
-                }
-
-                R.id.novaVaga -> {
-                    val intent = Intent(this, ActivityNovaVaga::class.java)
-                    startActivity(intent)
-                    finish()
-                    true
-                }
-
-                else -> false
-            }
-
-        }
-
-        bottomNavigationView.setSelectedItemId(R.id.perfil)
-
+        val back = view.findViewById<ImageView>(R.id.back)
+        val senha = view.findViewById<EditText>(R.id.cadastro_senha)
+        val nome = view.findViewById<EditText>(R.id.cadastro_nome)
+        val email = view.findViewById<EditText>(R.id.cadastro_email)
+        val btn_salvar = view.findViewById<Button>(R.id.btn_salvar)
+        val editar_nome = view.findViewById<ImageView>(R.id.editar_nome)
+        val editar_senha = view.findViewById<ImageView>(R.id.editar_senha)
+        val editar_email = view.findViewById<ImageView>(R.id.editar_email)
+        val esconde_svg = view.findViewById<ImageView>(R.id.esconde_svg)
 
         // Desabilita os EditTexts e o botão de salvar
         nome.isEnabled = false
@@ -132,7 +100,7 @@ class ActivityPerfil : AppCompatActivity() {
         })
 
         btn_salvar.setOnClickListener {
-            Toast.makeText(this, "Edição realizada com sucesso!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Alterações realizadas com sucesso!", Toast.LENGTH_SHORT).show()
         }
 
         esconde_svg.setOnClickListener {
@@ -146,6 +114,11 @@ class ActivityPerfil : AppCompatActivity() {
 
             senha.setSelection(cursorPosition)
         }
+        back.setOnClickListener {
+            val intent = Intent(context, MainActivity::class.java)
+            startActivity(intent)
+        }
+        return view
     }
 }
 

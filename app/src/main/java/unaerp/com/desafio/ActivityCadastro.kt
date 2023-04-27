@@ -21,6 +21,8 @@ class ActivityCadastro : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cadastro)
+        supportActionBar?.hide()
+
         val esconde_svg = findViewById<ImageView>(R.id.esconde_svg)
         val back = findViewById<ImageView>(R.id.back)
         val senha = findViewById<EditText>(R.id.cadastro_senha)

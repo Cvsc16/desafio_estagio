@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
- android:background="@color/white"
-    tools:context=".VagasFragment">
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
     <View
         android:id="@+id/view"
@@ -22,8 +26,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="36dp"
         android:includeFontPadding="false"
-        android:lineHeight="47sp"
-        android:text="Encontre o seu"
+        android:text="Anuncie o seu"
         android:textAppearance="@style/encontre"
         android:layout_below="@id/view"
         />
@@ -57,41 +60,60 @@
         android:background="@drawable/borda_dropdown"
         />
 
-        <ImageView
+    <ImageView
         android:id="@+id/ic_filtro"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_below="@id/estagio_perfeito"
         android:layout_marginTop="25dp"
-            android:layout_marginEnd="20dp"
-            android:layout_toRightOf="@id/searchView"
-            android:layout_marginStart="10dp"
-            android:layout_alignParentRight="true"
+        android:layout_marginEnd="20dp"
+        android:layout_toRightOf="@id/searchView"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentRight="true"
         android:src="@drawable/filtro"
-            />
+        />
 
-        <TextView
-            android:id="@+id/ultimasVagas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ultimas Vagas"
-            android:layout_below="@id/searchView"
+    <Button
+        android:id="@+id/minhasVagas"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:text="Minhas Vagas"
+        android:layout_below="@id/searchView"
+        android:paddingTop="15dp"
+        android:layout_alignParentRight="@id/searchView"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/principal"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        />
+        <Button
+            android:id="@+id/vagasGerais"
+            android:layout_width="170dp"
+            android:layout_height="40dp"
+            android:text="Vagas Gerais"
+            android:layout_below="@id/ic_filtro"
             android:paddingTop="15dp"
-            android:paddingBottom="10dp"
-            android:layout_alignParentRight="@id/searchView"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_toEndOf="@id/minhasVagas"
             android:layout_marginStart="20dp"
             android:textColor="@color/principal"
             android:textSize="16sp"
             android:textStyle="bold"
-            />
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvVagas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ultimasVagas"
-        tools:listitem="@layout/cardvaga"
-        />
+        android:layout_below="@+id/minhasVagas"
+        tools:listitem="@layout/cardvaga" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@id/rvVagas"
+            />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -117,5 +139,5 @@
             android:layout_marginBottom="10dp"
             />
     </LinearLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
