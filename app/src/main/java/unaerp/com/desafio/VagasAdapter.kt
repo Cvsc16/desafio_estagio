@@ -5,12 +5,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-
-class VagasAdapter(val vagaList: List<Vaga>, val clickListener: OnClickListener) : RecyclerView.Adapter<VagasAdapter.VagaViewHolder>() {
+class VagasAdapter(
+    val vagaList: MutableList<Vaga>,
+    val clickListener: OnClickListener,
+    val userEmail: String
+) : RecyclerView.Adapter<VagasAdapter.VagaViewHolder>() {
     interface OnClickListener {
         fun onClick(vaga: Vaga)
+        fun onExcluirClick(vaga: Vaga)
     }
+
+
     inner class VagaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        init {
+            itemView.setOnClickListener {
+                clickListener.onClick(vagaList[adapterPosition])
+            }
+
+            itemView.findViewById<View>(R.id.ic_excluir).setOnClickListener {
+                clickListener.onExcluirClick(vagaList[adapterPosition])
+            }
+        }
+
 
         init {
             itemView.setOnClickListener {
@@ -65,6 +82,13 @@ class VagasAdapter(val vagaList: List<Vaga>, val clickListener: OnClickListener)
         holder.setInfoTipoTrabalho(vagaList[position])
         holder.setInfoDataInicio(vagaList[position])
         holder.setInfoSalario(vagaList[position])
-    }
 
+        if (userEmail == "anunciante@gmail.com") {
+            holder.itemView.findViewById<View>(R.id.ic_excluir).setOnClickListener {
+                clickListener.onExcluirClick(vagaList[position])
+            }
+        } else {
+            holder.itemView.findViewById<View>(R.id.ic_excluir).visibility = View.GONE
+        }
+    }
 }

@@ -8,7 +8,7 @@
     android:id="@+id/cardVaga"
     android:layout_marginStart="20dp"
     android:layout_marginEnd="20dp"
-    android:layout_marginTop="20dp">
+    android:layout_marginTop="15dp">
 
     <ImageView
         android:id="@+id/logo_empresa"
@@ -107,6 +107,16 @@
         app:layout_constraintBottom_toBottomOf="@id/cardVaga"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="25dp"
+        />
+
+    <ImageView
+        android:id="@+id/ic_excluir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_excluir_svg"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toTopOf="@+id/cardVaga"
+        app:layout_constraintEnd_toEndOf="@+id/pagamento"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

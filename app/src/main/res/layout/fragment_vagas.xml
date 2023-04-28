@@ -80,13 +80,41 @@
         android:layout_height="wrap_content"
         android:text="Ultimas Vagas"
         android:layout_below="@id/searchView"
-        android:paddingTop="15dp"
+        android:layout_marginTop="5dp"
         android:layout_alignParentRight="@id/searchView"
         android:layout_marginStart="20dp"
         android:textColor="@color/principal"
         android:textSize="16sp"
         android:textStyle="bold"
         />
+
+        <Button
+            android:id="@+id/minhasVagas"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:text="Minhas Vagas"
+            android:layout_below="@id/searchView"
+            android:layout_alignParentRight="@id/searchView"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            />
+        <Button
+            android:id="@+id/vagasGerais"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:text="Vagas Gerais"
+            android:layout_below="@id/searchView"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvVagas"

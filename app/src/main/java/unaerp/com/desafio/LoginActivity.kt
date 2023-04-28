@@ -1,5 +1,6 @@
 package unaerp.com.desafio
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -54,10 +55,25 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btn_login.setOnClickListener {
-            if (email.text.toString() == "teste@gmail.com" && senha.text.toString() == "teste123") {
-                // Login bem-sucedido
-                val intent = Intent(this, MainActivity::class.java)
+            val email = email.text.toString()
+            val senha = senha.text.toString()
+
+            if (email == "anunciante@gmail.com" && senha == "teste123") {
+                // Login bem-sucedido para anunciante
+
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra("email", email)
+                }
                 startActivity(intent)
+
+            } else if (email == "interessado@gmail.com" && senha == "teste123") {
+                // Login bem-sucedido para interessado
+
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra("email", email)
+                }
+                startActivity(intent)
+
             } else {
                 // Login mal-sucedido
                 Toast.makeText(this, "Dados incorretos", Toast.LENGTH_SHORT).show()

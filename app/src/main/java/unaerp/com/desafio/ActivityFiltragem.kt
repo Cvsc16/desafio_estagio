@@ -14,6 +14,7 @@ class ActivityFiltragem : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filtragem)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        supportActionBar?.hide()
 
         val back = findViewById<ImageView>(R.id.back)
         val btn_filtro= findViewById<Button>(R.id.btn_filtrar)
