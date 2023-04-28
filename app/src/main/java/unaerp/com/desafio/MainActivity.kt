@@ -10,9 +10,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    private val FragmentNovaVaga=FragmentNovaVaga()
-    private val FragmentPerfil=FragmentPerfil()
-    private val FragmentVagas=FragmentVagas()
+    private val FragmentNovaVaga = FragmentNovaVaga()
+    private val FragmentPerfil = FragmentPerfil()
+    private val FragmentVagas = FragmentVagas()
     private var selectedItemId = R.id.vagas
     private var userEmail: String? = null
     private lateinit var bottomNavigationView: BottomNavigationView
@@ -33,12 +33,25 @@ class MainActivity : AppCompatActivity() {
             putString("email", userEmail)
         }
 
+// Define o ícone do item de menu para o menu flutuante
         bottomNavigationView.menu.findItem(R.id.novaVaga).icon = menuFlutuante
-        bottomNavigationView.itemIconTintList = null
-        selectedItemId = bottomNavigationView.selectedItemId
 
+// Define a cor do ícone do item de menu como nula
+        bottomNavigationView.itemIconTintList = null
+
+// Define o item selecionado
+        bottomNavigationView.selectedItemId = R.id.vagas
+
+// Adiciona um listener para a seleção de item de menu
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            selectedItemId = item.itemId
+            if (item.itemId == R.id.novaVaga && userEmail == "interessado@gmail.com") {
+                return@setOnNavigationItemSelectedListener false
+            }
+
+            if (bottomNavigationView.selectedItemId == item.itemId) {
+                return@setOnNavigationItemSelectedListener false
+            }
+
             when (item.itemId) {
                 R.id.vagas -> {
                     supportFragmentManager.beginTransaction()
@@ -47,7 +60,6 @@ class MainActivity : AppCompatActivity() {
                         .commit()
                     true
                 }
-
                 R.id.perfil -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, FragmentPerfil)
@@ -55,7 +67,6 @@ class MainActivity : AppCompatActivity() {
                         .commit()
                     true
                 }
-
                 R.id.novaVaga -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, FragmentNovaVaga)
@@ -63,13 +74,25 @@ class MainActivity : AppCompatActivity() {
                         .commit()
                     true
                 }
-
                 else -> false
             }
+
+            // Retorna verdadeiro para indicar que o item de menu foi selecionado
+            true
         }
 
-// Define o item selecionado
-        bottomNavigationView.selectedItemId = selectedItemId
+// Adiciona um listener para a transação do fragmento
+        supportFragmentManager.addOnBackStackChangedListener {
+            val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+            val itemId = when (fragment) {
+                is FragmentVagas -> R.id.vagas
+                is FragmentPerfil -> R.id.perfil
+                is FragmentNovaVaga -> R.id.novaVaga
+                else -> R.id.vagas
+            }
+            bottomNavigationView.selectedItemId = itemId
+        }
+
 
         if (userEmail == "interessado@gmail.com") {
             bottomNavigationView.menu.removeItem(R.id.novaVaga)
@@ -78,24 +101,5 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, FragmentVagas)
             .commit()
-    }
-
-    override fun onBackPressed() {
-        val fragmentManager = supportFragmentManager
-
-        if (fragmentManager.backStackEntryCount > 1) {
-            fragmentManager.popBackStackImmediate()
-            val fragment = fragmentManager.findFragmentById(R.id.fragment_container)
-            selectedItemId = when (fragment) {
-                is FragmentVagas -> R.id.vagas
-                is FragmentPerfil -> R.id.perfil
-                is FragmentNovaVaga -> R.id.novaVaga
-                else -> R.id.vagas
-            }
-        } else {
-            super.onBackPressed()
-        }
-
-        bottomNavigationView.selectedItemId = selectedItemId
     }
 }

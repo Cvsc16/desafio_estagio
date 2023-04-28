@@ -4,12 +4,14 @@
     <item
         android:id="@+id/vagas"
         android:icon="@drawable/ic_vaga_svg"
-        android:title="Vagas" />
+        android:title="Vagas"
+        />
 
     <item
         android:id="@+id/novaVaga"
         android:icon="@drawable/ic_novavaga_svg"
-        android:title="Nova Vaga" />
+        android:title="Nova Vaga"
+        />
 
     <item
         android:id="@+id/perfil"
