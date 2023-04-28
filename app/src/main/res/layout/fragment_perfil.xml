@@ -35,11 +35,21 @@
             />
 
         <ImageView
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="-20dp"
+            android:src="@drawable/ic_out_svg"
+            android:layout_gravity="top|end"
+            />
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/ic_perfil"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="20dp"
             />
 
     </LinearLayout>

@@ -1,5 +1,6 @@
 package unaerp.com.desafio
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -23,6 +24,7 @@ class FragmentPerfil : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_perfil, container, false)
 
+        val logout = view.findViewById<ImageView>(R.id.logout)
         val back = view.findViewById<ImageView>(R.id.back)
         val senha = view.findViewById<EditText>(R.id.cadastro_senha)
         val nome = view.findViewById<EditText>(R.id.cadastro_nome)
@@ -116,6 +118,24 @@ class FragmentPerfil : Fragment() {
         }
         back.setOnClickListener {
             requireActivity().onBackPressed()
+        }
+
+        logout.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Sair")
+            builder.setMessage("Tem certeza que deseja sair?")
+            builder.setPositiveButton("Sim") { dialog, _ ->
+                // Realiza o logout
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+                activity?.finish()
+                dialog.dismiss()
+            }
+            builder.setNegativeButton("Não") { dialog, _ ->
+                dialog.dismiss()
+            }
+            val dialog = builder.create()
+            dialog.show()
         }
         return view
     }
