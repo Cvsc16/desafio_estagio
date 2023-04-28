@@ -102,4 +102,15 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, FragmentVagas)
             .commit()
     }
+    override fun onBackPressed() {
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        // Verifica se o fragmento atual é o fragmento de vagas
+        if (currentFragment?.id == R.id.vagas) {
+            finish()
+        } else {
+            // Se não for o fragmento de vagas, chama o método padrão
+            super.onBackPressed()
+        }
+    }
 }
