@@ -115,8 +115,7 @@ class FragmentPerfil : Fragment() {
             senha.setSelection(cursorPosition)
         }
         back.setOnClickListener {
-            val intent = Intent(context, MainActivity::class.java)
-            startActivity(intent)
+            requireActivity().onBackPressed()
         }
         return view
     }

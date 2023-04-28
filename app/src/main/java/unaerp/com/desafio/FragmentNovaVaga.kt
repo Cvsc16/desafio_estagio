@@ -21,7 +21,6 @@ import java.util.Date
 import java.util.Locale
 
 class FragmentNovaVaga : Fragment() {
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -133,8 +132,7 @@ class FragmentNovaVaga : Fragment() {
         }
 
         back.setOnClickListener {
-            val intent = Intent(context, MainActivity::class.java)
-            startActivity(intent)
+            requireActivity().onBackPressed()
         }
         return view
     }

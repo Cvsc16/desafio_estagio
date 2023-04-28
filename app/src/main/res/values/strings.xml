@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Desafio</string>
+    <string name="app_name">DC Estágios</string>
     <string name="login_">Login.</string>
     <string name="titulo_filtragem">Filtragem.</string>
     <string name="subtitulo_filtragem">Com base nas suas preferências, defina aqui as informações que mais são do seu interesse</string>

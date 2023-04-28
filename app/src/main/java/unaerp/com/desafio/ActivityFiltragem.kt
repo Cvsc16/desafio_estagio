@@ -46,13 +46,11 @@ class ActivityFiltragem : AppCompatActivity() {
         spinner_remuneracao.adapter = adapter_remuneracao
 
         back.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            onBackPressed()
         }
 
         btn_filtro.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            onBackPressed()
         }
 
     }
