@@ -29,7 +29,7 @@ class FragmentVagas : Fragment() {
 
         val vaga1 = Vaga(
             "Desenvolvedor Mobile JR", "PicPay", "Campinas",
-            "Presencial", "22/02/2023", "R$ 6300,00"
+            "Presencial", "15/03/2023", "R$ 6300,00"
         )
 
         val vaga2 = Vaga(
@@ -39,7 +39,7 @@ class FragmentVagas : Fragment() {
 
         val vaga3 = Vaga(
             "Engenheiro de Dados Sênior", "iFood", "São Paulo",
-            "Presencial", "15/03/2023", "R$ 12000,00"
+            "Presencial", "22/02/2023", "R$ 12000,00"
         )
 
         val rvVagas: RecyclerView? = view.findViewById(R.id.rvVagas)
