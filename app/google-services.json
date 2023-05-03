@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "502686441611",
+    "project_id": "desafio5semestre",
+    "storage_bucket": "desafio5semestre.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502686441611:android:4ac8f2f2cc8aa070a2348e",
+        "android_client_info": {
+          "package_name": "unaerp.com.desafio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502686441611-k1ksjija9tdh7n4r0amketli7sj15p31.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "unaerp.com.desafio",
+            "certificate_hash": "271a0f02fa2b00697557707b6f89167f316424e9"
+          }
+        },
+        {
+          "client_id": "502686441611-mper1cmcrp18hdn8bu8pdc27u8uuu8jo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBRgUXxd1kdTf_pIaJ_XTfsV5zqXtLb-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502686441611-mper1cmcrp18hdn8bu8pdc27u8uuu8jo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

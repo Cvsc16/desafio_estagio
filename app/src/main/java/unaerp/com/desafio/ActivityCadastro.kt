@@ -1,6 +1,9 @@
 package unaerp.com.desafio
 
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -9,6 +12,8 @@ import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.text.style.ForegroundColorSpan
+import android.util.Log
+import android.util.Patterns
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -16,12 +21,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 class ActivityCadastro : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cadastro)
         supportActionBar?.hide()
+
 
         val esconde_svg = findViewById<ImageView>(R.id.esconde_svg)
         val back = findViewById<ImageView>(R.id.back)
@@ -66,19 +78,100 @@ class ActivityCadastro : AppCompatActivity() {
         btn_cadastro.setOnClickListener {
             // Verifica se todos os campos foram preenchidos
             if (senha.text.isEmpty() || nome.text.isEmpty() || email.text.isEmpty()) {
-                Toast.makeText(this, "Por favor, preencha todos os campos!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Por favor, preencha todos os campos!", Toast.LENGTH_SHORT)
+                    .show()
+            } else if (senha.text.length < 6) {
+                Toast.makeText(
+                    this,
+                    "A senha deve conter no mínimo 6 caracteres!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else if (!isConnected()) {
+                Toast.makeText(
+                    this,
+                    "É necessário estar conectado à internet para realizar o cadastro!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()) {
+                Toast.makeText(this, "Por favor, insira um email válido!", Toast.LENGTH_SHORT)
+                    .show()
             } else {
                 // Cadastra o usuário
-                // ...
+                val database =
+                    FirebaseDatabase.getInstance("https://desafio5semestre-default-rtdb.firebaseio.com/")
+                val mAuth = FirebaseAuth.getInstance()
 
-                // Exibe mensagem de sucesso e volta para a tela de login
-                Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-                finish()
+                mAuth.fetchSignInMethodsForEmail(email.text.toString())
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val signInMethods = task.result?.signInMethods ?: emptyList()
+                            if (signInMethods.contains(EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD)) {
+                                // O email já está associado com uma conta existente
+                                Toast.makeText(
+                                    this,
+                                    "Esse email já foi cadastrado no aplicativo!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                // O email ainda não foi cadastrado
+                                mAuth.createUserWithEmailAndPassword(
+                                    email.text.toString(),
+                                    senha.text.toString()
+                                )
+                                    .addOnCompleteListener(this) { task ->
+                                        if (task.isSuccessful) {
+                                            // Cadastro do usuário foi bem sucedido
+                                            val user = mAuth.currentUser
+                                            // Armazena informações do usuário no Firebase Realtime Database
+                                            val uid = user?.uid
+                                            val userRef =
+                                                database.getReference("users").child(uid!!)
+                                            userRef.child("nome").setValue(nome.text.toString())
+                                            userRef.child("email").setValue(email.text.toString())
+
+                                            // Exibe mensagem de sucesso e volta para a tela de login
+                                            Toast.makeText(
+                                                this,
+                                                "Cadastro realizado com sucesso!",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            val intent = Intent(this, LoginActivity::class.java)
+                                            startActivity(intent)
+                                            finish()
+                                        } else {
+                                            // Cadastro do usuário falhou
+                                            Log.w(
+                                                TAG,
+                                                "createUserWithEmail:failure",
+                                                task.exception
+                                            )
+                                            Toast.makeText(
+                                                this,
+                                                "Cadastro falhou.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+                            }
+                        } else {
+                            // Erro ao verificar se o email já foi cadastrado
+                            Log.w(TAG, "fetchSignInMethodsForEmail:failure", task.exception)
+                            Toast.makeText(
+                                this,
+                                "Erro ao verificar se o email já foi cadastrado.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
             }
         }
 
+    }
+
+    fun isConnected(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
     }
 
     fun trocacor(textView: TextView, color: Int, onClickListener: View.OnClickListener): SpannableString {

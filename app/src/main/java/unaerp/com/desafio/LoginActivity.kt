@@ -1,5 +1,6 @@
 package unaerp.com.desafio
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -14,6 +16,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.auth.User
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,33 +61,55 @@ class LoginActivity : AppCompatActivity() {
             senha.setSelection(cursorPosition)
         }
 
-        btn_login.setOnClickListener {
-            val email = email.text.toString()
-            val senha = senha.text.toString()
-
-            if (email == "anunciante@gmail.com" && senha == "teste123") {
-                // Login bem-sucedido para anunciante
-
-                val intent = Intent(this, MainActivity::class.java).apply {
-                    putExtra("email", email)
-                }
-                startActivity(intent)
-                finish()
-
-            } else if (email == "interessado@gmail.com" && senha == "teste123") {
-                // Login bem-sucedido para interessado
-
-                val intent = Intent(this, MainActivity::class.java).apply {
-                    putExtra("email", email)
-                }
-                startActivity(intent)
-                finish()
-
-            } else {
-                // Login mal-sucedido
-                Toast.makeText(this, "Dados incorretos", Toast.LENGTH_SHORT).show()
-            }
-        }
+//        btn_login.setOnClickListener {
+//            val mAuth = FirebaseAuth.getInstance()
+//            val database = FirebaseDatabase.getInstance()
+//
+//            mAuth.signInWithEmailAndPassword(email, senha)
+//                .addOnCompleteListener(this) { task ->
+//                    if (task.isSuccessful) {
+//                        // Login bem-sucedido
+//
+//                        val user = mAuth.currentUser
+//                        val uid = user?.uid
+//
+//                        // Busca informações do usuário no Firebase Realtime Database
+//                        val userRef = database.getReference("users").child(uid!!)
+//                        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+//                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                                val user = dataSnapshot.getValue(User::class.java)
+//
+//                                if (user?.tipo == "anunciante") {
+//                                    // Login bem-sucedido para anunciante
+//                                    val intent =
+//                                        Intent(this@LoginActivity, MainActivity::class.java).apply {
+//                                            putExtra("email", email)
+//                                        }
+//                                    startActivity(intent)
+//                                    finish()
+//                                } else if (user?.tipo == "interessado") {
+//                                    // Login bem-sucedido para interessado
+//                                    val intent =
+//                                        Intent(this@LoginActivity, MainActivity::class.java).apply {
+//                                            putExtra("email", email)
+//                                        }
+//                                    startActivity(intent)
+//                                    finish()
+//                                }
+//                            }
+//
+//                            override fun onCancelled(databaseError: DatabaseError) {
+//                                // Ocorreu um erro ao buscar as informações do usuário
+//                                Log.w(TAG, "loadUser:onCancelled", databaseError.toException())
+//                            }
+//                        })
+//                    } else {
+//                        // Login mal-sucedido
+//                        Toast.makeText(this@LoginActivity, "Dados incorretos.", Toast.LENGTH_SHORT)
+//                            .show()
+//                    }
+//                }
+//        }
 
     }
 
