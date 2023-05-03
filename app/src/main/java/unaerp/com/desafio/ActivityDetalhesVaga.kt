@@ -45,8 +45,7 @@ class ActivityDetalhesVaga : AppCompatActivity() {
         val buttonDetalhes2 = findViewById<Button>(R.id.button_detalhes2)
 
         back.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            onBackPressed()
         }
 
         // Adicionar o fragmento padrão

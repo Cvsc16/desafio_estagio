@@ -64,6 +64,7 @@ class LoginActivity : AppCompatActivity() {
                     putExtra("email", email)
                 }
                 startActivity(intent)
+                finish()
 
             } else if (email == "interessado@gmail.com" && senha == "teste123") {
                 // Login bem-sucedido para interessado
@@ -72,6 +73,7 @@ class LoginActivity : AppCompatActivity() {
                     putExtra("email", email)
                 }
                 startActivity(intent)
+                finish()
 
             } else {
                 // Login mal-sucedido
