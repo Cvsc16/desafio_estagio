@@ -117,7 +117,10 @@
             android:layout_marginEnd="20dp"
             app:layout_constraintTop_toBottomOf="@+id/conta_interessado"
             android:background="@drawable/fundo_tipovaga"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="30dp"
+            android:clickable="true"
+            android:onClick="onTipoContaClick"
+            >
 
             <TextView
                 android:id="@+id/tipo_anunciante"

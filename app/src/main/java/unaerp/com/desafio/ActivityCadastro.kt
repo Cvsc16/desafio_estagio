@@ -42,6 +42,8 @@ class ActivityCadastro : AppCompatActivity() {
         val email = findViewById<EditText>(R.id.cadastro_email)
         val btn_cadastro= findViewById<Button>(R.id.btn_cadastro)
 
+        val tipoConta = intent.getStringExtra("tipo_conta")
+
         val semContaTextView = findViewById<TextView>(R.id.sem_conta)
         trocacor(semContaTextView, ContextCompat.getColor(this, R.color.destaque), View.OnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
@@ -124,10 +126,10 @@ class ActivityCadastro : AppCompatActivity() {
                                             val user = mAuth.currentUser
                                             // Armazena informações do usuário no Firebase Realtime Database
                                             val uid = user?.uid
-                                            val userRef =
-                                                database.getReference("users").child(uid!!)
+                                            val userRef = database.getReference("users").child(uid!!)
                                             userRef.child("nome").setValue(nome.text.toString())
                                             userRef.child("email").setValue(email.text.toString())
+                                            userRef.child("tipo").setValue(tipoConta)
 
                                             // Exibe mensagem de sucesso e volta para a tela de login
                                             Toast.makeText(
@@ -136,6 +138,7 @@ class ActivityCadastro : AppCompatActivity() {
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                             val intent = Intent(this, LoginActivity::class.java)
+                                            intent.putExtra("tipo_conta", tipoConta)
                                             startActivity(intent)
                                             finish()
                                         } else {

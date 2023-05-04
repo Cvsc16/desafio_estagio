@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     private val FragmentVagas = FragmentVagas()
     private var selectedItemId = R.id.vagas
     private var userEmail: String? = null
+    private var tipoConta: String? = null
     private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +30,14 @@ class MainActivity : AppCompatActivity() {
         // Recebe o email do usuário por meio do Intent
         userEmail = intent.getStringExtra("email")
 
+        tipoConta = intent.getStringExtra("tipo_conta")
+
         FragmentVagas.arguments = Bundle().apply {
             putString("email", userEmail)
+        }
+
+        FragmentVagas.arguments = Bundle().apply {
+            putString("tipo_conta", tipoConta)
         }
 
 // Define o ícone do item de menu para o menu flutuante
@@ -44,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
 // Adiciona um listener para a seleção de item de menu
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            if (item.itemId == R.id.novaVaga && userEmail == "interessado@gmail.com") {
+            if (item.itemId == R.id.novaVaga && tipoConta == "Interessado") {
                 return@setOnNavigationItemSelectedListener false
             }
 
@@ -94,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        if (userEmail == "interessado@gmail.com") {
+        if (tipoConta == "Interessado") {
             bottomNavigationView.menu.removeItem(R.id.novaVaga)
         }
 

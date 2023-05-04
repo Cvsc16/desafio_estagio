@@ -2,6 +2,7 @@ package unaerp.com.desafio
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -22,14 +23,15 @@ class ActivityTipoConta : AppCompatActivity() {
 
         btn_prosseguir.setOnClickListener {
             if (contaInteressado.isSelected) {
-                tipoConta = "interessado"
+                tipoConta = "Interessado"
             } else if (contaAnunciante.isSelected) {
-                tipoConta = "anunciante"
+                tipoConta = "Anunciante"
             }
 
             val intent = Intent(this, ActivityCadastro::class.java)
             intent.putExtra("tipo_conta", tipoConta)
             startActivity(intent)
+            finish()
         }
 
         // Variável para armazenar o ID do layout selecionado
@@ -46,12 +48,14 @@ class ActivityTipoConta : AppCompatActivity() {
             layoutSelecionadoId?.let { id ->
                 val layoutDesmarcado = findViewById<View>(id)
                 layoutDesmarcado.setBackgroundResource(R.drawable.fundo_tipovaga)
+                layoutDesmarcado.isSelected = false // adicionando essa linha
             }
 
             // Selecionando o novo layout e atualizando o background
             layoutSelecionadoId = layoutId
             val layoutSelecionado = findViewById<View>(layoutId)
             layoutSelecionado.setBackgroundResource(R.drawable.fundo_tipovagaselecionado)
+            layoutSelecionado.isSelected = true // adicionando essa linha
 
             // Habilitando o botão de filtro
             btn_prosseguir.isEnabled = true

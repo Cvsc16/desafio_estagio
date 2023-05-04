@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 class FragmentVagas : Fragment() {
 
     private var userEmail: String? = null
+    private var tipoConta: String? = null
     private lateinit var adapter: VagasAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,6 +70,7 @@ class FragmentVagas : Fragment() {
         }
 
         userEmail = arguments?.getString("email")
+        tipoConta = arguments?.getString("tipo_conta")
 
         adapter = VagasAdapter(mutableListOf(vaga1, vaga2, vaga3), listener, userEmail ?: "")
         rvVagas?.adapter = adapter
@@ -79,7 +81,7 @@ class FragmentVagas : Fragment() {
         }
 
         // Verifica se o usuário logado tem o email "anunciante@gmail.com"
-        if (userEmail == "anunciante@gmail.com") {
+        if (tipoConta == "Anunciante") {
             val encontreEstagio = view.findViewById<TextView>(R.id.encontre_estagio)
             encontreEstagio.text = "Anuncie o seu"
             // Desabilita a TextView "id/ultimasVagas"
@@ -110,7 +112,7 @@ class FragmentVagas : Fragment() {
             val layoutParams = rvVagas.layoutParams as RelativeLayout.LayoutParams
             layoutParams.addRule(RelativeLayout.BELOW, R.id.minhasVagas)
 
-        } else if (userEmail == "interessado@gmail.com") {
+        } else if (tipoConta == "Interessado") {
             // Desabilita os botões "Nova Vaga" e "Minhas Vagas"
             val btnNovaVaga = view.findViewById<Button>(R.id.vagasGerais)
             btnNovaVaga.visibility = View.GONE
