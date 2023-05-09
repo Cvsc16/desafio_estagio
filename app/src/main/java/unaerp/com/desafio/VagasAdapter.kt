@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 class VagasAdapter(
     val vagaList: MutableList<Vaga>,
     val clickListener: OnClickListener,
-    val userEmail: String
+    val tipoConta: String
 ) : RecyclerView.Adapter<VagasAdapter.VagaViewHolder>() {
     interface OnClickListener {
         fun onClick(vaga: Vaga)
@@ -83,7 +83,7 @@ class VagasAdapter(
         holder.setInfoDataInicio(vagaList[position])
         holder.setInfoSalario(vagaList[position])
 
-        if (userEmail == "anunciante@gmail.com") {
+        if (tipoConta == "Anunciante") {
             holder.itemView.findViewById<View>(R.id.ic_excluir).setOnClickListener {
                 clickListener.onExcluirClick(vagaList[position])
             }

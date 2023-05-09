@@ -3,6 +3,7 @@ package unaerp.com.desafio
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.service.controls.ControlsProviderService.TAG
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         userEmail = intent.getStringExtra("email")
 
         tipoConta = intent.getStringExtra("tipo_conta")
+        Log.d("TAGCONTA", "Tipo de conta recebido: $tipoConta")
 
         FragmentVagas.arguments = Bundle().apply {
             putString("email", userEmail)

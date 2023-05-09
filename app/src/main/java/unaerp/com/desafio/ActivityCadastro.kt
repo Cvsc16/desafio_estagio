@@ -131,6 +131,14 @@ class ActivityCadastro : AppCompatActivity() {
                                             userRef.child("email").setValue(email.text.toString())
                                             userRef.child("tipo").setValue(tipoConta)
 
+                                            user.sendEmailVerification()
+                                                .addOnCompleteListener { task ->
+                                                    if (task.isSuccessful) {
+                                                        // E-mail de verificação enviado com sucesso
+                                                    } else {
+                                                        // Ocorreu um erro ao enviar o e-mail de verificação
+                                                    }
+                                                }
                                             // Exibe mensagem de sucesso e volta para a tela de login
                                             Toast.makeText(
                                                 this,

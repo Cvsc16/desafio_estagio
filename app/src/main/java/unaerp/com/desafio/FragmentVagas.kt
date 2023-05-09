@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 
 class FragmentVagas : Fragment() {
 
-    private var userEmail: String? = null
     private var tipoConta: String? = null
     private lateinit var adapter: VagasAdapter
     override fun onCreateView(
@@ -69,10 +68,9 @@ class FragmentVagas : Fragment() {
             }
         }
 
-        userEmail = arguments?.getString("email")
         tipoConta = arguments?.getString("tipo_conta")
 
-        adapter = VagasAdapter(mutableListOf(vaga1, vaga2, vaga3), listener, userEmail ?: "")
+        adapter = VagasAdapter(mutableListOf(vaga1, vaga2, vaga3), listener, tipoConta ?: "")
         rvVagas?.adapter = adapter
 
         iconeFiltro.setOnClickListener {
