@@ -65,7 +65,6 @@
             android:id="@+id/cadastro_"
             android:layout_width="match_parent"
             android:layout_height="47dp"
-            android:text="Alisson Santos"
             android:textAppearance="@style/login_"
             android:paddingStart="4dp"
             android:includeFontPadding="false"
@@ -95,7 +94,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="35dp"
             android:textColor="@color/texto"
-            android:text="Alisson Santos da Silva"
             android:textColorHint="@color/inserção"
             style="@style/EditTextStyle"
             android:paddingBottom="15dp"
@@ -131,7 +129,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="35dp"
             android:textColor="@color/texto"
-            android:text="alisson675@gmail.com"
             android:textColorHint="@color/inserção"
             style="@style/EditTextStyle"
             android:paddingBottom="15dp"
@@ -209,6 +206,18 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/btn_trocar_senha"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_rounded_red"
+            android:text="Editar Senha"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="20dp"
+            android:textSize="16sp"
+            />
 
         <Button
             android:id="@+id/btn_salvar"

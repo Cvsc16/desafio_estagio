@@ -16,6 +16,7 @@
     <color name="fundo_vaga">#141B28</color>
     <color name="fundo_tipovaga">#F7F6F9</color>
     <color name="texto_escuro">#535353</color>
+    <color name="red">#FF0000</color>
     
 </resources>
 

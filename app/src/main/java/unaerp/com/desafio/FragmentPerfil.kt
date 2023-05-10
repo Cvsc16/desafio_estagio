@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class FragmentPerfil : Fragment() {
 
@@ -34,6 +41,9 @@ class FragmentPerfil : Fragment() {
         val editar_senha = view.findViewById<ImageView>(R.id.editar_senha)
         val editar_email = view.findViewById<ImageView>(R.id.editar_email)
         val esconde_svg = view.findViewById<ImageView>(R.id.esconde_svg)
+
+
+
 
         // Desabilita os EditTexts e o botão de salvar
         nome.isEnabled = false
@@ -60,6 +70,7 @@ class FragmentPerfil : Fragment() {
             btn_salvar.isEnabled = true
             btn_salvar.setBackgroundResource(R.drawable.btn_roundeddisable)
         }
+
 
 // Adiciona TextWatchers aos EditTexts
         nome.addTextChangedListener(object : TextWatcher {
@@ -139,6 +150,42 @@ class FragmentPerfil : Fragment() {
         }
         return view
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val nome = view.findViewById<EditText>(R.id.cadastro_nome)
+        val nome2 = view.findViewById<TextView>(R.id.cadastro_)
+        val email = view.findViewById<EditText>(R.id.cadastro_email)
+
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.uid
+        val database = FirebaseDatabase.getInstance().reference.child("users").child(userId!!)
+
+        // Restante do código...
+
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val userData = snapshot.getValue(User::class.java)
+                    userData?.let { user ->
+                        nome2.text = user.nome
+                        nome.setText(user.nome)
+                        email.setText(user.email)
+
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Trate o erro ao buscar os dados do usuário, se necessário
+            }
+        })
+
+
+        // Restante do código...
+    }
+
 }
 
 
