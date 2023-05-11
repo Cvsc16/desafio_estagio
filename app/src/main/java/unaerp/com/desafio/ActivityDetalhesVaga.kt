@@ -1,16 +1,11 @@
 package unaerp.com.desafio
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.Fragment
-
-import unaerp.com.desafio.DescricaoFragment
-import unaerp.com.desafio.ContatoFragment
 
 class ActivityDetalhesVaga : AppCompatActivity() {
 
@@ -24,7 +19,7 @@ class ActivityDetalhesVaga : AppCompatActivity() {
 
         val back = findViewById<ImageView>(R.id.back)
 
-        val vaga = intent.getSerializableExtra("vaga") as Vaga
+        val vaga = intent.getSerializableExtra("vaga") as ClassVaga
 
         val nomeEmpresaTextView = findViewById<TextView>(R.id.nome_empresa)
         nomeEmpresaTextView.text = vaga.empresa

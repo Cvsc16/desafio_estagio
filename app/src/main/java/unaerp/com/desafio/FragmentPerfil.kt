@@ -155,7 +155,7 @@ class FragmentPerfil : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val nome = view.findViewById<EditText>(R.id.cadastro_nome)
-        val nome2 = view.findViewById<TextView>(R.id.cadastro_)
+        val nome2 = view.findViewById<EditText>(R.id.cadastro_)
         val email = view.findViewById<EditText>(R.id.cadastro_email)
 
         val user = FirebaseAuth.getInstance().currentUser
@@ -169,10 +169,18 @@ class FragmentPerfil : Fragment() {
                 if (snapshot.exists()) {
                     val userData = snapshot.getValue(User::class.java)
                     userData?.let { user ->
-                        nome2.text = user.nome
+                        val fullName = user.nome
+
+                        // Extrai os dois primeiros nomes
+                        val names = fullName.split(" ")
+                        val firstName = names.getOrElse(0) { "" }
+                        val lastName = names.getOrElse(1) { "" }
+
+                        val abbreviatedName = "$firstName $lastName"
+
+                        nome2.setText(abbreviatedName)
                         nome.setText(user.nome)
                         email.setText(user.email)
-
                     }
                 }
             }
@@ -181,6 +189,7 @@ class FragmentPerfil : Fragment() {
                 // Trate o erro ao buscar os dados do usuário, se necessário
             }
         })
+
 
 
         // Restante do código...

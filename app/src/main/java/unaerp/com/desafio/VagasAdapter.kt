@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 class VagasAdapter(
-    val vagaList: MutableList<Vaga>,
+    val vagaList: MutableList<ClassVaga>,
     val clickListener: OnClickListener,
     val tipoConta: String
 ) : RecyclerView.Adapter<VagasAdapter.VagaViewHolder>() {
     interface OnClickListener {
-        fun onClick(vaga: Vaga)
-        fun onExcluirClick(vaga: Vaga)
+        fun onClick(vaga: ClassVaga)
+        fun onExcluirClick(vaga: ClassVaga)
     }
 
 
@@ -35,32 +35,32 @@ class VagasAdapter(
             }
         }
 
-        fun setInfoEmpresa(vaga: Vaga) {
+        fun setInfoEmpresa(vaga: ClassVaga) {
             val nomeEmpresaTv: TextView = itemView.findViewById(R.id.nome_empresa)
             nomeEmpresaTv.text = vaga.empresa
         }
 
-        fun setInfoCidade(vaga: Vaga) {
+        fun setInfoCidade(vaga: ClassVaga) {
             val nomeCidadeTv: TextView = itemView.findViewById(R.id.nomeCidade)
             nomeCidadeTv.text = vaga.cidadeEmpresa
         }
 
-        fun setInfoTitulo(vaga: Vaga) {
+        fun setInfoTitulo(vaga: ClassVaga) {
             val nomeTituloTv: TextView = itemView.findViewById(R.id.nomeVaga)
             nomeTituloTv.text = vaga.titulo
         }
 
-        fun setInfoTipoTrabalho(vaga: Vaga) {
+        fun setInfoTipoTrabalho(vaga: ClassVaga) {
             val nomeTipoTrabalhoTv: TextView = itemView.findViewById(R.id.tipoVaga)
             nomeTipoTrabalhoTv.text = vaga.tipoTrabalho
         }
 
-        fun setInfoDataInicio(vaga: Vaga) {
+        fun setInfoDataInicio(vaga: ClassVaga) {
             val dataInicioTv: TextView = itemView.findViewById(R.id.tempoPostagem)
             dataInicioTv.text = vaga.dataInicio
         }
 
-        fun setInfoSalario(vaga: Vaga) {
+        fun setInfoSalario(vaga: ClassVaga) {
             val salarioTv: TextView = itemView.findViewById(R.id.pagamento)
             salarioTv.text = vaga.pagamento
         }

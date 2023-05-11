@@ -11,16 +11,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Switch
+import android.widget.Toast
+import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
 class FragmentNovaVaga : Fragment() {
+
+    private lateinit var descricao: EditText
+    private lateinit var remuneracao: EditText
+    private lateinit var telefone: EditText
+    private lateinit var email: EditText
+    private lateinit var dataInicio: EditText
+    private lateinit var dataFim: EditText
+    private lateinit var switchVisibilidade: Switch
+    private lateinit var spinnerAreaConhecimento: Spinner
+    private lateinit var spinnerLocalidade: Spinner
+    private lateinit var spinnerTipoVaga: Spinner
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -134,9 +149,68 @@ class FragmentNovaVaga : Fragment() {
         back.setOnClickListener {
             requireActivity().onBackPressed()
         }
+        // Criando uma nova vaga
+        val btnNovaVaga = view.findViewById<Button>(R.id.btn_novaVaga)
+
+        btnNovaVaga.setOnClickListener {
+            cadastrarNovaVaga()
+        }
+
+        // Inicialize as referências aos elementos da interface aqui:
+        descricao = view.findViewById(R.id.textarea_descricao)
+        remuneracao = view.findViewById(R.id.textarea_remuneracao)
+        telefone = view.findViewById(R.id.textarea_telefone)
+        email = view.findViewById(R.id.textarea_email)
+        dataInicio = view.findViewById(R.id.textarea_datainicio)
+        dataFim = view.findViewById(R.id.textarea_datafim)
+        switchVisibilidade = view.findViewById(R.id.switch_anunciante)
+
         return view
     }
-}
+
+    private fun cadastrarNovaVaga() {
+        val titulo = "desenvolvedor front-end"
+        val empresa = "engenharia ramos"
+        val cidadeEmpresa = spinnerLocalidade.selectedItem.toString()
+        val tipoTrabalho = spinnerTipoVaga.selectedItem.toString()
+        val dataInicio = dataInicio.text.toString()
+        val dataFim = dataFim.text.toString()
+        val pagamento = remuneracao.text.toString()
+        val areaConhecimento = spinnerAreaConhecimento.selectedItem.toString()
+        val descricao = descricao.text.toString()
+        val telefone = telefone.text.toString()
+        val emailEmpresa = email.text.toString()
+
+        val novaVaga = ClassVaga(
+            titulo,
+            empresa,
+            cidadeEmpresa,
+            tipoTrabalho,
+            dataInicio,
+            pagamento,
+            areaConhecimento,
+            descricao,
+            dataFim,
+            telefone,
+            emailEmpresa
+        )
+
+
+        val database = FirebaseDatabase.getInstance().reference
+        val vagaId = database.child("vagas").push().key
+        if (vagaId != null) {
+            database.child("vagas").child(vagaId).setValue(novaVaga)
+                .addOnSuccessListener {
+                    // Sucesso ao cadastrar a vaga
+                    Toast.makeText(requireContext(), "Vaga cadastrada com sucesso", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    // Falha ao cadastrar a vaga
+                    Toast.makeText(requireContext(), "Erro ao cadastrar a vaga", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+    }
 
 
 

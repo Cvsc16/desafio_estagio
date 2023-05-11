@@ -27,32 +27,32 @@ class FragmentVagas : Fragment() {
 
         val iconeFiltro = view.findViewById<ImageView>(R.id.ic_filtro)
 
-        val vaga1 = Vaga(
+        val vaga1 = ClassVaga(
             "Desenvolvedor Mobile JR", "PicPay", "Campinas",
-            "Presencial", "15/03/2023", "R$ 6300,00"
+            "Presencial", "15/03/2023", "R$ 6300,00", "Tecnologia", "Essa vaga é legal", "15/03/2023", "169940028922", "empresa@gmail.com"
         )
 
-        val vaga2 = Vaga(
+        val vaga2 = ClassVaga(
             "Desenvolvedor Backend Pleno", "Nubank", "São Paulo",
-            "Remoto", "01/03/2023", "R$ 8000,00"
+            "Remoto", "01/03/2023", "R$ 8000,00", "Tecnologia", "Essa vaga é legal", "15/03/2023", "169940028922", "empresa@gmail.com"
         )
 
-        val vaga3 = Vaga(
+        val vaga3 = ClassVaga(
             "Engenheiro de Dados Sênior", "iFood", "São Paulo",
-            "Presencial", "22/02/2023", "R$ 12000,00"
+            "Presencial", "22/02/2023", "R$ 12000,00", "Tecnologia", "Essa vaga é legal", "15/03/2023", "169940028922", "empresa@gmail.com"
         )
 
         val rvVagas: RecyclerView? = view.findViewById(R.id.rvVagas)
         rvVagas?.layoutManager = LinearLayoutManager(context)
 
         val listener = object : VagasAdapter.OnClickListener {
-            override fun onClick(vaga: Vaga) {
+            override fun onClick(vaga: ClassVaga) {
                 val intent = Intent(activity, ActivityDetalhesVaga::class.java)
                 intent.putExtra("vaga", vaga)
                 startActivity(intent)
             }
 
-            override fun onExcluirClick(vaga: Vaga) {
+            override fun onExcluirClick(vaga: ClassVaga) {
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle("Excluir Vaga")
                 builder.setMessage("Tem certeza que deseja excluir esta vaga?")

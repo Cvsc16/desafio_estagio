@@ -52,34 +52,27 @@
             android:layout_marginTop="20dp"
             />
 
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="44dp"
-        >
-
-        <TextView
+        <EditText
             android:id="@+id/cadastro_"
-            android:layout_width="match_parent"
-            android:layout_height="47dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:textAppearance="@style/login_"
-            android:paddingStart="4dp"
             android:includeFontPadding="false"
-            android:lineHeight="47sp"
+            android:background="@android:color/transparent"
             android:textStyle="bold"
             android:textColor="@color/texto"
             android:textAlignment="center"
+            android:inputType="none"
             />
 
-    </FrameLayout>
+    </LinearLayout>
+
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="0dp"
         android:layout_marginHorizontal="20dp">
 
@@ -196,20 +189,15 @@
             />
 
 
-    </FrameLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:gravity="center_horizontal">
+
+    </FrameLayout>
 
         <Button
             android:id="@+id/btn_trocar_senha"
             android:layout_width="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_rounded_red"
@@ -223,6 +211,8 @@
             android:id="@+id/btn_salvar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_rounded"
             android:text="Salvar Informações"
@@ -232,5 +222,4 @@
             />
 
     </LinearLayout>
-</LinearLayout>
 </ScrollView>
