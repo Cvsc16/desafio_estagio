@@ -119,6 +119,7 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this@LoginActivity, "Dados incorretos.", Toast.LENGTH_SHORT).show()
                     }
                 }
+            Log.d("LOGINVAGAS", "REALIZOU O LOGIN")
         }
 
     }

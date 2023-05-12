@@ -45,8 +45,8 @@
 
     <EditText
         android:id="@+id/searchView"
-        android:layout_width="250dp"
-        android:layout_height="48dp"
+        android:layout_width="260dp"
+        android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_below="@id/estagio_perfeito"
         android:layout_marginTop="25dp"
@@ -67,8 +67,6 @@
         android:layout_below="@id/estagio_perfeito"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="20dp"
-        android:layout_toRightOf="@id/searchView"
-        android:layout_marginStart="10dp"
         android:layout_alignParentRight="true"
         android:src="@drawable/filtro"
         />

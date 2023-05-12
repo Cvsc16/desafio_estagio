@@ -34,7 +34,7 @@ class ActivityDetalhesVaga : AppCompatActivity() {
         tipoVagaTextView.text = vaga.tipoTrabalho
 
         val salarioTextView = findViewById<TextView>(R.id.tv_valorSalario)
-        salarioTextView.text = vaga.pagamento
+        salarioTextView.text = "R$ ${vaga.pagamento}"
 
         val buttonDetalhes = findViewById<Button>(R.id.button_detalhes)
         val buttonDetalhes2 = findViewById<Button>(R.id.button_detalhes2)

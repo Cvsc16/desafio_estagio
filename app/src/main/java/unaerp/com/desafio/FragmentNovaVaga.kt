@@ -1,11 +1,11 @@
 package unaerp.com.desafio
 
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -44,9 +44,10 @@ class FragmentNovaVaga : Fragment() {
         val view = inflater.inflate(R.layout.fragment_novavaga, container, false)
         val back = view.findViewById<ImageView>(R.id.back)
 
-        val spinner_areaConhecimento: Spinner = view.findViewById(R.id.spinner_areaConhecimento)
-        val spinner_localidade: Spinner = view.findViewById(R.id.spinner_localidade)
-        val spinner_tipoVaga: Spinner = view.findViewById(R.id.spinner_tipoVaga)
+        spinnerAreaConhecimento = view.findViewById(R.id.spinner_areaConhecimento)
+        spinnerLocalidade = view.findViewById(R.id.spinner_localidade)
+        spinnerTipoVaga = view.findViewById(R.id.spinner_tipoVaga)
+
 
         val editText = view.findViewById<EditText>(R.id.nome_anunciante)
         editText.keyListener = null
@@ -57,7 +58,7 @@ class FragmentNovaVaga : Fragment() {
             R.layout.spinner_item
         )
         adapter_areaConhecimento.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner_areaConhecimento.adapter = adapter_areaConhecimento
+        spinnerAreaConhecimento.adapter = adapter_areaConhecimento
 
         val adapter_localidade = ArrayAdapter.createFromResource(
             requireContext(),
@@ -65,7 +66,7 @@ class FragmentNovaVaga : Fragment() {
             R.layout.spinner_item
         )
         adapter_localidade.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner_localidade.adapter = adapter_localidade
+        spinnerLocalidade.adapter = adapter_localidade
 
         val adapter_tipoVaga = ArrayAdapter.createFromResource(
             requireContext(),
@@ -73,7 +74,7 @@ class FragmentNovaVaga : Fragment() {
             R.layout.spinner_item
         )
         adapter_tipoVaga.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner_tipoVaga.adapter = adapter_tipoVaga
+        spinnerTipoVaga.adapter = adapter_tipoVaga
 
         val telefoneEditText = view.findViewById<EditText>(R.id.textarea_telefone)
         telefoneEditText.addTextChangedListener(PhoneNumberFormattingTextWatcher())
@@ -153,7 +154,13 @@ class FragmentNovaVaga : Fragment() {
         val btnNovaVaga = view.findViewById<Button>(R.id.btn_novaVaga)
 
         btnNovaVaga.setOnClickListener {
-            cadastrarNovaVaga()
+            Log.d("MeuBotao", "Botão clicado")
+            try {
+                cadastrarNovaVaga()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(requireContext(), "Erro ao cadastrar a vaga", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // Inicialize as referências aos elementos da interface aqui:
@@ -172,6 +179,7 @@ class FragmentNovaVaga : Fragment() {
         val titulo = "desenvolvedor front-end"
         val empresa = "engenharia ramos"
         val cidadeEmpresa = spinnerLocalidade.selectedItem.toString()
+//        Log.d("CidadeEmpresa", "Valor selecionado: $cidadeEmpresa")
         val tipoTrabalho = spinnerTipoVaga.selectedItem.toString()
         val dataInicio = dataInicio.text.toString()
         val dataFim = dataFim.text.toString()
@@ -204,9 +212,13 @@ class FragmentNovaVaga : Fragment() {
                     // Sucesso ao cadastrar a vaga
                     Toast.makeText(requireContext(), "Vaga cadastrada com sucesso", Toast.LENGTH_SHORT).show()
                 }
-                .addOnFailureListener {
+                .addOnFailureListener { exception ->
                     // Falha ao cadastrar a vaga
-                    Toast.makeText(requireContext(), "Erro ao cadastrar a vaga", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Erro ao cadastrar a vaga: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
+                .addOnCanceledListener {
+                    // Operação cancelada
+                    Toast.makeText(requireContext(), "Cadastro da vaga cancelado", Toast.LENGTH_SHORT).show()
                 }
         }
     }

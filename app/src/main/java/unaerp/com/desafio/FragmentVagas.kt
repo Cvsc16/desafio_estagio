@@ -13,6 +13,10 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class FragmentVagas : Fragment() {
 
@@ -26,21 +30,6 @@ class FragmentVagas : Fragment() {
         val view = inflater.inflate(R.layout.fragment_vagas, container, false)
 
         val iconeFiltro = view.findViewById<ImageView>(R.id.ic_filtro)
-
-        val vaga1 = ClassVaga(
-            "Desenvolvedor Mobile JR", "PicPay", "Campinas",
-            "Presencial", "15/03/2023", "R$ 6300,00", "Tecnologia", "Essa vaga é legal", "15/03/2023", "169940028922", "empresa@gmail.com"
-        )
-
-        val vaga2 = ClassVaga(
-            "Desenvolvedor Backend Pleno", "Nubank", "São Paulo",
-            "Remoto", "01/03/2023", "R$ 8000,00", "Tecnologia", "Essa vaga é legal", "15/03/2023", "169940028922", "empresa@gmail.com"
-        )
-
-        val vaga3 = ClassVaga(
-            "Engenheiro de Dados Sênior", "iFood", "São Paulo",
-            "Presencial", "22/02/2023", "R$ 12000,00", "Tecnologia", "Essa vaga é legal", "15/03/2023", "169940028922", "empresa@gmail.com"
-        )
 
         val rvVagas: RecyclerView? = view.findViewById(R.id.rvVagas)
         rvVagas?.layoutManager = LinearLayoutManager(context)
@@ -68,10 +57,30 @@ class FragmentVagas : Fragment() {
             }
         }
 
-        tipoConta = arguments?.getString("tipo_conta")
+        val database = FirebaseDatabase.getInstance().reference
+        val vagasRef = database.child("vagas")
 
-        adapter = VagasAdapter(mutableListOf(vaga1, vaga2, vaga3), listener, tipoConta ?: "")
-        rvVagas?.adapter = adapter
+        vagasRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val vagasList = mutableListOf<ClassVaga>()
+
+                for (vagaSnapshot in dataSnapshot.children) {
+                    val vaga = vagaSnapshot.getValue(ClassVaga::class.java)
+                    vaga?.let {
+                        vagasList.add(it)
+                    }
+                }
+
+                adapter = VagasAdapter(vagasList, listener, tipoConta ?: "")
+                rvVagas?.adapter = adapter
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Trate o erro, se necessário
+            }
+        })
+
+        tipoConta = arguments?.getString("tipo_conta")
 
         iconeFiltro.setOnClickListener {
             val intent = Intent(context, ActivityFiltragem::class.java)

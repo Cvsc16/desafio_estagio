@@ -62,7 +62,7 @@ class VagasAdapter(
 
         fun setInfoSalario(vaga: ClassVaga) {
             val salarioTv: TextView = itemView.findViewById(R.id.pagamento)
-            salarioTv.text = vaga.pagamento
+            salarioTv.text = "R$ ${vaga.pagamento}"
         }
     }
 
