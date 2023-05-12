@@ -46,8 +46,15 @@ class FragmentVagas : Fragment() {
                 builder.setTitle("Excluir Vaga")
                 builder.setMessage("Tem certeza que deseja excluir esta vaga?")
                 builder.setPositiveButton("OK") { dialog, which ->
-                    (rvVagas?.adapter as VagasAdapter).vagaList.remove(vaga)
-                    rvVagas?.adapter?.notifyDataSetChanged()
+                    // Remover a vaga do banco de dados
+                    val database = FirebaseDatabase.getInstance().reference
+                    val vagasRef = database.child("vagas").child(vaga.id)
+                    vagasRef.removeValue()
+
+                    // Remover a vaga da RecyclerView
+                    val adapter = rvVagas?.adapter as? VagasAdapter
+                    adapter?.vagaList?.remove(vaga)
+                    adapter?.notifyDataSetChanged()
                 }
                 builder.setNegativeButton("Cancelar") { dialog, which ->
                     // Não faz nada

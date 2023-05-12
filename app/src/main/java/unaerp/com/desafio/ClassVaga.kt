@@ -3,6 +3,7 @@ package unaerp.com.desafio
 import java.io.Serializable
 
 data class ClassVaga(
+    var id: String = "",
     val titulo: String = "",
     val empresa: String = "",
     val cidadeEmpresa: String = "",

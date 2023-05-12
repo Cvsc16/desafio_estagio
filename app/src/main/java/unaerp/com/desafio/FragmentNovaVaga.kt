@@ -179,7 +179,6 @@ class FragmentNovaVaga : Fragment() {
         val titulo = "desenvolvedor front-end"
         val empresa = "engenharia ramos"
         val cidadeEmpresa = spinnerLocalidade.selectedItem.toString()
-//        Log.d("CidadeEmpresa", "Valor selecionado: $cidadeEmpresa")
         val tipoTrabalho = spinnerTipoVaga.selectedItem.toString()
         val dataInicio = dataInicio.text.toString()
         val dataFim = dataFim.text.toString()
@@ -190,6 +189,7 @@ class FragmentNovaVaga : Fragment() {
         val emailEmpresa = email.text.toString()
 
         val novaVaga = ClassVaga(
+            "",
             titulo,
             empresa,
             cidadeEmpresa,
@@ -203,10 +203,12 @@ class FragmentNovaVaga : Fragment() {
             emailEmpresa
         )
 
-
         val database = FirebaseDatabase.getInstance().reference
+        val vagasRef = database.child("vagas")
+
         val vagaId = database.child("vagas").push().key
         if (vagaId != null) {
+            novaVaga.id = vagaId
             database.child("vagas").child(vagaId).setValue(novaVaga)
                 .addOnSuccessListener {
                     // Sucesso ao cadastrar a vaga
