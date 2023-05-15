@@ -2,6 +2,7 @@ package unaerp.com.desafio
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -86,6 +87,25 @@ class FragmentVagas : Fragment() {
                 // Trate o erro, se necessário
             }
         })
+
+        class BottomSpaceItemDecoration(private val bottomSpaceHeight: Int) : RecyclerView.ItemDecoration() {
+
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                val position = parent.getChildAdapterPosition(view)
+                val itemCount = state.itemCount
+
+                if (position == itemCount - 1) {
+                    // Último item
+                    outRect.bottom = bottomSpaceHeight
+                } else {
+                    outRect.bottom = 0
+                }
+            }
+        }
+
+        val bottomSpaceHeight = resources.getDimensionPixelSize(R.dimen.bottom_space_height)
+
+        rvVagas?.addItemDecoration(BottomSpaceItemDecoration(bottomSpaceHeight))
 
         tipoConta = arguments?.getString("tipo_conta")
 
