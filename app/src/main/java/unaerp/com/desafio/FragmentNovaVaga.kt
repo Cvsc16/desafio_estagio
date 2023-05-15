@@ -25,12 +25,12 @@ import java.util.Locale
 
 class FragmentNovaVaga : Fragment() {
 
-    private lateinit var descricao: EditText
+    private lateinit var descricaoVar: EditText
     private lateinit var remuneracao: EditText
-    private lateinit var telefone: EditText
+    private lateinit var telefoneVar: EditText
     private lateinit var email: EditText
-    private lateinit var dataInicio: EditText
-    private lateinit var dataFim: EditText
+    private lateinit var dataInicioVar: EditText
+    private lateinit var dataFimVar: EditText
     private lateinit var switchVisibilidade: Switch
     private lateinit var spinnerAreaConhecimento: Spinner
     private lateinit var spinnerLocalidade: Spinner
@@ -164,12 +164,12 @@ class FragmentNovaVaga : Fragment() {
         }
 
         // Inicialize as referências aos elementos da interface aqui:
-        descricao = view.findViewById(R.id.textarea_descricao)
+        descricaoVar = view.findViewById(R.id.textarea_descricao)
         remuneracao = view.findViewById(R.id.textarea_remuneracao)
-        telefone = view.findViewById(R.id.textarea_telefone)
+        telefoneVar = view.findViewById(R.id.textarea_telefone)
         email = view.findViewById(R.id.textarea_email)
-        dataInicio = view.findViewById(R.id.textarea_datainicio)
-        dataFim = view.findViewById(R.id.textarea_datafim)
+        dataInicioVar = view.findViewById(R.id.textarea_datainicio)
+        dataFimVar = view.findViewById(R.id.textarea_datafim)
         switchVisibilidade = view.findViewById(R.id.switch_anunciante)
 
         return view
@@ -180,12 +180,12 @@ class FragmentNovaVaga : Fragment() {
         val empresa = "engenharia ramos"
         val cidadeEmpresa = spinnerLocalidade.selectedItem.toString()
         val tipoTrabalho = spinnerTipoVaga.selectedItem.toString()
-        val dataInicio = dataInicio.text.toString()
-        val dataFim = dataFim.text.toString()
+        val dataInicio = dataInicioVar.text.toString()
+        val dataFim = dataFimVar.text.toString()
         val pagamento = remuneracao.text.toString()
         val areaConhecimento = spinnerAreaConhecimento.selectedItem.toString()
-        val descricao = descricao.text.toString()
-        val telefone = telefone.text.toString()
+        val descricao = descricaoVar.text.toString()
+        val telefone = telefoneVar.text.toString()
         val emailEmpresa = email.text.toString()
 
         val novaVaga = ClassVaga(
@@ -204,7 +204,6 @@ class FragmentNovaVaga : Fragment() {
         )
 
         val database = FirebaseDatabase.getInstance().reference
-        val vagasRef = database.child("vagas")
 
         val vagaId = database.child("vagas").push().key
         if (vagaId != null) {
@@ -213,6 +212,14 @@ class FragmentNovaVaga : Fragment() {
                 .addOnSuccessListener {
                     // Sucesso ao cadastrar a vaga
                     Toast.makeText(requireContext(), "Vaga cadastrada com sucesso", Toast.LENGTH_SHORT).show()
+                    // Limpar os campos após cadastrar a vaga
+                    descricaoVar.setText("")
+                    remuneracao.setText("")
+                    telefoneVar.setText("")
+                    email.setText("")
+                    dataInicioVar.setText("")
+                    dataFimVar.setText("")
+                    switchVisibilidade.isChecked = false
                 }
                 .addOnFailureListener { exception ->
                     // Falha ao cadastrar a vaga
