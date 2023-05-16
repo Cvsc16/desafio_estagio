@@ -17,6 +17,7 @@
     <string name="valor_remuneracao">R$1500</string>
     <string name="telefone">Telefone</string>
     <string name="email">Email</string>
+    <string name="titulo_vaga">Titulo da Vaga</string>
     <string name="filtrar">Filtrar</string>
     <string name="data_inicio">Data Inicio</string>
     <string name="data_fim">Data Fim</string>

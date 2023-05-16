@@ -21,8 +21,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.firestore.auth.User as FirebaseUser
-import unaerp.com.desafio.User as LocalbaseUser
+import unaerp.com.desafio.ClassUser as LocalbaseUser
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

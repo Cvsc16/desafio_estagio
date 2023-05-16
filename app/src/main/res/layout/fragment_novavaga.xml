@@ -61,12 +61,55 @@
                 app:layout_constraintLeft_toLeftOf="@id/titulo_novaVaga"
                 />
 
+            <FrameLayout
+                android:id="@+id/framelayout_titulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/subtitulo_novaVaga"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/tv_titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/titulo_vaga"
+                    android:textColor="@color/texto"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="@+id/framelayout_email"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textarea_telefone"
+                    />
+
+                <EditText
+                    android:id="@+id/textarea_titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="20dp"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="8dp"
+                    android:textSize="15sp"
+                    android:hint="Titulo da Vaga"
+                    android:textColorHint="@color/opcao_dropdown"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/opcao_dropdown"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:background="@drawable/borda_dropdown"
+                    />
+
+            </FrameLayout>
+
 
             <FrameLayout
                 android:id="@+id/framelayout_areaConhecimento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/subtitulo_novaVaga"
+                app:layout_constraintTop_toBottomOf="@+id/framelayout_titulo"
                 android:layout_marginTop="10dp"
                 >
                 <TextView

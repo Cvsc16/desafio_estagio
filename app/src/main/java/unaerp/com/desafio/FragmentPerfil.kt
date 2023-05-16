@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -16,11 +17,14 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+
 
 class FragmentPerfil : Fragment() {
 
@@ -41,9 +45,6 @@ class FragmentPerfil : Fragment() {
         val editar_senha = view.findViewById<ImageView>(R.id.editar_senha)
         val editar_email = view.findViewById<ImageView>(R.id.editar_email)
         val esconde_svg = view.findViewById<ImageView>(R.id.esconde_svg)
-
-
-
 
         // Desabilita os EditTexts e o botão de salvar
         nome.isEnabled = false
@@ -167,7 +168,7 @@ class FragmentPerfil : Fragment() {
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    val userData = snapshot.getValue(User::class.java)
+                    val userData = snapshot.getValue(ClassUser::class.java)
                     userData?.let { user ->
                         val fullName = user.nome
 
