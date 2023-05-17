@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:text="Ultimas Vagas"
         android:layout_below="@id/searchView"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_alignParentRight="@id/searchView"
         android:layout_marginStart="20dp"
         android:textColor="@color/principal"
