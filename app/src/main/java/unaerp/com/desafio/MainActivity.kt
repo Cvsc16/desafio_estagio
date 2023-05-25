@@ -1,12 +1,10 @@
 package unaerp.com.desafio
 
-import android.content.Intent
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.service.controls.ControlsProviderService.TAG
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         supportActionBar?.hide()
 
-        bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView = findViewById(R.id.bottom_navigation)
         val menuFlutuante = resources.getDrawable(R.drawable.ic_novavaga_svg, null)
 
         // Recebe o email do usuário por meio do Intent
@@ -101,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             }
             bottomNavigationView.selectedItemId = itemId
         }
+
 
 
         if (tipoConta == "Interessado") {

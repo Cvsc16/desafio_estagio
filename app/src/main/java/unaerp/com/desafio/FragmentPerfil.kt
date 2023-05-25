@@ -138,10 +138,13 @@ class FragmentPerfil : Fragment() {
             builder.setMessage("Tem certeza que deseja sair?")
             builder.setPositiveButton("Sim") { dialog, _ ->
                 // Realiza o logout
+                FirebaseAuth.getInstance().signOut()
+
                 val intent = Intent(requireContext(), LoginActivity::class.java)
                 startActivity(intent)
-                activity?.finish()
                 dialog.dismiss()
+                Log.d("LOGOUTPERFIL", "REALIZOU O LOGIN")
+                requireActivity().finish()
             }
             builder.setNegativeButton("Não") { dialog, _ ->
                 dialog.dismiss()

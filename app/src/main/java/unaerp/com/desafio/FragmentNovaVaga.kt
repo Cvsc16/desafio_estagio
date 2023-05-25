@@ -17,6 +17,7 @@ import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Switch
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -187,9 +188,11 @@ class FragmentNovaVaga : Fragment() {
         val descricao = descricaoVar.text.toString()
         val telefone = telefoneVar.text.toString()
         val emailEmpresa = email.text.toString()
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
         val novaVaga = ClassVaga(
             "",
+            userId,
             titulo,
             empresa,
             cidadeEmpresa,
@@ -217,7 +220,6 @@ class FragmentNovaVaga : Fragment() {
                     remuneracao.setText("")
                     telefoneVar.setText("")
                     email.setText("")
-                    dataInicioVar.setText("")
                     dataFimVar.setText("")
                     switchVisibilidade.isChecked = false
                 }

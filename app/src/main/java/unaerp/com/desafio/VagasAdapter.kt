@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+
 class VagasAdapter(
     val vagaList: MutableList<ClassVaga>,
     val clickListener: OnClickListener,
@@ -84,8 +86,15 @@ class VagasAdapter(
         holder.setInfoSalario(vagaList[position])
 
         if (tipoConta == "Anunciante") {
-            holder.itemView.findViewById<View>(R.id.ic_excluir).setOnClickListener {
-                clickListener.onExcluirClick(vagaList[position])
+            val userId = FirebaseAuth.getInstance().currentUser?.uid
+            val idAnunciante = vagaList[position].idAnunciante
+
+            if (userId == idAnunciante) {
+                holder.itemView.findViewById<View>(R.id.ic_excluir).setOnClickListener {
+                    clickListener.onExcluirClick(vagaList[position])
+                }
+            } else {
+                holder.itemView.findViewById<View>(R.id.ic_excluir).visibility = View.GONE
             }
         } else {
             holder.itemView.findViewById<View>(R.id.ic_excluir).visibility = View.GONE

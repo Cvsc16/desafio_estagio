@@ -4,6 +4,7 @@ import java.io.Serializable
 
 data class ClassVaga(
     var id: String = "",
+    val idAnunciante : String = "",
     val titulo: String = "",
     val empresa: String = "",
     val cidadeEmpresa: String = "",
