@@ -114,50 +114,10 @@ class FragmentVagas : Fragment() {
             startActivity(intent)
         }
 
-        // Verifica se o usuário logado tem o email "anunciante@gmail.com"
+        // Verifica se o usuário logado tem um cadastro de anunciante"
         if (tipoConta == "Anunciante") {
             val encontreEstagio = view.findViewById<TextView>(R.id.encontre_estagio)
             encontreEstagio.text = "Anuncie o seu"
-            // Desabilita a TextView "id/ultimasVagas"
-            val ultimasVagas = view.findViewById<TextView>(R.id.ultimasVagas)
-            ultimasVagas.visibility = View.GONE
-
-            // Ativa os botões "Nova Vaga" e "Minhas Vagas"
-            val btnNovaVaga = view.findViewById<Button>(R.id.vagasGerais)
-            btnNovaVaga.visibility = View.VISIBLE
-
-            val btnMinhasVagas = view.findViewById<Button>(R.id.minhasVagas)
-            btnMinhasVagas.visibility = View.VISIBLE
-
-//            // Define o listener para o botão "Nova Vaga"
-//            btnNovaVaga.setOnClickListener {
-//                val intent = Intent(activity, ActivityNovaVaga::class.java)
-//                startActivity(intent)
-//            }
-//
-//            // Define o listener para o botão "Minhas Vagas"
-//            btnMinhasVagas.setOnClickListener {
-//                val intent = Intent(activity, ActivityMinhasVagas::class.java)
-//                startActivity(intent)
-//            }
-
-            // Muda o id da view para a qual "layout_below" aponta
-            val rvVagas = view.findViewById<RecyclerView>(R.id.rvVagas)
-            val layoutParams = rvVagas.layoutParams as RelativeLayout.LayoutParams
-            layoutParams.addRule(RelativeLayout.BELOW, R.id.minhasVagas)
-
-        } else if (tipoConta == "Interessado") {
-            // Desabilita os botões "Nova Vaga" e "Minhas Vagas"
-            val btnNovaVaga = view.findViewById<Button>(R.id.vagasGerais)
-            btnNovaVaga.visibility = View.GONE
-
-            val btnMinhasVagas = view.findViewById<Button>(R.id.minhasVagas)
-            btnMinhasVagas.visibility = View.GONE
-
-            // Ativa a TextView "id/ultimasVagas"
-            val ultimasVagas = view.findViewById<TextView>(R.id.ultimasVagas)
-            ultimasVagas.visibility = View.VISIBLE
-
         }
 
         return view

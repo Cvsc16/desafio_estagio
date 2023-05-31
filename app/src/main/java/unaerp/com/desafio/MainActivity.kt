@@ -34,9 +34,6 @@ class MainActivity : AppCompatActivity() {
 
         FragmentVagas.arguments = Bundle().apply {
             putString("email", userEmail)
-        }
-
-        FragmentVagas.arguments = Bundle().apply {
             putString("tipo_conta", tipoConta)
         }
 

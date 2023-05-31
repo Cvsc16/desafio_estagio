@@ -123,6 +123,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+
     fun trocacor(textView: TextView, color: Int, onClickListener: View.OnClickListener): SpannableString {
         val text = textView.text
         val startIndex = text.indexOf("Registre-se")
