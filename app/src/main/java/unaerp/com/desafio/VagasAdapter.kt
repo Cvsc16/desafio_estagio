@@ -39,13 +39,6 @@ class VagasAdapter(
             }
         }
 
-
-        init {
-            itemView.setOnClickListener {
-                clickListener.onClick(vagaList[adapterPosition])
-            }
-        }
-
         fun setInfoEmpresa(vaga: ClassVaga) {
             val nomeEmpresaTv: TextView = itemView.findViewById(R.id.nome_empresa)
             nomeEmpresaTv.text = vaga.empresa
@@ -75,6 +68,7 @@ class VagasAdapter(
             val salarioTv: TextView = itemView.findViewById(R.id.pagamento)
             salarioTv.text = "R$ ${vaga.pagamento}"
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VagaViewHolder {
@@ -87,26 +81,33 @@ class VagasAdapter(
     }
 
     override fun onBindViewHolder(holder: VagaViewHolder, position: Int) {
-        holder.setInfoEmpresa(vagaList[position])
-        holder.setInfoCidade(vagaList[position])
-        holder.setInfoTitulo(vagaList[position])
-        holder.setInfoTipoTrabalho(vagaList[position])
-        holder.setInfoDataInicio(vagaList[position])
-        holder.setInfoSalario(vagaList[position])
+        if (vagaList.isNotEmpty()) {
+            val vaga = vagaList[position] // Obter a vaga da lista filtrada
 
-        if (tipoConta == "Anunciante") {
-            val userId = FirebaseAuth.getInstance().currentUser?.uid
-            val idAnunciante = vagaList[position].idAnunciante
+            holder.setInfoEmpresa(vaga)
+            holder.setInfoCidade(vaga)
+            holder.setInfoTitulo(vaga)
+            holder.setInfoTipoTrabalho(vaga)
+            holder.setInfoDataInicio(vaga)
+            holder.setInfoSalario(vaga)
 
-            if (userId == idAnunciante) {
-                holder.itemView.findViewById<View>(R.id.ic_excluir).setOnClickListener {
-                    clickListener.onExcluirClick(vagaList[position])
+            if (tipoConta == "Anunciante") {
+                val userId = FirebaseAuth.getInstance().currentUser?.uid
+                val idAnunciante = vaga.idAnunciante
+
+                if (userId == idAnunciante) {
+                    holder.itemView.findViewById<View>(R.id.ic_excluir).visibility = View.VISIBLE
+                    holder.itemView.findViewById<View>(R.id.ic_excluir).setOnClickListener {
+                        clickListener.onExcluirClick(vaga)
+                    }
+                } else {
+                    holder.itemView.findViewById<View>(R.id.ic_excluir).visibility = View.GONE
                 }
             } else {
                 holder.itemView.findViewById<View>(R.id.ic_excluir).visibility = View.GONE
             }
         } else {
-            holder.itemView.findViewById<View>(R.id.ic_excluir).visibility = View.GONE
+            // Trate o caso em que a lista está vazia, se necessário
         }
     }
 }

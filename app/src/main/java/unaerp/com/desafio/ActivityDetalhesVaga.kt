@@ -36,12 +36,18 @@ class ActivityDetalhesVaga : AppCompatActivity() {
         val salarioTextView = findViewById<TextView>(R.id.tv_valorSalario)
         salarioTextView.text = "R$ ${vaga.pagamento}"
 
+
         val buttonDetalhes = findViewById<Button>(R.id.button_detalhes)
         val buttonDetalhes2 = findViewById<Button>(R.id.button_detalhes2)
 
         back.setOnClickListener {
             onBackPressed()
         }
+
+        val bundle = Bundle().apply {
+            putSerializable("vaga", vaga) // Substitua 'vaga' pelo objeto ClassVaga correto
+        }
+        detalhesFragment.arguments = bundle
 
         // Adicionar o fragmento padrão
         supportFragmentManager.beginTransaction()

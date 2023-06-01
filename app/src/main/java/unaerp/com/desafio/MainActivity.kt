@@ -4,6 +4,7 @@ package unaerp.com.desafio
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -22,6 +23,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         supportActionBar?.hide()
+
+        val rootView = findViewById<View>(android.R.id.content)
+        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+            val heightDiff = rootView.rootView.height - rootView.height
+            val keyboardVisibleThreshold = 200 // Ajuste conforme necessário
+
+            if (heightDiff > keyboardVisibleThreshold) {
+                // Teclado visível
+                bottomNavigationView.visibility = View.GONE
+            } else {
+                // Teclado oculto
+                bottomNavigationView.visibility = View.VISIBLE
+            }
+        }
 
         bottomNavigationView = findViewById(R.id.bottom_navigation)
         val menuFlutuante = resources.getDrawable(R.drawable.ic_novavaga_svg, null)

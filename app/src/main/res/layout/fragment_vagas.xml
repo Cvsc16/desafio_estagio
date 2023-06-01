@@ -114,6 +114,43 @@
         android:layout_below="@+id/ultimasVagas"
         tools:listitem="@layout/cardvaga" />
 
+    <ImageView
+        android:id="@+id/imageNoResults"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/ic_semresultados"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/ultimasVagas"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/text_semResultados"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ops... Não foram encontrados resultados"
+        android:layout_below="@id/imageNoResults"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:textColor="@color/texto"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/text_tenteNovamente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tente outra pesquisa"
+        android:layout_below="@id/text_semResultados"
+        android:layout_marginTop="5dp"
+        android:textAlignment="center"
+        android:textColor="@color/texto"
+        android:textSize="16sp"
+        android:visibility="gone"
+        />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="80dp"
