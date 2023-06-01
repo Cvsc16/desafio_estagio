@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.service.controls.ControlsProviderService.TAG
 import android.util.Log
 import android.widget.ImageView
@@ -19,17 +20,17 @@ class SplashScreenActivity : AppCompatActivity() {
     private val auth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance("https://desafio5semestre-default-rtdb.firebaseio.com/")
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
 
         val imageViewGif = findViewById<ImageView>(R.id.img_gif)
 
         Glide.with(this)
             .asGif()
-            .load(R.drawable.splash_gif)
+            .load(R.drawable.loadingdogf)
             .into(imageViewGif)
 
         Log.d("ABRIRAPP", "REALIZOU O LOGIN")
@@ -44,6 +45,8 @@ class SplashScreenActivity : AppCompatActivity() {
                     val tipo = userData["tipo"] as String
                     Log.d("TAGRECEBIDO", "Tipo de conta recebido: $tipo")
 
+                    val delayMillis = 650L // Tempo de atraso em milissegundos (2 segundos)
+                    Handler().postDelayed({
                     val intent = if (tipo == "Interessado") {
                         Intent(this@SplashScreenActivity, MainActivity::class.java).apply {
                             putExtra("tipo_conta", "Interessado")
@@ -55,6 +58,7 @@ class SplashScreenActivity : AppCompatActivity() {
                     }
                     startActivity(intent)
                     finish()
+                    }, delayMillis)
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -67,10 +71,13 @@ class SplashScreenActivity : AppCompatActivity() {
             })
         } else {
             // Navegar para a tela de login
+            val delayMillis = 650L // Tempo de atraso em milissegundos (2 segundos)
+            Handler().postDelayed({
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             Toast.makeText(this, "Usuário NÃO logado!", Toast.LENGTH_SHORT).show()
             finish()
+            }, delayMillis)
         }
     }
 }

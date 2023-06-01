@@ -6,15 +6,24 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import java.util.Locale
 
 class VagasAdapter(
     val vagaList: MutableList<ClassVaga>,
     val clickListener: OnClickListener,
     val tipoConta: String
 ) : RecyclerView.Adapter<VagasAdapter.VagaViewHolder>() {
+
+    private var filteredVagasList: MutableList<ClassVaga> = mutableListOf() // Lista filtrada
     interface OnClickListener {
         fun onClick(vaga: ClassVaga)
         fun onExcluirClick(vaga: ClassVaga)
+    }
+
+    fun filter(filteredList: MutableList<ClassVaga>) {
+        filteredVagasList.clear()
+        filteredVagasList.addAll(filteredList)
+        notifyDataSetChanged()
     }
 
 

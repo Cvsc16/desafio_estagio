@@ -26,6 +26,8 @@ import java.util.Locale
 
 class FragmentNovaVaga : Fragment() {
 
+    private lateinit var nomeEmpresa: EditText
+    private lateinit var tituloVaga: EditText
     private lateinit var descricaoVar: EditText
     private lateinit var remuneracao: EditText
     private lateinit var telefoneVar: EditText
@@ -165,6 +167,8 @@ class FragmentNovaVaga : Fragment() {
         }
 
         // Inicialize as referências aos elementos da interface aqui:
+        tituloVaga = view.findViewById(R.id.textarea_titulo)
+        nomeEmpresa = view.findViewById(R.id.nome_anunciante)
         descricaoVar = view.findViewById(R.id.textarea_descricao)
         remuneracao = view.findViewById(R.id.textarea_remuneracao)
         telefoneVar = view.findViewById(R.id.textarea_telefone)
@@ -177,8 +181,8 @@ class FragmentNovaVaga : Fragment() {
     }
 
     private fun cadastrarNovaVaga() {
-        val titulo = "desenvolvedor front-end"
-        val empresa = "engenharia ramos"
+        val titulo = tituloVaga.text.toString()
+        val empresa = nomeEmpresa.text.toString()
         val cidadeEmpresa = spinnerLocalidade.selectedItem.toString()
         val tipoTrabalho = spinnerTipoVaga.selectedItem.toString()
         val dataInicio = dataInicioVar.text.toString()
@@ -216,6 +220,8 @@ class FragmentNovaVaga : Fragment() {
                     // Sucesso ao cadastrar a vaga
                     Toast.makeText(requireContext(), "Vaga cadastrada com sucesso", Toast.LENGTH_SHORT).show()
                     // Limpar os campos após cadastrar a vaga
+                    tituloVaga.setText("")
+                    nomeEmpresa.setText("")
                     descricaoVar.setText("")
                     remuneracao.setText("")
                     telefoneVar.setText("")

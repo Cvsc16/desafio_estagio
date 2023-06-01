@@ -33,12 +33,14 @@ class FragmentPerfil : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view = inflater.inflate(R.layout.fragment_perfil, container, false)
 
         val logout = view.findViewById<ImageView>(R.id.logout)
         val back = view.findViewById<ImageView>(R.id.back)
         val senha = view.findViewById<EditText>(R.id.cadastro_senha)
         val nome = view.findViewById<EditText>(R.id.cadastro_nome)
+        val nome2 = view.findViewById<TextView>(R.id.cadastro_)
         val email = view.findViewById<EditText>(R.id.cadastro_email)
         val btn_salvar = view.findViewById<Button>(R.id.btn_salvar)
         val editar_nome = view.findViewById<ImageView>(R.id.editar_nome)
@@ -159,7 +161,7 @@ class FragmentPerfil : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val nome = view.findViewById<EditText>(R.id.cadastro_nome)
-        val nome2 = view.findViewById<EditText>(R.id.cadastro_)
+        val nome2 = view.findViewById<TextView>(R.id.cadastro_)
         val email = view.findViewById<EditText>(R.id.cadastro_email)
 
         val user = FirebaseAuth.getInstance().currentUser

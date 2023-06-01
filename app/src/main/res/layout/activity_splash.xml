@@ -18,8 +18,8 @@
 
     <ImageView
         android:id="@+id/img_gif"
-        android:layout_width="378dp"
-        android:layout_height="616dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:src="@drawable/loadingdogf"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
