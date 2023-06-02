@@ -14,7 +14,8 @@ class VagasAdapter(
     val tipoConta: String
 ) : RecyclerView.Adapter<VagasAdapter.VagaViewHolder>() {
 
-    private var filteredVagasList: MutableList<ClassVaga> = mutableListOf() // Lista filtrada
+    private var filteredVagasList: MutableList<ClassVaga> = vagaList.toMutableList() // Inicializa a lista filtrada com todas as vagas
+
     interface OnClickListener {
         fun onClick(vaga: ClassVaga)
         fun onExcluirClick(vaga: ClassVaga)
@@ -77,12 +78,12 @@ class VagasAdapter(
     }
 
     override fun getItemCount(): Int {
-        return vagaList.size
+        return filteredVagasList.size
     }
 
     override fun onBindViewHolder(holder: VagaViewHolder, position: Int) {
-        if (vagaList.isNotEmpty()) {
-            val vaga = vagaList[position] // Obter a vaga da lista filtrada
+        if (filteredVagasList.isNotEmpty()) {
+            val vaga = filteredVagasList[position] // Obter a vaga da lista filtrada
 
             holder.setInfoEmpresa(vaga)
             holder.setInfoCidade(vaga)

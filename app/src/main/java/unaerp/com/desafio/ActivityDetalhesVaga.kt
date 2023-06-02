@@ -21,6 +21,7 @@ class ActivityDetalhesVaga : AppCompatActivity() {
 
         val vaga = intent.getSerializableExtra("vaga") as ClassVaga
 
+
         val nomeEmpresaTextView = findViewById<TextView>(R.id.nome_empresa)
         nomeEmpresaTextView.text = vaga.empresa
 

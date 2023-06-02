@@ -106,12 +106,10 @@ class FragmentVagas : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val cidade = searchView.text.toString()
-                val empresa = searchView.text.toString()
-                val tipo_trabalho = searchView.text.toString()
+                val query = searchView.text.toString()
 
-                // Chame o método de filtro com os parâmetros adicionais
-                filterVagas(s?.toString(), cidade, empresa, tipo_trabalho)
+                // Chame o método de filtro com o mesmo texto para todos os parâmetros
+                filterVagas(query, query, query, query)
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -162,15 +160,14 @@ class FragmentVagas : Fragment() {
         val imageNoResults: ImageView? = view?.findViewById(R.id.imageNoResults)
         val texto_semResultados: TextView? = view?.findViewById(R.id.text_semResultados)
         val texto_tenteNovamente: TextView? = view?.findViewById(R.id.text_tenteNovamente)
-        rvVagas?.layoutManager = LinearLayoutManager(context)
 
         text?.let { searchText ->
             val query = searchText.lowercase(Locale.getDefault())
             for (vaga in vagasList) {
                 val tituloVaga = vaga.titulo.lowercase(Locale.getDefault()).contains(query)
-                val cidadeVaga = cidade?.let { vaga.cidadeEmpresa.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: true
-                val empresaVaga = empresa?.let { vaga.empresa.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: true
-                val tipoVaga = tipoTrabalho?.let { vaga.tipoTrabalho.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: true
+                val cidadeVaga = cidade?.let { it.isNotBlank() && vaga.cidadeEmpresa.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
+                val empresaVaga = empresa?.let { it.isNotBlank() && vaga.empresa.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
+                val tipoVaga = tipoTrabalho?.let { it.isNotBlank() && vaga.tipoTrabalho.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
 
                 if (tituloVaga || cidadeVaga || empresaVaga || tipoVaga) {
                     filteredList.add(vaga)
@@ -179,20 +176,26 @@ class FragmentVagas : Fragment() {
         }
 
         if (filteredList.isEmpty()) {
-            rvVagas?.visibility = View.GONE // Oculta a RecyclerView se não houver vagas correspondentes
-            imageNoResults?.visibility = View.VISIBLE // Exibe o ImageView de "nenhuma vaga encontrada"
+
+            rvVagas?.visibility =
+                View.GONE // Oculta a RecyclerView se não houver vagas correspondentes
+            imageNoResults?.visibility =
+                View.VISIBLE // Exibe o ImageView de "nenhuma vaga encontrada"
             texto_semResultados?.visibility = View.VISIBLE
             texto_tenteNovamente?.visibility = View.VISIBLE
         } else {
-            rvVagas?.visibility = View.VISIBLE // Exibe a RecyclerView se houver vagas correspondentes
-            imageNoResults?.visibility = View.GONE // Oculta o ImageView de "nenhuma vaga encontrada"
+            rvVagas?.visibility =
+                View.VISIBLE // Exibe a RecyclerView se houver vagas correspondentes
+            imageNoResults?.visibility =
+                View.GONE // Oculta o ImageView de "nenhuma vaga encontrada"
             texto_semResultados?.visibility = View.GONE
             texto_tenteNovamente?.visibility = View.GONE
         }
 
-        adapter.filter(filteredList)
-        adapter.notifyDataSetChanged() // Notificar o adaptador para atualizar os dados exibidos
+        adapter.filter(filteredList) // Filtra os dados do adaptador com a lista filtrada
+        adapter.notifyDataSetChanged() // Notifica o adaptador para atualizar os dados exibidos na RecyclerView
     }
+
 
 }
 

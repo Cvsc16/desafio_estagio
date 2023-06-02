@@ -142,8 +142,9 @@ class ActivityCadastro : AppCompatActivity() {
                                             // Exibe mensagem de sucesso e volta para a tela de login
                                             Toast.makeText(
                                                 this,
-                                                "Cadastro realizado com sucesso!",
-                                                Toast.LENGTH_SHORT
+                                                "Cadastro realizado com sucesso!" +
+                                                        "Confirme o cadastro no seu email",
+                                                Toast.LENGTH_LONG
                                             ).show()
                                             val intent = Intent(this, LoginActivity::class.java)
                                             intent.putExtra("tipo_conta", tipoConta)

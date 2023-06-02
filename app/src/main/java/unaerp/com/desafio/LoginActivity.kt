@@ -32,15 +32,18 @@ class LoginActivity : AppCompatActivity() {
         val esconde_svg = findViewById<ImageView>(R.id.esconde_svg)
         val senha = findViewById<EditText>(R.id.senha)
         val email = findViewById<EditText>(R.id.email)
-        val btn_login= findViewById<Button>(R.id.btn_login)
+        val btn_login = findViewById<Button>(R.id.btn_login)
 
         val tipoConta = intent.getStringExtra("tipo_conta")
 
         val semContaTextView = findViewById<TextView>(R.id.sem_conta)
-        trocacor(semContaTextView, ContextCompat.getColor(this, R.color.destaque), View.OnClickListener {
-            val intent = Intent(this, ActivityTipoConta::class.java)
-            startActivity(intent)
-        })
+        trocacor(
+            semContaTextView,
+            ContextCompat.getColor(this, R.color.destaque),
+            View.OnClickListener {
+                val intent = Intent(this, ActivityTipoConta::class.java)
+                startActivity(intent)
+            })
 
         val esqueciSenha = findViewById<TextView>(R.id.esqueci_minha_senha)
         esqueciSenha.setOnClickListener {
@@ -55,9 +58,11 @@ class LoginActivity : AppCompatActivity() {
             val cursorPosition = senha.selectionEnd
 
             if (senha.inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
-                senha.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                senha.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
             } else {
-                senha.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                senha.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
 
             senha.setSelection(cursorPosition)
@@ -65,62 +70,92 @@ class LoginActivity : AppCompatActivity() {
 
         btn_login.setOnClickListener {
 
+            val email = email.text.toString()
+            val senha = senha.text.toString()
+
             val mAuth = FirebaseAuth.getInstance()
-            val database = FirebaseDatabase.getInstance("https://desafio5semestre-default-rtdb.firebaseio.com/")
+            val database =
+                FirebaseDatabase.getInstance("https://desafio5semestre-default-rtdb.firebaseio.com/")
 
-            mAuth.signInWithEmailAndPassword( email.text.toString(),
-                senha.text.toString())
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        val user = mAuth.currentUser
-                        if (user != null && user.isEmailVerified) {
-                            // Login bem-sucedido e email verificado
-                            val uid = user.uid
+            if (email.isEmpty() || senha.isEmpty()) {
+                // Exibir mensagem de campos vazios
+                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+            } else {
+                mAuth.signInWithEmailAndPassword(
+                    email,
+                    senha
+                )
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            val user = mAuth.currentUser
+                            if (user != null && user.isEmailVerified) {
+                                // Login bem-sucedido e email verificado
+                                val uid = user.uid
 
-                            // Busca informações do usuário no Firebase Realtime Database
-                            val userRef = database.getReference("users").child(uid!!)
-                            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                    val userData = dataSnapshot.getValue() as Map<String, Object>
-                                    val email = userData["email"] as String
-                                    val nome = userData["nome"] as String
-                                    val tipo = userData["tipo"] as String
-                                    val user = LocalbaseUser(email, nome, tipo)
-                                    Log.d("TAGRECEBIDO", "Tipo de conta recebido: ${user.tipo}")
-                                    if (user.tipo == "Interessado") {
-                                        // Login bem-sucedido para interessado
-                                        val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
-                                            putExtra("tipo_conta", user.tipo)
+                                // Busca informações do usuário no Firebase Realtime Database
+                                val userRef = database.getReference("users").child(uid!!)
+                                userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                        val userData =
+                                            dataSnapshot.getValue() as Map<String, Object>
+                                        val email = userData["email"] as String
+                                        val nome = userData["nome"] as String
+                                        val tipo = userData["tipo"] as String
+                                        val user = LocalbaseUser(email, nome, tipo)
+                                        Log.d("TAGRECEBIDO", "Tipo de conta recebido: ${user.tipo}")
+                                        if (user.tipo == "Interessado") {
+                                            // Login bem-sucedido para interessado
+                                            val intent = Intent(
+                                                this@LoginActivity,
+                                                MainActivity::class.java
+                                            ).apply {
+                                                putExtra("tipo_conta", user.tipo)
+                                            }
+                                            startActivity(intent)
+                                            finish()
+                                        } else if (user.tipo == "Anunciante") {
+                                            // Login bem-sucedido para anunciante
+                                            val intent = Intent(
+                                                this@LoginActivity,
+                                                MainActivity::class.java
+                                            ).apply {
+                                                putExtra("tipo_conta", user.tipo)
+                                            }
+                                            startActivity(intent)
+                                            finish()
                                         }
-                                        startActivity(intent)
-                                        finish()
-                                    } else if (user.tipo == "Anunciante") {
-                                        // Login bem-sucedido para anunciante
-                                        val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
-                                            putExtra("tipo_conta", user.tipo)
-                                        }
-                                        startActivity(intent)
-                                        finish()
                                     }
-                                }
 
-                                override fun onCancelled(databaseError: DatabaseError) {
-                                    // Ocorreu um erro ao buscar as informações do usuário
-                                    Log.w(TAG, "loadUser:onCancelled", databaseError.toException())
-                                }
-                            })
+                                    override fun onCancelled(databaseError: DatabaseError) {
+                                        // Ocorreu um erro ao buscar as informações do usuário
+                                        Log.w(
+                                            TAG,
+                                            "loadUser:onCancelled",
+                                            databaseError.toException()
+                                        )
+                                    }
+                                })
+                            } else {
+                                // Login mal-sucedido (email não verificado)
+                                Toast.makeText(
+                                    this@LoginActivity,
+                                    "E-mail não verificado! Por favor verifique!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         } else {
-                            // Login mal-sucedido (email não verificado)
-                            Toast.makeText(this@LoginActivity, "E-mail não verificado! Por favor verifique!", Toast.LENGTH_SHORT).show()
+                            // Login mal-sucedido
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Dados incorretos",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-                    } else {
-                        // Login mal-sucedido
-                        Toast.makeText(this@LoginActivity, "Dados incorretos.", Toast.LENGTH_SHORT).show()
                     }
-                }
-            Log.d("LOGINVAGAS", "REALIZOU O LOGIN")
-        }
+                Log.d("LOGINVAGAS", "REALIZOU O LOGIN")
+            }
 
+        }
     }
 
 
