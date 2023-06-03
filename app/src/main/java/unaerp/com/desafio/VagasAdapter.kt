@@ -32,7 +32,7 @@ class VagasAdapter(
 
         init {
             itemView.setOnClickListener {
-                clickListener.onClick(vagaList[adapterPosition])
+                clickListener.onClick(filteredVagasList[adapterPosition])
             }
 
             itemView.findViewById<View>(R.id.ic_excluir).setOnClickListener {
@@ -82,7 +82,7 @@ class VagasAdapter(
     }
 
     override fun onBindViewHolder(holder: VagaViewHolder, position: Int) {
-        if (filteredVagasList.isNotEmpty()) {
+        if (vagaList.isNotEmpty()) {
             val vaga = filteredVagasList[position] // Obter a vaga da lista filtrada
 
             holder.setInfoEmpresa(vaga)
