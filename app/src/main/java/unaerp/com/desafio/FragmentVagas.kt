@@ -153,6 +153,7 @@ class FragmentVagas : Fragment() {
 
 
         return view
+        val filteredList = mutableListOf<ClassVaga>()
     }
     private fun filterVagas(text: String?, cidade: String?, empresa: String?, tipoTrabalho: String?) {
         val filteredList = mutableListOf<ClassVaga>()
@@ -196,7 +197,30 @@ class FragmentVagas : Fragment() {
         adapter.notifyDataSetChanged() // Notifica o adaptador para atualizar os dados exibidos na RecyclerView
     }
 
+    fun atualizarFiltro(
+        areaConhecimento: String,
+        localidade: String,
+        anunciante: String,
+        tipoVaga: String,
+        remuneracao: String
+    ) {
+        val filteredList = mutableListOf<ClassVaga>()
 
+        for (vaga in vagasList) {
+            val areaVaga = areaConhecimento?.let { it.isNotBlank() && vaga.areaConhecimento.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
+            val cidadeVaga = localidade?.let { it.isNotBlank() && vaga.cidadeEmpresa.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
+            val empresaVaga = anunciante?.let { it.isNotBlank() && vaga.empresa.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
+            val tipoVaga = tipoVaga?.let { it.isNotBlank() && vaga.tipoTrabalho.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
+            val pagamentoVaga = remuneracao?.let { it.isNotBlank() && vaga.pagamento.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
+
+            if ( areaVaga || cidadeVaga || empresaVaga || tipoVaga || pagamentoVaga) {
+                filteredList.add(vaga)
+            }
+        }
+
+        adapter.filter(filteredList) // Filtra os dados do adaptador com a lista filtrada
+        adapter.notifyDataSetChanged() // Notifica o adaptador para atualizar os dados exibidos na RecyclerView
+    }
 }
 
 

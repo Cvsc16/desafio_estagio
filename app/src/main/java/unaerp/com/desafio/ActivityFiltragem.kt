@@ -50,6 +50,15 @@ class ActivityFiltragem : AppCompatActivity() {
         }
 
         btn_filtro.setOnClickListener {
+            val areaConhecimento = spinner_areaConhecimento.selectedItem.toString()
+            val localidade = spinner_localidade.selectedItem.toString()
+            val anunciante = spinner_anunciante.selectedItem.toString()
+            val tipoVaga = spinner_tipoVaga.selectedItem.toString()
+            val remuneracao = spinner_remuneracao.selectedItem.toString()
+
+            val fragmentVagas = supportFragmentManager.findFragmentByTag("FragmentVagasTag") as? FragmentVagas
+            fragmentVagas?.atualizarFiltro(areaConhecimento, localidade, anunciante, tipoVaga, remuneracao)
+
             onBackPressed()
         }
 

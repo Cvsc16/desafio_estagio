@@ -43,26 +43,31 @@
     <string name="titulo_redefinir">Redefina a \nsua senha</string>
     <string name="titulo_detalhes_vaga">Detalhes da Vaga</string>
     <string-array name="opcoes_spinner_areaConhecimento">
+        <item>Todos</item>
         <item>Área 1</item>
         <item>Área 2</item>
         <item>Área 3</item>
     </string-array>
     <string-array name="opcoes_spinner_localidade">
+        <item>Todos</item>
         <item>Localidade 1</item>
         <item>Localidade 2</item>
         <item>Localidade 3</item>
     </string-array>
     <string-array name="opcoes_spinner_anunciante">
+        <item>Todos</item>
         <item>Anunciante 1</item>
         <item>Anunciante 2</item>
         <item>Anunciante 3</item>
     </string-array>
     <string-array name="opcoes_spinner_tipoVaga">
+        <item>Todos</item>
         <item>Remoto</item>
         <item>Presencial</item>
         <item>Híbrido</item>
     </string-array>
     <string-array name="opcoes_spinner_remuneracao">
+        <item>Todos</item>
         <item>Até R$1000</item>
         <item>R$1001 a R$2000</item>
         <item>Mais de R$2000</item>
