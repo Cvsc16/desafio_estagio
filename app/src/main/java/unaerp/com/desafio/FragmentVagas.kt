@@ -1,11 +1,13 @@
 package unaerp.com.desafio
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,11 +26,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.util.Locale
 
+
 class FragmentVagas : Fragment() {
 
+    val REQUEST_FILTRAGEM = 1
     private var tipoConta: String? = null
     private lateinit var adapter: VagasAdapter
     private var vagasList: MutableList<ClassVaga> = mutableListOf()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -119,9 +124,15 @@ class FragmentVagas : Fragment() {
 
 
 
-        class BottomSpaceItemDecoration(private val bottomSpaceHeight: Int) : RecyclerView.ItemDecoration() {
+        class BottomSpaceItemDecoration(private val bottomSpaceHeight: Int) :
+            RecyclerView.ItemDecoration() {
 
-            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
                 val position = parent.getChildAdapterPosition(view)
                 val itemCount = state.itemCount
 
@@ -141,9 +152,10 @@ class FragmentVagas : Fragment() {
         tipoConta = arguments?.getString("tipo_conta")
 
         iconeFiltro.setOnClickListener {
-            val intent = Intent(context, ActivityFiltragem::class.java)
-            startActivity(intent)
+            val intent = Intent(requireContext(), ActivityFiltragem::class.java)
+            startActivityForResult(intent, REQUEST_FILTRAGEM)
         }
+
 
         // Verifica se o usuário logado tem um cadastro de anunciante"
         if (tipoConta == "Anunciante") {
@@ -155,7 +167,13 @@ class FragmentVagas : Fragment() {
         return view
         val filteredList = mutableListOf<ClassVaga>()
     }
-    private fun filterVagas(text: String?, cidade: String?, empresa: String?, tipoTrabalho: String?) {
+
+    private fun filterVagas(
+        text: String?,
+        cidade: String?,
+        empresa: String?,
+        tipoTrabalho: String?
+    ) {
         val filteredList = mutableListOf<ClassVaga>()
         val rvVagas: RecyclerView? = view?.findViewById(R.id.rvVagas)
         val imageNoResults: ImageView? = view?.findViewById(R.id.imageNoResults)
@@ -166,9 +184,18 @@ class FragmentVagas : Fragment() {
             val query = searchText.lowercase(Locale.getDefault())
             for (vaga in vagasList) {
                 val tituloVaga = vaga.titulo.lowercase(Locale.getDefault()).contains(query)
-                val cidadeVaga = cidade?.let { it.isNotBlank() && vaga.cidadeEmpresa.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
-                val empresaVaga = empresa?.let { it.isNotBlank() && vaga.empresa.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
-                val tipoVaga = tipoTrabalho?.let { it.isNotBlank() && vaga.tipoTrabalho.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
+                val cidadeVaga = cidade?.let {
+                    it.isNotBlank() && vaga.cidadeEmpresa.lowercase(Locale.getDefault())
+                        .contains(it.lowercase(Locale.getDefault()))
+                } ?: false
+                val empresaVaga = empresa?.let {
+                    it.isNotBlank() && vaga.empresa.lowercase(Locale.getDefault())
+                        .contains(it.lowercase(Locale.getDefault()))
+                } ?: false
+                val tipoVaga = tipoTrabalho?.let {
+                    it.isNotBlank() && vaga.tipoTrabalho.lowercase(Locale.getDefault())
+                        .contains(it.lowercase(Locale.getDefault()))
+                } ?: false
 
                 if (tituloVaga || cidadeVaga || empresaVaga || tipoVaga) {
                     filteredList.add(vaga)
@@ -197,31 +224,79 @@ class FragmentVagas : Fragment() {
         adapter.notifyDataSetChanged() // Notifica o adaptador para atualizar os dados exibidos na RecyclerView
     }
 
-    fun atualizarFiltro(
-        areaConhecimento: String,
-        localidade: String,
-        anunciante: String,
-        tipoVaga: String,
-        remuneracao: String
-    ) {
-        val filteredList = mutableListOf<ClassVaga>()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-        for (vaga in vagasList) {
-            val areaVaga = areaConhecimento?.let { it.isNotBlank() && vaga.areaConhecimento.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
-            val cidadeVaga = localidade?.let { it.isNotBlank() && vaga.cidadeEmpresa.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
-            val empresaVaga = anunciante?.let { it.isNotBlank() && vaga.empresa.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
-            val tipoVaga = tipoVaga?.let { it.isNotBlank() && vaga.tipoTrabalho.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
-            val pagamentoVaga = remuneracao?.let { it.isNotBlank() && vaga.pagamento.lowercase(Locale.getDefault()).contains(it.lowercase(Locale.getDefault())) } ?: false
+        if (requestCode == REQUEST_FILTRAGEM && resultCode == Activity.RESULT_OK) {
+            // Obtém os dados do Intent de retorno
+            val cidadeSelecionada = data?.getStringExtra("cidadeSelecionada")
+            val empresaSelecionada = data?.getStringExtra("empresaSelecionada")
+            val tipoTrabalhoSelecionado = data?.getStringExtra("tipoTrabalhoSelecionado")
 
-            if ( areaVaga || cidadeVaga || empresaVaga || tipoVaga || pagamentoVaga) {
-                filteredList.add(vaga)
+            // Verifica se os valores dos filtros são diferentes de "todos" e "todas"
+            if (cidadeSelecionada != "Todos" || empresaSelecionada != "Todos" || tipoTrabalhoSelecionado != "Todos") {
+                // Chama o método de filtro de vagas com os novos dados
+                filterVagas(
+                    cidadeSelecionada,
+                    cidadeSelecionada,
+                    empresaSelecionada,
+                    tipoTrabalhoSelecionado
+                )
+            } else {
+                // Mostra todas as vagas cadastradas
+                filterVagas(null, null, null, null)
             }
         }
-
-        adapter.filter(filteredList) // Filtra os dados do adaptador com a lista filtrada
-        adapter.notifyDataSetChanged() // Notifica o adaptador para atualizar os dados exibidos na RecyclerView
     }
 }
+//    fun atualizarFiltro(
+//
+//        areaConhecimento: String,
+//        localidade: String,
+//        anunciante: String,
+//        tipoVaga: String,
+//        remuneracao: String
+//
+//    ) {
+//        Log.d("logFiltro", "Função atualizarFiltro chamada")
+//        Log.d("logFiltro", "Area Conhecimento: $areaConhecimento")
+//        Log.d("logFiltro", "Localidade: $localidade")
+//        Log.d("logFiltro", "Anunciante: $anunciante")
+//        Log.d("logFiltro", "Tipo Vaga: $tipoVaga")
+//        Log.d("logFiltro", "Remuneração: $remuneracao")
+//        val filteredList = mutableListOf<ClassVaga>()
+//
+//        for (vaga in vagasList) {
+//            val areaVaga = areaConhecimento?.let {
+//                it.isNotBlank() && vaga.areaConhecimento.lowercase(Locale.getDefault())
+//                    .contains(it.lowercase(Locale.getDefault()))
+//            } ?: false
+//            val cidadeVaga = localidade?.let {
+//                it.isNotBlank() && vaga.cidadeEmpresa.lowercase(Locale.getDefault())
+//                    .contains(it.lowercase(Locale.getDefault()))
+//            } ?: false
+//            val empresaVaga = anunciante?.let {
+//                it.isNotBlank() && vaga.empresa.lowercase(Locale.getDefault())
+//                    .contains(it.lowercase(Locale.getDefault()))
+//            } ?: false
+//            val tipoVaga = tipoVaga?.let {
+//                it.isNotBlank() && vaga.tipoTrabalho.lowercase(Locale.getDefault())
+//                    .contains(it.lowercase(Locale.getDefault()))
+//            } ?: false
+//            val pagamentoVaga = remuneracao?.let {
+//                it.isNotBlank() && vaga.pagamento.lowercase(Locale.getDefault())
+//                    .contains(it.lowercase(Locale.getDefault()))
+//            } ?: false
+//
+//            if (areaVaga || cidadeVaga || empresaVaga || tipoVaga || pagamentoVaga) {
+//                filteredList.add(vaga)
+//            }
+//        }
+//
+//        adapter.filter(filteredList) // Filtra os dados do adaptador com a lista filtrada
+//        adapter.notifyDataSetChanged() // Notifica o adaptador para atualizar os dados exibidos na RecyclerView
+//    }
+
 
 
 

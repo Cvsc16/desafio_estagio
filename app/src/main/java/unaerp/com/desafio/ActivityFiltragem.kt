@@ -1,19 +1,25 @@
 package unaerp.com.desafio
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
 
-class ActivityFiltragem : AppCompatActivity() {
+class ActivityFiltragem : AppCompatActivity(){
+
+    private var cidadeSelecionada: String? = null
+    private var empresaSelecionada: String? = null
+    private var tipoTrabalhoSelecionado: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filtragem)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         supportActionBar?.hide()
 
         val back = findViewById<ImageView>(R.id.back)
@@ -45,22 +51,43 @@ class ActivityFiltragem : AppCompatActivity() {
         adapter_remuneracao.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner_remuneracao.adapter = adapter_remuneracao
 
+        // Obtenha os valores selecionados salvos
+        cidadeSelecionada = intent.getStringExtra("cidadeSelecionada")
+        empresaSelecionada = intent.getStringExtra("empresaSelecionada")
+        tipoTrabalhoSelecionado = intent.getStringExtra("tipoTrabalhoSelecionado")
+
+        // Pré-selecione as opções salvas nos spinners correspondentes
+        val cidadeIndex = adapter_localidade.getPosition(cidadeSelecionada)
+        if (cidadeIndex >= 0) {
+            spinner_localidade.setSelection(cidadeIndex)
+        }
+
+        val empresaIndex = adapter_anunciante.getPosition(empresaSelecionada)
+        if (empresaIndex >= 0) {
+            spinner_anunciante.setSelection(empresaIndex)
+        }
+
+        val tipoTrabalhoIndex = adapter_tipoVaga.getPosition(tipoTrabalhoSelecionado)
+        if (tipoTrabalhoIndex >= 0) {
+            spinner_tipoVaga.setSelection(tipoTrabalhoIndex)
+        }
+
         back.setOnClickListener {
             onBackPressed()
         }
 
         btn_filtro.setOnClickListener {
-            val areaConhecimento = spinner_areaConhecimento.selectedItem.toString()
-            val localidade = spinner_localidade.selectedItem.toString()
-            val anunciante = spinner_anunciante.selectedItem.toString()
-            val tipoVaga = spinner_tipoVaga.selectedItem.toString()
-            val remuneracao = spinner_remuneracao.selectedItem.toString()
+            val cidadeSelecionada = spinner_localidade.selectedItem.toString()
+            val empresaSelecionada = spinner_anunciante.selectedItem.toString()
+            val tipoTrabalhoSelecionado = spinner_tipoVaga.selectedItem.toString()
 
-            val fragmentVagas = supportFragmentManager.findFragmentByTag("FragmentVagasTag") as? FragmentVagas
-            fragmentVagas?.atualizarFiltro(areaConhecimento, localidade, anunciante, tipoVaga, remuneracao)
+            val resultIntent = Intent()
+            resultIntent.putExtra("cidadeSelecionada", cidadeSelecionada)
+            resultIntent.putExtra("empresaSelecionada", empresaSelecionada)
+            resultIntent.putExtra("tipoTrabalhoSelecionado", tipoTrabalhoSelecionado)
 
-            onBackPressed()
+            setResult(Activity.RESULT_OK, resultIntent)
+            finish()
         }
-
     }
 }

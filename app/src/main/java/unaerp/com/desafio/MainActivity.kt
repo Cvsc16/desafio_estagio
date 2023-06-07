@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
+
     private val FragmentNovaVaga = FragmentNovaVaga()
     private val FragmentPerfil = FragmentPerfil()
     private val FragmentVagas = FragmentVagas()
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.vagas -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, FragmentVagas)
+                        .replace(R.id.fragment_container, FragmentVagas, "FragmentVagas")
                         .addToBackStack(null)
                         .commit()
                     true
