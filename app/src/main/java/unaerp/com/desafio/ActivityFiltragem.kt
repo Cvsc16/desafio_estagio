@@ -13,9 +13,11 @@ import androidx.appcompat.app.AppCompatDelegate
 
 class ActivityFiltragem : AppCompatActivity(){
 
+    private var areaConhecimentoSelecionada: String? = null
     private var cidadeSelecionada: String? = null
     private var empresaSelecionada: String? = null
     private var tipoTrabalhoSelecionado: String? = null
+    private var remuneracaoSelecionada: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filtragem)
@@ -52,11 +54,22 @@ class ActivityFiltragem : AppCompatActivity(){
         spinner_remuneracao.adapter = adapter_remuneracao
 
         // Obtenha os valores selecionados salvos
+        areaConhecimentoSelecionada = intent.getStringExtra("areaConhecimentoSelecionada")
+        Log.d("LOGFILTRO", "AREA PASSADA:$areaConhecimentoSelecionada")
         cidadeSelecionada = intent.getStringExtra("cidadeSelecionada")
+        Log.d("LOGFILTRO", "CIDADE PASSADA:$cidadeSelecionada")
         empresaSelecionada = intent.getStringExtra("empresaSelecionada")
+        Log.d("LOGFILTRO", "EMPRESA PASSADA:$empresaSelecionada")
         tipoTrabalhoSelecionado = intent.getStringExtra("tipoTrabalhoSelecionado")
+        Log.d("LOGFILTRO", "TRABALHO PASSADA:$tipoTrabalhoSelecionado")
+        remuneracaoSelecionada = intent.getStringExtra("remuneracaoSelecionada")
 
         // Pré-selecione as opções salvas nos spinners correspondentes
+        val areaConhecimentoIndex = adapter_areaConhecimento.getPosition(areaConhecimentoSelecionada)
+        if (areaConhecimentoIndex >= 0) {
+            spinner_areaConhecimento.setSelection(areaConhecimentoIndex)
+        }
+
         val cidadeIndex = adapter_localidade.getPosition(cidadeSelecionada)
         if (cidadeIndex >= 0) {
             spinner_localidade.setSelection(cidadeIndex)
@@ -72,19 +85,28 @@ class ActivityFiltragem : AppCompatActivity(){
             spinner_tipoVaga.setSelection(tipoTrabalhoIndex)
         }
 
+        val remuneracaoIndex = adapter_remuneracao.getPosition(remuneracaoSelecionada)
+        if (remuneracaoIndex >= 0) {
+            spinner_remuneracao.setSelection(remuneracaoIndex)
+        }
+
         back.setOnClickListener {
             onBackPressed()
         }
 
         btn_filtro.setOnClickListener {
+            val areaConhecimentoSelecionada = spinner_areaConhecimento.selectedItem.toString()
             val cidadeSelecionada = spinner_localidade.selectedItem.toString()
             val empresaSelecionada = spinner_anunciante.selectedItem.toString()
             val tipoTrabalhoSelecionado = spinner_tipoVaga.selectedItem.toString()
+            val remuneracaoSelecionada = spinner_remuneracao.selectedItem.toString()
 
             val resultIntent = Intent()
+            resultIntent.putExtra("areaConhecimentoSelecionada", areaConhecimentoSelecionada)
             resultIntent.putExtra("cidadeSelecionada", cidadeSelecionada)
             resultIntent.putExtra("empresaSelecionada", empresaSelecionada)
             resultIntent.putExtra("tipoTrabalhoSelecionado", tipoTrabalhoSelecionado)
+            resultIntent.putExtra("remuneracaoSelecionada", remuneracaoSelecionada)
 
             setResult(Activity.RESULT_OK, resultIntent)
             finish()

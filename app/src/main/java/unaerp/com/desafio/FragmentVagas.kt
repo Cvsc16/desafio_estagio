@@ -24,11 +24,17 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.text.Normalizer
 import java.util.Locale
 
 
 class FragmentVagas : Fragment() {
 
+    private var areaConhecimentoSelecionada: String? = null
+    private var cidadeSelecionada: String? = null
+    private var empresaSelecionada: String? = null
+    private var remuneracaoSelecionada: String? = null
+    private var tipoTrabalhoSelecionado: String? = null
     val REQUEST_FILTRAGEM = 1
     private var tipoConta: String? = null
     private lateinit var adapter: VagasAdapter
@@ -114,7 +120,7 @@ class FragmentVagas : Fragment() {
                 val query = searchView.text.toString()
 
                 // Chame o método de filtro com o mesmo texto para todos os parâmetros
-                filterVagas(query, query, query, query)
+                filterVagas(query,query, query, query, query)
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -153,6 +159,12 @@ class FragmentVagas : Fragment() {
 
         iconeFiltro.setOnClickListener {
             val intent = Intent(requireContext(), ActivityFiltragem::class.java)
+            intent.putExtra("areaConhecimentoSelecionada", areaConhecimentoSelecionada)
+            intent.putExtra("cidadeSelecionada", cidadeSelecionada)
+            intent.putExtra("empresaSelecionada", empresaSelecionada)
+            intent.putExtra("tipoTrabalhoSelecionado", tipoTrabalhoSelecionado)
+            intent.putExtra("remuneracaoSelecionada", remuneracaoSelecionada)
+            Log.d("LOGREMUNERACAO", "REMUNERACAO:$remuneracaoSelecionada")
             startActivityForResult(intent, REQUEST_FILTRAGEM)
         }
 
@@ -170,6 +182,7 @@ class FragmentVagas : Fragment() {
 
     private fun filterVagas(
         text: String?,
+        areaConhecimento: String?,
         cidade: String?,
         empresa: String?,
         tipoTrabalho: String?
@@ -180,73 +193,127 @@ class FragmentVagas : Fragment() {
         val texto_semResultados: TextView? = view?.findViewById(R.id.text_semResultados)
         val texto_tenteNovamente: TextView? = view?.findViewById(R.id.text_tenteNovamente)
 
-        text?.let { searchText ->
-            val query = searchText.lowercase(Locale.getDefault())
-            for (vaga in vagasList) {
-                val tituloVaga = vaga.titulo.lowercase(Locale.getDefault()).contains(query)
-                val cidadeVaga = cidade?.let {
-                    it.isNotBlank() && vaga.cidadeEmpresa.lowercase(Locale.getDefault())
-                        .contains(it.lowercase(Locale.getDefault()))
-                } ?: false
-                val empresaVaga = empresa?.let {
-                    it.isNotBlank() && vaga.empresa.lowercase(Locale.getDefault())
-                        .contains(it.lowercase(Locale.getDefault()))
-                } ?: false
-                val tipoVaga = tipoTrabalho?.let {
-                    it.isNotBlank() && vaga.tipoTrabalho.lowercase(Locale.getDefault())
-                        .contains(it.lowercase(Locale.getDefault()))
-                } ?: false
+        for (vaga in vagasList) {
+            val tituloVaga = text.isNullOrBlank() || vaga.titulo.lowercase(Locale.getDefault()).contains(text.lowercase(Locale.getDefault()))
+            val areaConhecimentoVaga = areaConhecimento.isNullOrBlank() || vaga.areaConhecimento.lowercase(Locale.getDefault()).contains(areaConhecimento.lowercase(Locale.getDefault()))
+            val cidadeVaga = cidade.isNullOrBlank() || vaga.cidadeEmpresa.lowercase(Locale.getDefault()).contains(cidade.lowercase(Locale.getDefault()))
+            val empresaVaga = empresa.isNullOrBlank() || vaga.empresa.lowercase(Locale.getDefault()).contains(empresa.lowercase(Locale.getDefault()))
+            val tipoVaga = tipoTrabalho.isNullOrBlank() || vaga.tipoTrabalho.lowercase(Locale.getDefault()).contains(tipoTrabalho.lowercase(Locale.getDefault()))
 
-                if (tituloVaga || cidadeVaga || empresaVaga || tipoVaga) {
-                    filteredList.add(vaga)
-                }
+            if (tituloVaga || areaConhecimentoVaga || cidadeVaga || empresaVaga || tipoVaga) {
+                filteredList.add(vaga)
             }
         }
 
         if (filteredList.isEmpty()) {
-
-            rvVagas?.visibility =
-                View.GONE // Oculta a RecyclerView se não houver vagas correspondentes
-            imageNoResults?.visibility =
-                View.VISIBLE // Exibe o ImageView de "nenhuma vaga encontrada"
+            rvVagas?.visibility = View.GONE
+            imageNoResults?.visibility = View.VISIBLE
             texto_semResultados?.visibility = View.VISIBLE
             texto_tenteNovamente?.visibility = View.VISIBLE
         } else {
-            rvVagas?.visibility =
-                View.VISIBLE // Exibe a RecyclerView se houver vagas correspondentes
-            imageNoResults?.visibility =
-                View.GONE // Oculta o ImageView de "nenhuma vaga encontrada"
+            rvVagas?.visibility = View.VISIBLE
+            imageNoResults?.visibility = View.GONE
             texto_semResultados?.visibility = View.GONE
             texto_tenteNovamente?.visibility = View.GONE
         }
 
-        adapter.filter(filteredList) // Filtra os dados do adaptador com a lista filtrada
-        adapter.notifyDataSetChanged() // Notifica o adaptador para atualizar os dados exibidos na RecyclerView
+        adapter.filter(filteredList)
+        adapter.notifyDataSetChanged()
     }
 
+    private fun filterVagasFiltragem(
+        areaConhecimento: String?,
+        cidade: String?,
+        empresa: String?,
+        tipoTrabalho: String?,
+        remuneracao: String?
+    ) {
+        val filteredList = mutableListOf<ClassVaga>()
+        val rvVagas: RecyclerView? = view?.findViewById(R.id.rvVagas)
+        val imageNoResults: ImageView? = view?.findViewById(R.id.imageNoResults)
+        val texto_semResultados: TextView? = view?.findViewById(R.id.text_semResultados)
+        val texto_tenteNovamente: TextView? = view?.findViewById(R.id.text_tenteNovamente)
+
+        val remuneracaoValor = convertRemuneracaoStringToInt(remuneracao ?: "")
+
+        for (vaga in vagasList) {
+            val areaConhecimentoVaga = areaConhecimento.isNullOrBlank() || areaConhecimento == "Todos" || vaga.areaConhecimento.lowercase(Locale.getDefault()) == areaConhecimento.lowercase(Locale.getDefault())
+            val cidadeVaga = cidade.isNullOrBlank() || cidade == "Todos" || vaga.cidadeEmpresa.lowercase(Locale.getDefault()) == cidade.lowercase(Locale.getDefault())
+            val empresaVaga = empresa.isNullOrBlank() || empresa == "Todos" || vaga.empresa.lowercase(Locale.getDefault()) == empresa.lowercase(Locale.getDefault())
+            val tipoVaga = tipoTrabalho.isNullOrBlank() || tipoTrabalho == "Todos" || vaga.tipoTrabalho.lowercase(Locale.getDefault()) == tipoTrabalho.lowercase(Locale.getDefault())
+
+            val pagamentoVaga = if (!remuneracao.isNullOrBlank()) {
+                val remuneracaoValorInt = convertRemuneracaoStringToInt(remuneracao)
+                val pagamentoValorInt = convertPagamentoStringToInt(vaga.pagamento)
+                remuneracaoValorInt == 0 || pagamentoValorInt <= remuneracaoValorInt
+            } else {
+                true
+            }
+
+            if (areaConhecimentoVaga && cidadeVaga && empresaVaga && tipoVaga && pagamentoVaga) {
+                filteredList.add(vaga)
+            }
+        }
+
+        if (filteredList.isEmpty()) {
+            rvVagas?.visibility = View.GONE
+            imageNoResults?.visibility = View.VISIBLE
+            texto_semResultados?.visibility = View.VISIBLE
+            texto_tenteNovamente?.visibility = View.VISIBLE
+        } else {
+            rvVagas?.visibility = View.VISIBLE
+            imageNoResults?.visibility = View.GONE
+            texto_semResultados?.visibility = View.GONE
+            texto_tenteNovamente?.visibility = View.GONE
+        }
+
+        adapter.filter(filteredList)
+        adapter.notifyDataSetChanged()
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_FILTRAGEM && resultCode == Activity.RESULT_OK) {
             // Obtém os dados do Intent de retorno
-            val cidadeSelecionada = data?.getStringExtra("cidadeSelecionada")
-            val empresaSelecionada = data?.getStringExtra("empresaSelecionada")
-            val tipoTrabalhoSelecionado = data?.getStringExtra("tipoTrabalhoSelecionado")
+            areaConhecimentoSelecionada = data?.getStringExtra("areaConhecimentoSelecionada")
+            cidadeSelecionada = data?.getStringExtra("cidadeSelecionada")
+            empresaSelecionada = data?.getStringExtra("empresaSelecionada")
+            tipoTrabalhoSelecionado = data?.getStringExtra("tipoTrabalhoSelecionado")
+            remuneracaoSelecionada = data?.getStringExtra("remuneracaoSelecionada")
 
             // Verifica se os valores dos filtros são diferentes de "todos" e "todas"
-            if (cidadeSelecionada != "Todos" || empresaSelecionada != "Todos" || tipoTrabalhoSelecionado != "Todos") {
+            if (cidadeSelecionada != "Todos" || areaConhecimentoSelecionada != "Todos" || empresaSelecionada != "Todos" || tipoTrabalhoSelecionado != "Todos" || remuneracaoSelecionada != "Todos") {
                 // Chama o método de filtro de vagas com os novos dados
-                filterVagas(
-                    cidadeSelecionada,
+                filterVagasFiltragem(
+                    areaConhecimentoSelecionada,
                     cidadeSelecionada,
                     empresaSelecionada,
-                    tipoTrabalhoSelecionado
+                    tipoTrabalhoSelecionado,
+                    remuneracaoSelecionada
                 )
             } else {
                 // Mostra todas as vagas cadastradas
-                filterVagas(null, null, null, null)
+                filterVagasFiltragem(null, null, null, null, null)
             }
         }
+    }
+
+    private fun convertRemuneracaoStringToInt(remuneracao: String): Int {
+        return when (remuneracao) {
+            "Até R$1000" -> 1000
+            "De R$1001 a R$2000" -> 2000
+            "Acima de R$2000" -> 2001 // Use um valor maior que a maior faixa de remuneração
+            else -> 0 // Caso "Todos" ou valor inválido, use um valor que não corresponda a nenhuma faixa de remuneração
+        }
+    }
+
+    private fun convertPagamentoStringToInt(pagamento: String): Int {
+        return pagamento.replace("R$", "").replace(".", "").replace(",", "").toIntOrNull() ?: 0
+    }
+    fun String.normalizeAndRemoveAccents(): String {
+        val normalized = Normalizer.normalize(this, Normalizer.Form.NFD)
+        val pattern = "\\p{InCombiningDiacriticalMarks}+".toRegex()
+        return pattern.replace(normalized, "").lowercase(Locale.getDefault())
     }
 }
 //    fun atualizarFiltro(
