@@ -632,15 +632,13 @@
                 android:id="@+id/btn_novaVaga"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/btn_rounded"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:text="@string/criar_vaga"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@id/framelayout_datainicio"
-                android:layout_marginTop="20dp"
-                />
+                tools:layout_editor_absoluteX="20dp" />
 
             <View
                 android:layout_width="match_parent"

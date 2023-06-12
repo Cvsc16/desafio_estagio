@@ -20,6 +20,7 @@ import android.widget.SearchView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -35,6 +36,7 @@ class FragmentVagas : Fragment() {
     private var empresaSelecionada: String? = null
     private var remuneracaoSelecionada: String? = null
     private var tipoTrabalhoSelecionado: String? = null
+    private var escolhaUsuarioSelecionada: String? = null
     val REQUEST_FILTRAGEM = 1
     private var tipoConta: String? = null
     private lateinit var adapter: VagasAdapter
@@ -51,6 +53,8 @@ class FragmentVagas : Fragment() {
 
         val rvVagas: RecyclerView? = view.findViewById(R.id.rvVagas)
         rvVagas?.layoutManager = LinearLayoutManager(context)
+
+
 
         val listener = object : VagasAdapter.OnClickListener {
             override fun onClick(vaga: ClassVaga) {
@@ -164,7 +168,9 @@ class FragmentVagas : Fragment() {
             intent.putExtra("empresaSelecionada", empresaSelecionada)
             intent.putExtra("tipoTrabalhoSelecionado", tipoTrabalhoSelecionado)
             intent.putExtra("remuneracaoSelecionada", remuneracaoSelecionada)
-            Log.d("LOGREMUNERACAO", "REMUNERACAO:$remuneracaoSelecionada")
+            Log.d("LOGESCOLHAUSUARIO", "Auser11111:$escolhaUsuarioSelecionada")
+            intent.putExtra("escolhaUsuario", escolhaUsuarioSelecionada)
+
             startActivityForResult(intent, REQUEST_FILTRAGEM)
         }
 
@@ -226,7 +232,8 @@ class FragmentVagas : Fragment() {
         cidade: String?,
         empresa: String?,
         tipoTrabalho: String?,
-        remuneracao: String?
+        remuneracao: String?,
+        escolhaUsuario: String?
     ) {
         val filteredList = mutableListOf<ClassVaga>()
         val rvVagas: RecyclerView? = view?.findViewById(R.id.rvVagas)
@@ -234,26 +241,59 @@ class FragmentVagas : Fragment() {
         val texto_semResultados: TextView? = view?.findViewById(R.id.text_semResultados)
         val texto_tenteNovamente: TextView? = view?.findViewById(R.id.text_tenteNovamente)
 
-        val remuneracaoValor = convertRemuneracaoStringToInt(remuneracao ?: "")
-
         for (vaga in vagasList) {
-            val areaConhecimentoVaga = areaConhecimento.isNullOrBlank() || areaConhecimento == "Todos" || vaga.areaConhecimento.lowercase(Locale.getDefault()) == areaConhecimento.lowercase(Locale.getDefault())
-            val cidadeVaga = cidade.isNullOrBlank() || cidade == "Todos" || vaga.cidadeEmpresa.lowercase(Locale.getDefault()) == cidade.lowercase(Locale.getDefault())
-            val empresaVaga = empresa.isNullOrBlank() || empresa == "Todos" || vaga.empresa.lowercase(Locale.getDefault()) == empresa.lowercase(Locale.getDefault())
-            val tipoVaga = tipoTrabalho.isNullOrBlank() || tipoTrabalho == "Todos" || vaga.tipoTrabalho.lowercase(Locale.getDefault()) == tipoTrabalho.lowercase(Locale.getDefault())
+            val areaConhecimentoVaga =
+                areaConhecimento.isNullOrBlank() || areaConhecimento == "Todos" || vaga.areaConhecimento.lowercase(
+                    Locale.getDefault()
+                ) == areaConhecimento.lowercase(Locale.getDefault())
+            val cidadeVaga =
+                cidade.isNullOrBlank() || cidade == "Todos" || vaga.cidadeEmpresa.lowercase(Locale.getDefault()) == cidade.lowercase(
+                    Locale.getDefault()
+                )
+            val empresaVaga =
+                empresa.isNullOrBlank() || empresa == "Todos" || vaga.empresa.lowercase(Locale.getDefault()) == empresa.lowercase(
+                    Locale.getDefault()
+                )
+            val tipoVaga =
+                tipoTrabalho.isNullOrBlank() || tipoTrabalho == "Todos" || vaga.tipoTrabalho.lowercase(
+                    Locale.getDefault()
+                ) == tipoTrabalho.lowercase(Locale.getDefault())
+            val remuneracaoVaga = when (remuneracao) {
+                "Até R$1000" -> {
+                    val valor = vaga.pagamento?.let { extractRemuneracaoValor(it) }
+                    valor != null && valor <= 1000
+                }
 
-            val pagamentoVaga = if (!remuneracao.isNullOrBlank()) {
-                val remuneracaoValorInt = convertRemuneracaoStringToInt(remuneracao)
-                val pagamentoValorInt = convertPagamentoStringToInt(vaga.pagamento)
-                remuneracaoValorInt == 0 || pagamentoValorInt <= remuneracaoValorInt
-            } else {
-                true
+                "R$1001 a R$2000" -> {
+                    val valor = vaga.pagamento?.let { extractRemuneracaoValor(it) }
+                    valor != null && valor in 1001..2000
+                }
+
+                "Mais de R$2000" -> {
+                    val valor = vaga.pagamento?.let { extractRemuneracaoValor(it) }
+                    valor != null && valor > 2000
+                }
+
+                else -> true
             }
 
-            if (areaConhecimentoVaga && cidadeVaga && empresaVaga && tipoVaga && pagamentoVaga) {
+            val userId = FirebaseAuth.getInstance().currentUser?.uid
+            Log.d("LOGUSUARIO", "USUARIO ATUAL:$userId")
+            Log.d("LOGUSUARIO", "USUARIO VAGA:${vaga.idAnunciante}")
+
+            // Verificar a escolha do usuário entre "Vagas Gerais" e "Minhas Vagas"
+            val vagaElegivel = when (escolhaUsuario) {
+                "Vagas Gerais" -> true
+                "Minhas Vagas" -> !userId.isNullOrBlank() && vaga.idAnunciante == userId
+                else -> true
+            }
+            Log.d("LOGUSUARIO", "vaga elegivel:$vagaElegivel")
+
+            if (areaConhecimentoVaga && cidadeVaga && empresaVaga && tipoVaga && remuneracaoVaga && vagaElegivel) {
                 filteredList.add(vaga)
             }
         }
+
 
         if (filteredList.isEmpty()) {
             rvVagas?.visibility = View.GONE
@@ -280,35 +320,30 @@ class FragmentVagas : Fragment() {
             empresaSelecionada = data?.getStringExtra("empresaSelecionada")
             tipoTrabalhoSelecionado = data?.getStringExtra("tipoTrabalhoSelecionado")
             remuneracaoSelecionada = data?.getStringExtra("remuneracaoSelecionada")
+            escolhaUsuarioSelecionada = data?.getStringExtra("escolhaUsuario")
+            Log.d("LOGESCOLHAUSUARIO", "AREA PASSADA:$escolhaUsuarioSelecionada")
 
             // Verifica se os valores dos filtros são diferentes de "todos" e "todas"
-            if (cidadeSelecionada != "Todos" || areaConhecimentoSelecionada != "Todos" || empresaSelecionada != "Todos" || tipoTrabalhoSelecionado != "Todos" || remuneracaoSelecionada != "Todos") {
+            if (cidadeSelecionada != "Todos" || areaConhecimentoSelecionada != "Todos" || empresaSelecionada != "Todos" || tipoTrabalhoSelecionado != "Todos" || remuneracaoSelecionada != "Todos" || escolhaUsuarioSelecionada != "Vagas Gerais") {
                 // Chama o método de filtro de vagas com os novos dados
                 filterVagasFiltragem(
                     areaConhecimentoSelecionada,
                     cidadeSelecionada,
                     empresaSelecionada,
                     tipoTrabalhoSelecionado,
-                    remuneracaoSelecionada
+                    remuneracaoSelecionada,
+                    escolhaUsuarioSelecionada
                 )
             } else {
                 // Mostra todas as vagas cadastradas
-                filterVagasFiltragem(null, null, null, null, null)
+                filterVagasFiltragem(null, null, null, null, null,"Vagas Gerais")
             }
         }
     }
 
-    private fun convertRemuneracaoStringToInt(remuneracao: String): Int {
-        return when (remuneracao) {
-            "Até R$1000" -> 1000
-            "De R$1001 a R$2000" -> 2000
-            "Acima de R$2000" -> 2001 // Use um valor maior que a maior faixa de remuneração
-            else -> 0 // Caso "Todos" ou valor inválido, use um valor que não corresponda a nenhuma faixa de remuneração
-        }
-    }
-
-    private fun convertPagamentoStringToInt(pagamento: String): Int {
-        return pagamento.replace("R$", "").replace(".", "").replace(",", "").toIntOrNull() ?: 0
+    private fun extractRemuneracaoValor(remuneracao: String): Int? {
+        val valor = remuneracao.replace("R$", "").replace(".", "").trim().toIntOrNull()
+        return valor
     }
     fun String.normalizeAndRemoveAccents(): String {
         val normalized = Normalizer.normalize(this, Normalizer.Form.NFD)
