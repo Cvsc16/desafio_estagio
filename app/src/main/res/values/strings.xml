@@ -44,9 +44,12 @@
     <string name="titulo_detalhes_vaga">Detalhes da Vaga</string>
     <string-array name="opcoes_spinner_areaConhecimento">
         <item>Todos</item>
-        <item>Área 1</item>
-        <item>Área 2</item>
-        <item>Área 3</item>
+        <item>Tecnologia</item>
+        <item>Engenharia</item>
+        <item>Saúde</item>
+        <item>Educação</item>
+        <item>Admnistração</item>
+        <item>Construção</item>
     </string-array>
     <string-array name="opcoes_spinner_localidade">
         <item>Todos</item>

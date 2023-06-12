@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="47dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:includeFontPadding="false"
         android:lineHeight="47sp"
         android:text="@string/titulo_filtragem"
@@ -161,13 +161,29 @@
             app:layout_constraintStart_toStartOf="parent"
             />
 
+            <EditText
+                android:id="@+id/editTextPesquisa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="25dp"
+                android:paddingBottom="5dp"
+                android:hint="Digite uma cidade"
+                android:textColorHint="@color/opcao_dropdown"
+                style="@style/EditTextStyle"
+                android:imeOptions="actionSearch"
+                app:layout_constraintTop_toTopOf="@+id/framelayout_localidade"
+                android:inputType="text"
+                android:singleLine="true" />
+
         <Spinner
             android:id="@+id/spinner_localidade"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="60dp"
             android:paddingStart="55dp"
             android:paddingEnd="8dp"
             android:spinnerMode="dropdown"
@@ -183,7 +199,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_localidade_svg"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             />
         <ImageView
             android:layout_gravity="end|center"
@@ -192,7 +208,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_seta_dropdown_svg"
             android:layout_marginEnd="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             />
         </FrameLayout>
     <FrameLayout

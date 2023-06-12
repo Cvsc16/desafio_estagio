@@ -4,15 +4,21 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 class ActivityFiltragem : AppCompatActivity(){
 
@@ -22,6 +28,7 @@ class ActivityFiltragem : AppCompatActivity(){
     private var tipoTrabalhoSelecionado: String? = null
     private var remuneracaoSelecionada: String? = null
     private var escolhaUsuario: String? = null
+    private var tipoConta: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filtragem)
@@ -44,9 +51,41 @@ class ActivityFiltragem : AppCompatActivity(){
         adapter_areaConhecimento.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner_areaConhecimento.adapter = adapter_areaConhecimento
 
-        val adapter_localidade = ArrayAdapter.createFromResource(this, R.array.opcoes_spinner_localidade, R.layout.spinner_item)
+        // Ler o arquivo de texto contendo as cidades brasileiras
+        val cidadeInputStream = resources.openRawResource(R.raw.cidades_brasileiras)
+        val cidadeBufferedReader = BufferedReader(InputStreamReader(cidadeInputStream))
+
+        val cidadesBrasileiras = mutableListOf<String>()
+        var line: String?
+        while (cidadeBufferedReader.readLine().also { line = it } != null) {
+            cidadesBrasileiras.add(line!!)
+        }
+        cidadeBufferedReader.close()
+
+// Adicionar "Selecione" como a primeira opção
+        cidadesBrasileiras.add(0, "Todos")
+
+        val adapter_localidade = ArrayAdapter(this, R.layout.spinner_item, cidadesBrasileiras)
         adapter_localidade.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner_localidade.adapter = adapter_localidade
+        spinner_localidade.setSelection(0)
+
+        val editTextPesquisa = findViewById<EditText>(R.id.editTextPesquisa)
+
+        editTextPesquisa.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Não é necessário implementar esse método
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Filtra as opções do Spinner com base no texto digitado
+                adapter_localidade.filter.filter(s)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Não é necessário implementar esse método
+            }
+        })
 
         val adapter_anunciante = ArrayAdapter.createFromResource(this, R.array.opcoes_spinner_anunciante, R.layout.spinner_item)
         adapter_anunciante.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -81,7 +120,13 @@ class ActivityFiltragem : AppCompatActivity(){
         }
 
         // Verificar se há uma escolha do usuário salva
-            escolhaUsuario = intent.getStringExtra("escolhaUsuario")
+        escolhaUsuario = intent.getStringExtra("escolhaUsuario")
+        tipoConta = intent.getStringExtra("tipoConta")
+
+        if(tipoConta == "Interessado"){
+            btn_vagasGerais.visibility = View.GONE
+            btn_vagasAnunciante.visibility = View.GONE
+        }
 
             Log.d("LOGESCOLHAUSUARIO", "AREA PASSADA tela2:$escolhaUsuario")
         // Verificar a escolha do usuário na inicialização

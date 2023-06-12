@@ -50,7 +50,7 @@ class ActivityEsqueceuSenha : AppCompatActivity() {
                                                 ).show()
 
                                                 // Redireciona o usuário para a tela de redefinição de senha
-                                                val intent = Intent(this, ActivityRedefinirSenha::class.java)
+                                                val intent = Intent(this, LoginActivity::class.java)
                                                 startActivity(intent)
                                                 finish()
                                             } else {

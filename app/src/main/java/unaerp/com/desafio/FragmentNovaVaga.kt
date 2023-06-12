@@ -5,6 +5,8 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,12 +20,16 @@ import android.widget.Spinner
 import android.widget.Switch
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-
 class FragmentNovaVaga : Fragment() {
 
     private lateinit var nomeEmpresa: EditText
@@ -55,26 +61,79 @@ class FragmentNovaVaga : Fragment() {
         val editText = view.findViewById<EditText>(R.id.nome_anunciante)
         editText.keyListener = null
 
-        val adapter_areaConhecimento = ArrayAdapter.createFromResource(
+        val areaConhecimentoOptions = resources.getStringArray(R.array.opcoes_spinner_areaConhecimento)
+            .toMutableList()
+            .apply {
+                val index = indexOf("Todos")
+                if (index != -1) {
+                    set(index, "Selecione")
+                }
+            }
+
+        val adapter_areaConhecimento = ArrayAdapter(
             requireContext(),
-            R.array.opcoes_spinner_areaConhecimento,
-            R.layout.spinner_item
+            R.layout.spinner_item,
+            areaConhecimentoOptions
         )
         adapter_areaConhecimento.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerAreaConhecimento.adapter = adapter_areaConhecimento
+        spinnerAreaConhecimento.setSelection(0)
 
-        val adapter_localidade = ArrayAdapter.createFromResource(
+
+        // Ler o arquivo de texto contendo as cidades brasileiras
+        val cidadeInputStream = resources.openRawResource(R.raw.cidades_brasileiras)
+        val cidadeBufferedReader = BufferedReader(InputStreamReader(cidadeInputStream))
+
+        val cidadesBrasileiras = mutableListOf<String>()
+        var line: String?
+        while (cidadeBufferedReader.readLine().also { line = it } != null) {
+            cidadesBrasileiras.add(line!!)
+        }
+        cidadeBufferedReader.close()
+
+// Adicionar "Selecione" como a primeira opção
+        cidadesBrasileiras.add(0, "Selecione")
+
+// Criar o adapter para o spinner com as cidades brasileiras
+        val adapter_localidade = ArrayAdapter(
             requireContext(),
-            R.array.opcoes_spinner_localidade,
-            R.layout.spinner_item
+            R.layout.spinner_item,
+            cidadesBrasileiras
         )
         adapter_localidade.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerLocalidade.adapter = adapter_localidade
+        spinnerLocalidade.setSelection(0) // Define "Selecione" como o item selecionado
 
-        val adapter_tipoVaga = ArrayAdapter.createFromResource(
+        val editTextPesquisa = view.findViewById<EditText>(R.id.editTextPesquisa)
+
+        editTextPesquisa.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Não é necessário implementar esse método
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Filtra as opções do Spinner com base no texto digitado
+                adapter_localidade.filter.filter(s)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Não é necessário implementar esse método
+            }
+        })
+
+        val tipoVagaOptions = resources.getStringArray(R.array.opcoes_spinner_tipoVaga)
+            .toMutableList()
+            .apply {
+                val index = indexOf("Todos")
+                if (index != -1) {
+                    set(index, "Selecione")
+                }
+            }
+
+        val adapter_tipoVaga = ArrayAdapter(
             requireContext(),
-            R.array.opcoes_spinner_tipoVaga,
-            R.layout.spinner_item
+            R.layout.spinner_item,
+            tipoVagaOptions
         )
         adapter_tipoVaga.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerTipoVaga.adapter = adapter_tipoVaga
@@ -150,6 +209,44 @@ class FragmentNovaVaga : Fragment() {
             }
         }
 
+        val editText_nome = view.findViewById<EditText>(R.id.nome_anunciante)
+        val editText_email = view.findViewById<EditText>(R.id.textarea_email)
+
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.uid
+        val database = FirebaseDatabase.getInstance().reference.child("users").child(userId!!)
+
+        var fullName: String? = null
+        var emailUser: String? = null
+
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val userData = snapshot.getValue(ClassUser::class.java)
+                    userData?.let { user ->
+                        fullName = user.nome
+                        emailUser = user.email
+                        editText_nome.setText(fullName)
+                        editText_email.setText(emailUser)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Tratar o erro, se necessário
+            }
+        })
+
+        switch.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                switch.thumbTintList = ColorStateList.valueOf(corDesativado)
+                editText_nome.setText("oculto")
+            } else {
+                switch.thumbTintList = ColorStateList.valueOf(corAtivado)
+                editText_nome.setText(fullName)
+            }
+        }
+
         back.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -182,17 +279,31 @@ class FragmentNovaVaga : Fragment() {
 
     private fun cadastrarNovaVaga() {
         val titulo = tituloVaga.text.toString()
-        val empresa = nomeEmpresa.text.toString()
+        val empresa = if (switchVisibilidade.isChecked) " " else nomeEmpresa.text.toString()
         val cidadeEmpresa = spinnerLocalidade.selectedItem.toString()
         val tipoTrabalho = spinnerTipoVaga.selectedItem.toString()
         val dataInicio = dataInicioVar.text.toString()
         val dataFim = dataFimVar.text.toString()
-        val pagamento = remuneracao.text.toString()
+        val pagamento = if (remuneracao.text.isBlank()) "A Combinar" else remuneracao.text.toString()
         val areaConhecimento = spinnerAreaConhecimento.selectedItem.toString()
         val descricao = descricaoVar.text.toString()
         val telefone = telefoneVar.text.toString()
         val emailEmpresa = email.text.toString()
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
+        // Verificar se algum campo obrigatório está vazio ou igual a "Selecionar"
+        if (titulo.isBlank() ||
+            cidadeEmpresa == "Selecionar" ||
+            tipoTrabalho == "Selecionar" ||
+            dataInicio.isBlank() ||
+            areaConhecimento == "Selecionar" ||
+            descricao.isBlank() ||
+            telefone.isBlank() ||
+            emailEmpresa.isBlank()
+        ) {
+            Toast.makeText(requireContext(), "Preencha todos os campos obrigatórios", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         val novaVaga = ClassVaga(
             "",
@@ -209,6 +320,7 @@ class FragmentNovaVaga : Fragment() {
             telefone,
             emailEmpresa
         )
+
 
         val database = FirebaseDatabase.getInstance().reference
 

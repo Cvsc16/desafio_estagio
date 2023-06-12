@@ -147,6 +147,43 @@
                 android:focusable="true"
                 />
         </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="40dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_senha_svg" />
+
+            <EditText
+                android:id="@+id/senhaNova"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:textColor="@color/texto"
+                android:hint="Digite sua nova senha"
+                android:textColorHint="@color/inserção"
+                style="@style/EditTextStyle"
+                android:paddingBottom="15dp"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:inputType="textPassword"
+                />
+
+            <ImageView
+                android:id="@+id/esconde_svgNovaSenha2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_esconde_svg"
+                android:layout_gravity="end"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                />
+        </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -165,6 +202,7 @@
             android:text="@string/redefinir"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
+            android:layout_marginBottom="30dp"
             />
 
     </LinearLayout>

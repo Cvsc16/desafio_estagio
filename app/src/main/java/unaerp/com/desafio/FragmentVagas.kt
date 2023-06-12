@@ -168,6 +168,7 @@ class FragmentVagas : Fragment() {
             intent.putExtra("empresaSelecionada", empresaSelecionada)
             intent.putExtra("tipoTrabalhoSelecionado", tipoTrabalhoSelecionado)
             intent.putExtra("remuneracaoSelecionada", remuneracaoSelecionada)
+            intent.putExtra("tipoConta", tipoConta)
             Log.d("LOGESCOLHAUSUARIO", "Auser11111:$escolhaUsuarioSelecionada")
             intent.putExtra("escolhaUsuario", escolhaUsuarioSelecionada)
 

@@ -168,8 +168,6 @@ class FragmentPerfil : Fragment() {
         val userId = user?.uid
         val database = FirebaseDatabase.getInstance().reference.child("users").child(userId!!)
 
-        // Restante do código...
-
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
