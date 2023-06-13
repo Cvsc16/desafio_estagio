@@ -93,15 +93,6 @@
             android:textSize="16sp"
             />
 
-        <ImageView
-            android:id="@+id/editar_nome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_editar_svg"
-            android:layout_gravity="end"
-            android:clickable="true"
-            android:focusable="true"
-            />
     </FrameLayout>
 
     <FrameLayout
@@ -126,95 +117,54 @@
             style="@style/EditTextStyle"
             android:paddingBottom="15dp"
             android:textSize="16sp"
-
             />
-
-        <ImageView
-            android:id="@+id/editar_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_editar_svg"
-            android:layout_gravity="end"
-            android:clickable="true"
-            android:focusable="true"
-            tools:ignore="DuplicateIds" />
     </FrameLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginHorizontal="20dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_senha_svg" />
-
-        <EditText
-            android:id="@+id/cadastro_senha"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
-            android:textColor="@color/texto"
-            android:text="*******"
-            android:textColorHint="@color/inserção"
-            style="@style/EditTextStyle"
-            android:paddingBottom="15dp"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:inputType="textPassword"
-            />
+            android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/esconde_svg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_esconde_svg"
-            android:layout_gravity="end"
-            android:layout_marginTop="15dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_marginRight="30dp"
-            />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
-        <ImageView
-            android:id="@+id/editar_senha"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_editar_svg"
-            android:layout_gravity="end"
-            tools:ignore="DuplicateIds"
-            android:layout_marginTop="10dp"
-            />
+                <ImageView
+                    android:id="@+id/img_editar_senha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/editar_senha"
+                    android:layout_marginTop="20dp" />
 
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
+                <ImageView
+                    android:id="@+id/img_excluir_conta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/excluir_conta"
+                    android:layout_marginTop="20dp" />
 
-    </FrameLayout>
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_trocar_senha"
-            android:layout_width="match_parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/btn_rounded_red"
-            android:text="Editar Senha"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="20dp"
-            android:textSize="16sp"
-            />
+        </LinearLayout>
 
         <Button
             android:id="@+id/btn_salvar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/btn_rounded"
+            android:backgroundTint="@color/detalhe"
             android:text="Salvar Informações"
             android:textColor="#FFFFFF"
             android:layout_marginBottom="100dp"

@@ -6,7 +6,7 @@ data class ClassVaga(
     var id: String = "",
     val idAnunciante : String = "",
     val titulo: String = "",
-    val empresa: String = "",
+    var empresa: String = "",
     val cidadeEmpresa: String = "",
     val tipoTrabalho: String = "",
     val dataInicio: String = "",

@@ -84,12 +84,12 @@
             android:src="@drawable/ic_senha_svg" />
 
         <EditText
-            android:id="@+id/senha"
+            android:id="@+id/senha_atual"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
             android:textColor="@color/texto"
-            android:hint="Digite a sua senha"
+            android:hint="Digite a sua senha atual"
             android:textColorHint="@color/inserção"
             style="@style/EditTextStyle"
             android:paddingBottom="15dp"
@@ -122,12 +122,12 @@
                 android:src="@drawable/ic_senha_svg" />
 
             <EditText
-                android:id="@+id/senha2"
+                android:id="@+id/senha_nova"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="35dp"
                 android:textColor="@color/texto"
-                android:hint="Repita a sua senha"
+                android:hint="Digite sua nova senha"
                 android:textColorHint="@color/inserção"
                 style="@style/EditTextStyle"
                 android:paddingBottom="15dp"
@@ -159,12 +159,12 @@
                 android:src="@drawable/ic_senha_svg" />
 
             <EditText
-                android:id="@+id/senhaNova"
+                android:id="@+id/senha_nova2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="35dp"
                 android:textColor="@color/texto"
-                android:hint="Digite sua nova senha"
+                android:hint="Repita sua nova senha"
                 android:textColorHint="@color/inserção"
                 style="@style/EditTextStyle"
                 android:paddingBottom="15dp"

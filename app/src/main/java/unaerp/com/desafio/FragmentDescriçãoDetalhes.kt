@@ -11,6 +11,7 @@ class DescricaoFragment : Fragment() {
 
     private lateinit var textViewDescricao: TextView
     private lateinit var textViewAreaConhecimento: TextView
+    private lateinit var textViewDataFim: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,6 +22,7 @@ class DescricaoFragment : Fragment() {
 
         textViewDescricao = view.findViewById(R.id.textarea_descricao)
         textViewAreaConhecimento = view.findViewById(R.id.tv_descAreaConhecimento)
+        textViewDataFim = view.findViewById(R.id.tv_descDatafim)
 
         val vaga = arguments?.getSerializable("vaga") as ClassVaga?
         vaga?.let {
@@ -29,6 +31,9 @@ class DescricaoFragment : Fragment() {
 
             val areaConhecimento = vaga.areaConhecimento
             textViewAreaConhecimento.text = areaConhecimento
+
+            val datalimite = vaga.dataFim
+            textViewDataFim.text = datalimite
         }
 
         return view

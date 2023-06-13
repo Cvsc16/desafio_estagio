@@ -19,8 +19,9 @@ class ActivityRedefinirSenha : AppCompatActivity() {
         val iconeEsconde2 = findViewById<ImageView>(R.id.esconde_svg2)
         val back = findViewById<ImageView>(R.id.back)
         val btn_redefini = findViewById<Button>(R.id.btn_redifini)
-        val senha = findViewById<EditText>(R.id.senha)
-        val senha2 = findViewById<EditText>(R.id.senha2)
+        val senha = findViewById<EditText>(R.id.senha_atual)
+        val senha_nova = findViewById<EditText>(R.id.senha_nova)
+        val senha_nova2 = findViewById<EditText>(R.id.senha_nova2)
 
 
         iconeEsconde.setOnClickListener {
@@ -36,19 +37,19 @@ class ActivityRedefinirSenha : AppCompatActivity() {
         }
 
         iconeEsconde2.setOnClickListener {
-            val cursorPosition = senha2.selectionEnd
+            val cursorPosition = senha_nova.selectionEnd
 
-            if (senha2.inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
-                senha2.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            if (senha_nova.inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                senha_nova.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
             } else {
-                senha2.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                senha_nova.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
 
-            senha2.setSelection(cursorPosition)
+            senha_nova.setSelection(cursorPosition)
         }
 
         btn_redefini.setOnClickListener {
-            if (senha.text.toString() == senha2.text.toString()) {
+            if (senha.text.toString() == senha_nova.text.toString()) {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 Toast.makeText(this, "Senha alterada com sucesso", Toast.LENGTH_SHORT).show()

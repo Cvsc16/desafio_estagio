@@ -17,6 +17,10 @@ import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -87,9 +91,45 @@ class ActivityFiltragem : AppCompatActivity(){
             }
         })
 
-        val adapter_anunciante = ArrayAdapter.createFromResource(this, R.array.opcoes_spinner_anunciante, R.layout.spinner_item)
+        val adapter_anunciante = ArrayAdapter<String>(this, R.layout.spinner_item)
         adapter_anunciante.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner_anunciante.adapter = adapter_anunciante
+
+        val database = FirebaseDatabase.getInstance().reference
+        val usuariosRef = database.child("users")
+
+        usuariosRef.orderByChild("tipo").equalTo("Anunciante").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val anuncianteList = mutableListOf<String>()
+
+                for (snapshot in dataSnapshot.children) {
+                    val usuarioId = snapshot.key
+                    val usuarioNome = snapshot.child("nome").getValue(String::class.java)
+                    if (usuarioId != null && usuarioNome != null) {
+                        anuncianteList.add(usuarioNome)
+                    }
+                }
+
+                // Adicione a opção "Todos" à lista de anunciantes
+                anuncianteList.add(0, "Todos")
+
+                // Atualize o adapter com a lista atualizada de anunciantes
+                adapter_anunciante.clear()
+                adapter_anunciante.addAll(anuncianteList)
+                adapter_anunciante.notifyDataSetChanged()
+
+                empresaSelecionada = intent.getStringExtra("empresaSelecionada")
+                val empresaIndex = adapter_anunciante.getPosition(empresaSelecionada)
+                if (empresaIndex >= 0) {
+                    spinner_anunciante.setSelection(empresaIndex)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Trate o erro, se necessário
+            }
+        })
 
         val adapter_tipoVaga = ArrayAdapter.createFromResource(this, R.array.opcoes_spinner_tipoVaga, R.layout.spinner_item)
         adapter_tipoVaga.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -157,7 +197,7 @@ class ActivityFiltragem : AppCompatActivity(){
         Log.d("LOGFILTRO", "AREA PASSADA:$areaConhecimentoSelecionada")
         cidadeSelecionada = intent.getStringExtra("cidadeSelecionada")
         Log.d("LOGFILTRO", "CIDADE PASSADA:$cidadeSelecionada")
-        empresaSelecionada = intent.getStringExtra("empresaSelecionada")
+//        empresaSelecionada = intent.getStringExtra("empresaSelecionada")
         Log.d("LOGFILTRO", "EMPRESA PASSADA:$empresaSelecionada")
         tipoTrabalhoSelecionado = intent.getStringExtra("tipoTrabalhoSelecionado")
         Log.d("LOGFILTRO", "TRABALHO PASSADA:$tipoTrabalhoSelecionado")
@@ -174,10 +214,10 @@ class ActivityFiltragem : AppCompatActivity(){
             spinner_localidade.setSelection(cidadeIndex)
         }
 
-        val empresaIndex = adapter_anunciante.getPosition(empresaSelecionada)
-        if (empresaIndex >= 0) {
-            spinner_anunciante.setSelection(empresaIndex)
-        }
+//        val empresaIndex = adapter_anunciante.getPosition(empresaSelecionada)
+//        if (empresaIndex >= 0) {
+//            spinner_anunciante.setSelection(empresaIndex)
+//        }
 
         val tipoTrabalhoIndex = adapter_tipoVaga.getPosition(tipoTrabalhoSelecionado)
         if (tipoTrabalhoIndex >= 0) {

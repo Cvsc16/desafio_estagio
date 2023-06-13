@@ -19,7 +19,8 @@ import androidx.core.content.ContextCompat
 class ContatoFragment : Fragment() {
 
     private val requestPhoneCall = 1
-    private lateinit var telefone: TextView
+    private lateinit var textViewtelefone: TextView
+    private lateinit var textViewemail: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,13 +29,23 @@ class ContatoFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_contato, container, false)
 
-        val telefone: TextView = view.findViewById(R.id.numeroTelefone)
-        val email: TextView = view.findViewById(R.id.emailEmpresa)
+        textViewtelefone = view.findViewById(R.id.numeroTelefone)
+        textViewemail= view.findViewById(R.id.emailEmpresa)
         val emailContato: ConstraintLayout = view.findViewById(R.id.fragment_email)
         val telefoneContato: ConstraintLayout = view.findViewById(R.id.fragment_telefone)
 
+        val vaga = arguments?.getSerializable("vaga") as ClassVaga?
+        vaga?.let {
+            val telefone = vaga.telefone
+            textViewtelefone.text = telefone
+
+            val email = vaga.emailEmpresa
+            textViewemail.text = email
+
+        }
+
         telefoneContato.setOnClickListener {
-            val phoneNumber = telefone.text.toString().trim()
+            val phoneNumber = textViewtelefone.text.toString().trim()
             val intent = Intent(Intent.ACTION_DIAL)
             intent.data = Uri.parse("tel:$phoneNumber")
 
@@ -74,7 +85,7 @@ class ContatoFragment : Fragment() {
         }
 
         emailContato.setOnClickListener {
-            val recipient = email.text.toString().trim()
+            val recipient =  textViewemail.text.toString().trim()
             val message = "Olá, vi a publicação da sua vaga de estágio na DC Estágios e gostaria de me candidatar"
             val uri = Uri.parse("mailto:$recipient?body=${Uri.encode(message)}")
             val intent = Intent(Intent.ACTION_SENDTO, uri)
@@ -89,7 +100,7 @@ class ContatoFragment : Fragment() {
         if (requestCode == requestPhoneCall) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permissão concedida
-                val phoneNumber = telefone.text.toString().trim()
+                val phoneNumber = textViewtelefone.text.toString().trim()
                 val intent = Intent(Intent.ACTION_CALL)
                 intent.data = Uri.parse("tel:$phoneNumber")
                 startActivity(intent)
