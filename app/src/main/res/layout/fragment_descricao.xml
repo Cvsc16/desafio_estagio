@@ -11,7 +11,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".Fragment_contato"
+        tools:context=".Fragment_descricao"
         android:id="@+id/fragment_descricao"
         app:layout_constraintTop_toTopOf="parent"
         >

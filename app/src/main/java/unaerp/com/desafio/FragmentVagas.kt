@@ -84,6 +84,13 @@ class FragmentVagas : Fragment() {
                 val dialog = builder.create()
                 dialog.show()
             }
+
+            override fun onEditarClick(vaga: ClassVaga) {
+                // Abra a tela de edição de vagas passando a vaga como argumento
+                val intent = Intent(requireContext(), ActivityEdicaoVagas::class.java)
+                intent.putExtra("vaga", vaga)
+                startActivity(intent)
+            }
         }
 
         adapter = VagasAdapter(vagasList, listener, tipoConta ?: "")

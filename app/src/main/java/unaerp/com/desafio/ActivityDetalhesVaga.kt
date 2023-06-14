@@ -46,9 +46,10 @@ class ActivityDetalhesVaga : AppCompatActivity() {
         }
 
         val bundle = Bundle().apply {
-            putSerializable("vaga", vaga) // Substitua 'vaga' pelo objeto ClassVaga correto
+            putSerializable("vaga", vaga)
         }
         detalhesFragment.arguments = bundle
+        contatosFragment.arguments = bundle
 
         // Adicionar o fragmento padrão
         supportFragmentManager.beginTransaction()

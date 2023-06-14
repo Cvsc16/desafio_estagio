@@ -44,6 +44,7 @@ class FragmentNovaVaga : Fragment() {
     private lateinit var spinnerAreaConhecimento: Spinner
     private lateinit var spinnerLocalidade: Spinner
     private lateinit var spinnerTipoVaga: Spinner
+    private lateinit var atualizarButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -224,10 +225,20 @@ class FragmentNovaVaga : Fragment() {
                 if (snapshot.exists()) {
                     val userData = snapshot.getValue(ClassUser::class.java)
                     userData?.let { user ->
-                        fullName = user.nome
-                        emailUser = user.email
-                        editText_nome.setText(fullName)
-                        editText_email.setText(emailUser)
+                        val fullName = user.nome
+                        val names = fullName.split(" ")
+
+                        if (names.size >= 2) {
+                            val firstName = names[0]
+                            val lastName = names[1]
+                            val formattedName = "$firstName $lastName"
+
+                            editText_nome.setText(formattedName)
+                        } else {
+                            editText_nome.setText(fullName)
+                        }
+
+                        editText_email.setText(user.email)
                     }
                 }
             }
@@ -351,6 +362,7 @@ class FragmentNovaVaga : Fragment() {
                 }
         }
     }
+
     }
 
 

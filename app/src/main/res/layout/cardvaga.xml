@@ -118,4 +118,14 @@
         app:layout_constraintEnd_toEndOf="@+id/pagamento"
         />
 
+    <ImageView
+        android:id="@+id/ic_editar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_editarvaga"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@+id/ic_excluir"
+        app:layout_constraintStart_toStartOf="@+id/ic_excluir"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

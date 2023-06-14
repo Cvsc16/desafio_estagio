@@ -19,6 +19,7 @@ class VagasAdapter(
     interface OnClickListener {
         fun onClick(vaga: ClassVaga)
         fun onExcluirClick(vaga: ClassVaga)
+        fun onEditarClick(vaga: ClassVaga)
     }
 
     fun filter(filteredList: MutableList<ClassVaga>) {
@@ -37,6 +38,9 @@ class VagasAdapter(
 
             itemView.findViewById<View>(R.id.ic_excluir).setOnClickListener {
                 clickListener.onExcluirClick(vagaList[adapterPosition])
+            }
+            itemView.findViewById<View>(R.id.ic_editar).setOnClickListener {
+                clickListener.onEditarClick(vagaList[adapterPosition])
             }
         }
 
@@ -101,11 +105,14 @@ class VagasAdapter(
                     holder.itemView.findViewById<View>(R.id.ic_excluir).setOnClickListener {
                         clickListener.onExcluirClick(vaga)
                     }
+                    holder.itemView.findViewById<View>(R.id.ic_editar).visibility = View.VISIBLE
                 } else {
                     holder.itemView.findViewById<View>(R.id.ic_excluir).visibility = View.GONE
+                    holder.itemView.findViewById<View>(R.id.ic_editar).visibility = View.GONE
                 }
             } else {
                 holder.itemView.findViewById<View>(R.id.ic_excluir).visibility = View.GONE
+                holder.itemView.findViewById<View>(R.id.ic_editar).visibility = View.GONE
             }
         } else {
             // Trate o caso em que a lista está vazia, se necessário
