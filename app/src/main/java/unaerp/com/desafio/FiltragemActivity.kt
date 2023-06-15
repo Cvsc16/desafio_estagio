@@ -15,7 +15,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -24,7 +23,7 @@ import com.google.firebase.database.ValueEventListener
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class ActivityFiltragem : AppCompatActivity(){
+class FiltragemActivity : AppCompatActivity(){
 
     private var areaConhecimentoSelecionada: String? = null
     private var cidadeSelecionada: String? = null

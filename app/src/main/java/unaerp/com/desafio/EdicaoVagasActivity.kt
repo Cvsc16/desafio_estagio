@@ -1,7 +1,9 @@
 package unaerp.com.desafio
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +22,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.text.SimpleDateFormat
@@ -40,6 +45,8 @@ private lateinit var switchVisibilidade: Switch
 private lateinit var spinnerAreaConhecimento: Spinner
 private lateinit var spinnerLocalidade: Spinner
 private lateinit var spinnerTipoVaga: Spinner
+lateinit var sharedPrefs: SharedPreferences
+private var fullName: String = ""
 
 class ActivityEdicaoVagas : AppCompatActivity() {
 
@@ -226,9 +233,8 @@ class ActivityEdicaoVagas : AppCompatActivity() {
         dataInicioVar.setFocusable(false)
         dataInicioVar.setFocusableInTouchMode(false)
 
-
-        // Obtém a referência do Switch
-        switchVisibilidade = findViewById(R.id.switch_anunciante)
+// Obtém a referência do Switch
+        val switch = findViewById<Switch>(R.id.switch_anunciante)
 
 // Define a cor para quando o Switch estiver desativado (à esquerda)
         val corDesativado = Color.parseColor("#93BCFB")
@@ -237,46 +243,59 @@ class ActivityEdicaoVagas : AppCompatActivity() {
         val corAtivado = Color.parseColor("#172B4D")
 
 // Define a cor inicial do Switch
-        switchVisibilidade.thumbTintList = ColorStateList.valueOf(corDesativado)
+        switch.thumbTintList = ColorStateList.valueOf(corDesativado)
 
-// Define o Listener para o Switch
-        switchVisibilidade.setOnCheckedChangeListener { buttonView, isChecked ->
+        switch.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                switchVisibilidade.thumbTintList = ColorStateList.valueOf(corAtivado)
+                switch.thumbTintList = ColorStateList.valueOf(corDesativado)
+                nomeEmpresa.setText("Oculto")
             } else {
-                switchVisibilidade.thumbTintList = ColorStateList.valueOf(corDesativado)
+                switch.thumbTintList = ColorStateList.valueOf(corAtivado)
+                nomeEmpresa.setText(fullName)
             }
         }
 
-        val fullName = vaga?.empresa
-        val names = fullName?.split(" ")
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.uid
+        val database = FirebaseDatabase.getInstance().reference.child("users").child(userId!!)
 
-        val formattedName = if (names?.size ?: 0 >= 2) {
-            val firstName = names?.get(0)
-            val lastName = names?.get(1)
-            "$firstName $lastName"
-        } else {
-            fullName
-        }
 
-        nomeEmpresa.setText(formattedName)
 
-        switchVisibilidade.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                switchVisibilidade.thumbTintList = ColorStateList.valueOf(corDesativado)
-                nomeEmpresa.setText("oculto")
-            } else {
-                switchVisibilidade.thumbTintList = ColorStateList.valueOf(corAtivado)
-                nomeEmpresa.setText(formattedName)
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val userData = snapshot.getValue(ClassUser::class.java)
+                    userData?.let { user ->
+                        val fullName = user.nome
+                        val names = fullName.split(" ")
+                        var formattedName = fullName // Definir o nome completo como valor padrão
+
+                        if (names.size >= 2) {
+                            val firstName = names[0]
+                            val lastName = names[1]
+                            formattedName = "$firstName $lastName"
+                        }
+
+                        nomeEmpresa.setText(formattedName)
+
+                        // Atualizar a variável global fullName
+                        atualizarFullName(formattedName)
+                    }
+                }
             }
-        }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Tratar o erro, se necessário
+            }
+        })
+
+
 
         val back : ImageView = findViewById(R.id.back)
         val btn_atualizarVaga : Button = findViewById(R.id.btn_atualizarVaga)
 
         back.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         btn_atualizarVaga.setOnClickListener {
@@ -288,6 +307,13 @@ class ActivityEdicaoVagas : AppCompatActivity() {
                 Toast.makeText(this, "Erro ao cadastrar a vaga", Toast.LENGTH_SHORT).show()
             }
         }
+        switchVisibilidade = findViewById(R.id.switch_anunciante)
+    }
+
+
+
+    private fun atualizarFullName(value: String) {
+        fullName = value
     }
     private fun atualizarVaga() {
         val vaga = intent.getSerializableExtra("vaga") as? ClassVaga
@@ -299,7 +325,7 @@ class ActivityEdicaoVagas : AppCompatActivity() {
         }
 
         val titulo = tituloVaga.text.toString()
-        val empresa = if (switchVisibilidade.isChecked) "" else nomeEmpresa.text.toString()
+        val empresa = if (switchVisibilidade.isChecked) "Oculto" else nomeEmpresa.text.toString()
         val cidadeEmpresa = spinnerLocalidade.selectedItem.toString()
         val tipoTrabalho = spinnerTipoVaga.selectedItem.toString()
         val dataInicio = dataInicioVar.text.toString()
@@ -327,6 +353,9 @@ class ActivityEdicaoVagas : AppCompatActivity() {
         if (!titulo.isBlank()) {
             atualizacaoVagaMap["titulo"] = titulo
         }
+        if (!pagamento.isBlank()) {
+            atualizacaoVagaMap["pagamento"] = pagamento
+        }
         if (cidadeEmpresa != "Selecionar") {
             atualizacaoVagaMap["cidadeEmpresa"] = cidadeEmpresa
         }
@@ -335,6 +364,14 @@ class ActivityEdicaoVagas : AppCompatActivity() {
         }
         if (!dataInicio.isBlank()) {
             atualizacaoVagaMap["dataInicio"] = dataInicio
+        }
+        if (!dataFim.isBlank()) {
+            atualizacaoVagaMap["dataFim"] = dataFim
+        }
+        if (switchVisibilidade.isChecked) {
+            atualizacaoVagaMap["empresa"] = null
+        } else {
+            atualizacaoVagaMap["empresa"] = nomeEmpresa.text.toString()
         }
         if (areaConhecimento != "Selecionar") {
             atualizacaoVagaMap["areaConhecimento"] = areaConhecimento
@@ -351,22 +388,24 @@ class ActivityEdicaoVagas : AppCompatActivity() {
 
         // Verifique se algum campo foi alterado
         if (atualizacaoVagaMap.isEmpty()) {
-            Toast.makeText(this, "Nenhum campo alterado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Nenhum campo foi alterado", Toast.LENGTH_SHORT).show()
             return
         }
 
         val database = FirebaseDatabase.getInstance().reference
         database.child("vagas").child(vagaId).updateChildren(atualizacaoVagaMap)
-            .addOnSuccessListener {
-                // Sucesso ao atualizar a vaga
-                Toast.makeText(this, "Vaga atualizada com sucesso", Toast.LENGTH_SHORT).show()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Sucesso ao atualizar a vaga
+                    Toast.makeText(this, "Vaga atualizada com sucesso", Toast.LENGTH_SHORT).show()
 
-                // Retornar para a MainActivity após a atualização
-                onBackPressed()
-            }
-            .addOnFailureListener { exception ->
-                // Falha ao atualizar a vaga
-                Toast.makeText(this, "Erro ao atualizar a vaga: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    // Retornar para a MainActivity após a atualização
+                    onBackPressed()
+                } else {
+                    // Falha ao atualizar a vaga
+                    val errorMessage = task.exception?.message ?: "Erro ao atualizar a vaga"
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                }
             }
             .addOnCanceledListener {
                 // Operação cancelada

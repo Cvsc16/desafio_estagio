@@ -43,7 +43,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:includeFontPadding="false"
-                android:text="@string/titulo_novavaga"
+                android:text="Edite sua Vaga"
                 android:textAppearance="@style/login_"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/back" />
@@ -55,7 +55,7 @@
                 android:layout_marginTop="10dp"
                 android:includeFontPadding="false"
                 android:lineHeight="16sp"
-                android:text="@string/subtitulo_novavaga"
+                android:text="@string/subtitulo_editarvaga"
                 android:textAppearance="@style/subtitulo"
                 app:layout_constraintTop_toBottomOf="@id/titulo_novaVaga"
                 app:layout_constraintLeft_toLeftOf="@id/titulo_novaVaga"

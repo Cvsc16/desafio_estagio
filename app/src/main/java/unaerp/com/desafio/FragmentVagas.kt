@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -12,11 +14,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.SearchView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +24,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.text.Normalizer
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 
@@ -54,11 +56,25 @@ class FragmentVagas : Fragment() {
         val rvVagas: RecyclerView? = view.findViewById(R.id.rvVagas)
         rvVagas?.layoutManager = LinearLayoutManager(context)
 
+        val handler = Handler(Looper.getMainLooper())
+        val intervaloVerificacao = 24 * 60 * 60 * 1000L // 24 horas (em milissegundos)
 
+        // Define uma tarefa para ser executada após o intervalo de tempo especificado
+        val verificarVagasExpiradasRunnable = object : Runnable {
+            override fun run() {
+                verificarVagasExpiradas()
+
+                // Agende a próxima execução após o intervalo de tempo
+                handler.postDelayed(this, intervaloVerificacao)
+            }
+        }
+
+// Inicia a execução da verificação de vagas expiradas
+        handler.postDelayed(verificarVagasExpiradasRunnable, intervaloVerificacao)
 
         val listener = object : VagasAdapter.OnClickListener {
             override fun onClick(vaga: ClassVaga) {
-                val intent = Intent(activity, ActivityDetalhesVaga::class.java)
+                val intent = Intent(activity, DetalhesVagaActivity::class.java)
                 intent.putExtra("vaga", vaga)
                 startActivity(intent)
             }
@@ -169,7 +185,7 @@ class FragmentVagas : Fragment() {
         tipoConta = arguments?.getString("tipo_conta")
 
         iconeFiltro.setOnClickListener {
-            val intent = Intent(requireContext(), ActivityFiltragem::class.java)
+            val intent = Intent(requireContext(), FiltragemActivity::class.java)
             intent.putExtra("areaConhecimentoSelecionada", areaConhecimentoSelecionada)
             intent.putExtra("cidadeSelecionada", cidadeSelecionada)
             intent.putExtra("empresaSelecionada", empresaSelecionada)
@@ -192,6 +208,45 @@ class FragmentVagas : Fragment() {
 
         return view
         val filteredList = mutableListOf<ClassVaga>()
+    }
+
+    private fun verificarVagasExpiradas() {
+        val database = FirebaseDatabase.getInstance().reference
+        val vagasRef = database.child("vagas")
+
+        val dataAtual = Date()
+
+        vagasRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (vagaSnapshot in dataSnapshot.children) {
+                    val vaga = vagaSnapshot.getValue(ClassVaga::class.java)
+                    if (vaga != null) {
+                        val dataFimVagaStr = vaga.dataFim
+                        val dataFimVaga = parseData(dataFimVagaStr)
+
+                        // Verifique se a vaga já expirou (dataFim antes da data atual)
+                        if (dataFimVaga != null && dataFimVaga.before(dataAtual)) {
+                            // A vaga expirou, remova-a do banco de dados
+                            vagaSnapshot.ref.removeValue()
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Trate o erro, se necessário
+            }
+        })
+    }
+
+    private fun parseData(dataStr: String): Date? {
+        val format = SimpleDateFormat("dd/MM/yyyy")
+        try {
+            return format.parse(dataStr)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return null
     }
 
     private fun filterVagas(
@@ -359,53 +414,7 @@ class FragmentVagas : Fragment() {
         return pattern.replace(normalized, "").lowercase(Locale.getDefault())
     }
 }
-//    fun atualizarFiltro(
-//
-//        areaConhecimento: String,
-//        localidade: String,
-//        anunciante: String,
-//        tipoVaga: String,
-//        remuneracao: String
-//
-//    ) {
-//        Log.d("logFiltro", "Função atualizarFiltro chamada")
-//        Log.d("logFiltro", "Area Conhecimento: $areaConhecimento")
-//        Log.d("logFiltro", "Localidade: $localidade")
-//        Log.d("logFiltro", "Anunciante: $anunciante")
-//        Log.d("logFiltro", "Tipo Vaga: $tipoVaga")
-//        Log.d("logFiltro", "Remuneração: $remuneracao")
-//        val filteredList = mutableListOf<ClassVaga>()
-//
-//        for (vaga in vagasList) {
-//            val areaVaga = areaConhecimento?.let {
-//                it.isNotBlank() && vaga.areaConhecimento.lowercase(Locale.getDefault())
-//                    .contains(it.lowercase(Locale.getDefault()))
-//            } ?: false
-//            val cidadeVaga = localidade?.let {
-//                it.isNotBlank() && vaga.cidadeEmpresa.lowercase(Locale.getDefault())
-//                    .contains(it.lowercase(Locale.getDefault()))
-//            } ?: false
-//            val empresaVaga = anunciante?.let {
-//                it.isNotBlank() && vaga.empresa.lowercase(Locale.getDefault())
-//                    .contains(it.lowercase(Locale.getDefault()))
-//            } ?: false
-//            val tipoVaga = tipoVaga?.let {
-//                it.isNotBlank() && vaga.tipoTrabalho.lowercase(Locale.getDefault())
-//                    .contains(it.lowercase(Locale.getDefault()))
-//            } ?: false
-//            val pagamentoVaga = remuneracao?.let {
-//                it.isNotBlank() && vaga.pagamento.lowercase(Locale.getDefault())
-//                    .contains(it.lowercase(Locale.getDefault()))
-//            } ?: false
-//
-//            if (areaVaga || cidadeVaga || empresaVaga || tipoVaga || pagamentoVaga) {
-//                filteredList.add(vaga)
-//            }
-//        }
-//
-//        adapter.filter(filteredList) // Filtra os dados do adaptador com a lista filtrada
-//        adapter.notifyDataSetChanged() // Notifica o adaptador para atualizar os dados exibidos na RecyclerView
-//    }
+
 
 
 

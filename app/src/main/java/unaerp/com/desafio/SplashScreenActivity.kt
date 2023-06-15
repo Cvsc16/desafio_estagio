@@ -75,7 +75,7 @@ class SplashScreenActivity : AppCompatActivity() {
             Handler().postDelayed({
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            Toast.makeText(this, "Usuário NÃO logado!", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "Usuário NÃO logado!", Toast.LENGTH_SHORT).show()
             finish()
             }, delayMillis)
         }

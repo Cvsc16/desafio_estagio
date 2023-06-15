@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".ActivityTipoConta">
+    tools:context=".TipoContaActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        tools:context=".ActivityTipoConta">
+        tools:context=".TipoContaActivity">
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"

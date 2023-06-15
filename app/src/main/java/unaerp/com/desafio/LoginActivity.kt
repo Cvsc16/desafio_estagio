@@ -41,13 +41,13 @@ class LoginActivity : AppCompatActivity() {
             semContaTextView,
             ContextCompat.getColor(this, R.color.destaque),
             View.OnClickListener {
-                val intent = Intent(this, ActivityTipoConta::class.java)
+                val intent = Intent(this, TipoContaActivity::class.java)
                 startActivity(intent)
             })
 
         val esqueciSenha = findViewById<TextView>(R.id.esqueci_minha_senha)
         esqueciSenha.setOnClickListener {
-            val intent = Intent(this, ActivityEsqueceuSenha::class.java)
+            val intent = Intent(this, EsqueceuSenhaActivity::class.java)
             startActivity(intent)
         }
 

@@ -24,9 +24,8 @@ import androidx.core.content.ContextCompat
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ktx.Firebase
 
-class ActivityCadastro : AppCompatActivity() {
+class CadastroActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

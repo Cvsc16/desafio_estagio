@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 
-class ActivityDetalhesVaga : AppCompatActivity() {
+class DetalhesVagaActivity : AppCompatActivity() {
 
     private val detalhesFragment=DescricaoFragment()
     private val contatosFragment=ContatoFragment()

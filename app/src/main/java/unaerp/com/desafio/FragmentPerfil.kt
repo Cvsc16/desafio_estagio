@@ -9,7 +9,6 @@ import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -17,8 +16,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
@@ -162,7 +159,7 @@ class FragmentPerfil : Fragment() {
         }
 
         editar_senha.setOnClickListener {
-            val intent = Intent(requireContext(), ActivityRedefinirSenha::class.java)
+            val intent = Intent(requireContext(), RedefinirSenhaActivity::class.java)
             startActivity(intent)
         }
 
@@ -188,17 +185,28 @@ class FragmentPerfil : Fragment() {
                             user?.reauthenticate(credential)
                                 ?.addOnSuccessListener {
                                     // Senha correta, remove a conta do Firebase
-                                    user.delete()
+                                    val database = FirebaseDatabase.getInstance()
+                                    val userRef = database.getReference("users").child(user?.uid ?: "")
+
+                                    userRef.removeValue()
                                         .addOnSuccessListener {
-                                            // Conta excluída com sucesso, retorna para a tela de login
-                                            Toast.makeText(requireContext(), "Conta excluida com sucesso", Toast.LENGTH_SHORT).show()
-                                            val intent = Intent(requireContext(), LoginActivity::class.java)
-                                            startActivity(intent)
-                                            requireActivity().finish()
+                                            // Dados do usuário excluídos com sucesso, agora exclui a conta
+                                            user?.delete()
+                                                ?.addOnSuccessListener {
+                                                    // Conta excluída com sucesso, retorna para a tela de login
+                                                    Toast.makeText(requireContext(), "Conta excluída com sucesso", Toast.LENGTH_SHORT).show()
+                                                    val intent = Intent(requireContext(), LoginActivity::class.java)
+                                                    startActivity(intent)
+                                                    requireActivity().finish()
+                                                }
+                                                ?.addOnFailureListener { exception ->
+                                                    // Falha ao excluir a conta, exibe uma mensagem de erro
+                                                    Toast.makeText(requireContext(), "Erro ao excluir a conta: ${exception.message}", Toast.LENGTH_SHORT).show()
+                                                }
                                         }
-                                        .addOnFailureListener { exception ->
-                                            // Falha ao excluir a conta, exiba uma mensagem de erro
-                                            Toast.makeText(requireContext(), "Erro ao excluir a conta: ${exception.message}", Toast.LENGTH_SHORT).show()
+                                        ?.addOnFailureListener { exception ->
+                                            // Falha ao excluir os dados do usuário, exibe uma mensagem de erro
+                                            Toast.makeText(requireContext(), "Erro ao excluir os dados do usuário: ${exception.message}", Toast.LENGTH_SHORT).show()
                                         }
                                 }
                                 ?.addOnFailureListener { exception ->

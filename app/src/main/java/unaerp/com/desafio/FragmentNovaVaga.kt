@@ -40,11 +40,12 @@ class FragmentNovaVaga : Fragment() {
     private lateinit var email: EditText
     private lateinit var dataInicioVar: EditText
     private lateinit var dataFimVar: EditText
+    private lateinit var pesquisa: EditText
     private lateinit var switchVisibilidade: Switch
     private lateinit var spinnerAreaConhecimento: Spinner
     private lateinit var spinnerLocalidade: Spinner
     private lateinit var spinnerTipoVaga: Spinner
-    private lateinit var atualizarButton: Button
+    private lateinit var fullName: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -217,7 +218,6 @@ class FragmentNovaVaga : Fragment() {
         val userId = user?.uid
         val database = FirebaseDatabase.getInstance().reference.child("users").child(userId!!)
 
-        var fullName: String? = null
         var emailUser: String? = null
 
         database.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -227,16 +227,17 @@ class FragmentNovaVaga : Fragment() {
                     userData?.let { user ->
                         val fullName = user.nome
                         val names = fullName.split(" ")
+                        var formattedName = fullName // Definir o nome completo como valor padrão
 
                         if (names.size >= 2) {
                             val firstName = names[0]
                             val lastName = names[1]
-                            val formattedName = "$firstName $lastName"
+                            formattedName = "$firstName $lastName"
 
-                            editText_nome.setText(formattedName)
-                        } else {
-                            editText_nome.setText(fullName)
                         }
+                            editText_nome.setText(formattedName)
+
+                        atualizarFullName(formattedName)
 
                         editText_email.setText(user.email)
                     }
@@ -281,11 +282,16 @@ class FragmentNovaVaga : Fragment() {
         remuneracao = view.findViewById(R.id.textarea_remuneracao)
         telefoneVar = view.findViewById(R.id.textarea_telefone)
         email = view.findViewById(R.id.textarea_email)
+        pesquisa = view.findViewById(R.id.editTextPesquisa)
         dataInicioVar = view.findViewById(R.id.textarea_datainicio)
         dataFimVar = view.findViewById(R.id.textarea_datafim)
         switchVisibilidade = view.findViewById(R.id.switch_anunciante)
 
         return view
+    }
+
+    private fun atualizarFullName(value: String) {
+        fullName = value
     }
 
     private fun cadastrarNovaVaga() {
@@ -350,6 +356,10 @@ class FragmentNovaVaga : Fragment() {
                     telefoneVar.setText("")
                     email.setText("")
                     dataFimVar.setText("")
+                    pesquisa.setText("")
+                    spinnerAreaConhecimento.setSelection(0)
+                    spinnerLocalidade.setSelection(0)
+                    spinnerTipoVaga.setSelection(0)
                     switchVisibilidade.isChecked = false
                 }
                 .addOnFailureListener { exception ->

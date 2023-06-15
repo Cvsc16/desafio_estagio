@@ -2,13 +2,13 @@ package unaerp.com.desafio
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 
 
-class ActivityTipoConta : AppCompatActivity() {
+class TipoContaActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +18,7 @@ class ActivityTipoConta : AppCompatActivity() {
         val contaInteressado = findViewById<ConstraintLayout>(R.id.conta_interessado)
         val contaAnunciante = findViewById<ConstraintLayout>(R.id.conta_anunciante)
         val btn_prosseguir = findViewById<Button>(R.id.btn_prosseguir)
+        val back = findViewById<ImageView>(R.id.back)
 
         var tipoConta = "" // variável para guardar o tipo de conta selecionado
 
@@ -28,9 +29,13 @@ class ActivityTipoConta : AppCompatActivity() {
                 tipoConta = "Anunciante"
             }
 
-            val intent = Intent(this, ActivityCadastro::class.java)
+            val intent = Intent(this, CadastroActivity::class.java)
             intent.putExtra("tipo_conta", tipoConta)
             startActivity(intent)
+            finish()
+        }
+
+        back.setOnClickListener {
             finish()
         }
 

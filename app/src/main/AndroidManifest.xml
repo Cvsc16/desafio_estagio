@@ -32,36 +32,36 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".ActivityCadastro"
+            android:name=".CadastroActivity"
             android:exported="true"
             android:label="Cadastro Interessado"
            />
         <activity
-            android:name=".ActivityFiltragem"
+            android:name=".FiltragemActivity"
             android:exported="true"
             android:label="filtragem"
             >
         </activity>
         <activity
-            android:name=".ActivityTipoConta"
+            android:name=".TipoContaActivity"
             android:exported="true"
             android:label="tipoconta"
             >
         </activity>
         <activity
-            android:name=".ActivityEsqueceuSenha"
+            android:name=".EsqueceuSenhaActivity"
             android:exported="true"
             android:label="esquecisenha"
             >
         </activity>
         <activity
-            android:name=".ActivityRedefinirSenha"
+            android:name=".RedefinirSenhaActivity"
             android:exported="true"
             android:label="redefinirsenha"
            >
         </activity>
         <activity
-            android:name=".ActivityDetalhesVaga"
+            android:name=".DetalhesVagaActivity"
             android:exported="true"
             android:label="detalhesvaga"
             android:theme="@style/Theme.AppCompat.NoActionBar">

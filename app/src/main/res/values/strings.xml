@@ -6,6 +6,7 @@
 
     <string name="titulo_novavaga">Nova Vaga.</string>
     <string name="subtitulo_novavaga">Insira os detalhes da sua nova vaga, ela poderá ser consultada por todos os estágiarios e empresas cadastrados na plataforma</string>
+    <string name="subtitulo_editarvaga">Insira os novos detalhes da sua vaga, ela poderá ser consultada por todos os estágiarios e empresas cadastrados na plataforma</string>
     <string name="area_conhecimento">Área de Conhecimento</string>
     <string name="descricao">Descrição</string>
     <string name="localidade">Localidade</string>
