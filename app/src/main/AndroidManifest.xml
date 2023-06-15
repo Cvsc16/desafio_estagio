@@ -21,6 +21,7 @@
         <activity
             android:name=".SplashScreenActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,34 +30,40 @@
         </activity>
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
         </activity>
         <activity
             android:name=".CadastroActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:label="Cadastro Interessado"
            />
         <activity
             android:name=".FiltragemActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:label="filtragem"
             >
         </activity>
         <activity
             android:name=".TipoContaActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:label="tipoconta"
             >
         </activity>
         <activity
             android:name=".EsqueceuSenhaActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:label="esquecisenha"
             >
         </activity>
         <activity
             android:name=".RedefinirSenhaActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:label="redefinirsenha"
            >
         </activity>
@@ -64,6 +71,7 @@
             android:name=".DetalhesVagaActivity"
             android:exported="true"
             android:label="detalhesvaga"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
         <activity
@@ -71,12 +79,14 @@
             android:exported="true"
             android:label="mainActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait">
             >
         </activity>
         <activity
             android:name=".ActivityEdicaoVagas"
             android:exported="true"
             android:label="EdicaoVaga"
+            android:screenOrientation="portrait"
             />
     </application>
 
