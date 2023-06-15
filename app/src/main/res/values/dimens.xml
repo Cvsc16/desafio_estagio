@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="bottom_space_height">85dp</dimen>
+    <dimen name="width_logo_empresa">153dp</dimen>
+    <dimen name="height_logo_empresa">169dp</dimen>
 </resources>

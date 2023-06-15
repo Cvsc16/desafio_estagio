@@ -59,18 +59,18 @@ class FragmentVagas : Fragment() {
         val handler = Handler(Looper.getMainLooper())
         val intervaloVerificacao = 24 * 60 * 60 * 1000L // 24 horas (em milissegundos)
 
-        // Define uma tarefa para ser executada após o intervalo de tempo especificado
         val verificarVagasExpiradasRunnable = object : Runnable {
             override fun run() {
                 verificarVagasExpiradas()
 
                 // Agende a próxima execução após o intervalo de tempo
                 handler.postDelayed(this, intervaloVerificacao)
+
             }
         }
 
-// Inicia a execução da verificação de vagas expiradas
         handler.postDelayed(verificarVagasExpiradasRunnable, intervaloVerificacao)
+
 
         val listener = object : VagasAdapter.OnClickListener {
             override fun onClick(vaga: ClassVaga) {
@@ -95,19 +95,19 @@ class FragmentVagas : Fragment() {
                     adapter?.notifyDataSetChanged()
                 }
                 builder.setNegativeButton("Cancelar") { dialog, which ->
-                    // Não faz nada
                 }
                 val dialog = builder.create()
                 dialog.show()
             }
 
             override fun onEditarClick(vaga: ClassVaga) {
-                // Abra a tela de edição de vagas passando a vaga como argumento
                 val intent = Intent(requireContext(), ActivityEdicaoVagas::class.java)
                 intent.putExtra("vaga", vaga)
                 startActivity(intent)
             }
         }
+
+
 
         adapter = VagasAdapter(vagasList, listener, tipoConta ?: "")
         rvVagas?.adapter = adapter
@@ -126,6 +126,8 @@ class FragmentVagas : Fragment() {
                     }
                 }
 
+                updatedVagasList.reverse()
+
                 vagasList = updatedVagasList
 
                 adapter = VagasAdapter(vagasList, listener, tipoConta ?: "")
@@ -133,25 +135,22 @@ class FragmentVagas : Fragment() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Trate o erro, se necessário
             }
         })
 
         val searchView = view.findViewById<TextView>(R.id.searchView)
         searchView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Não é necessário fazer nada antes da mudança de texto
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = searchView.text.toString()
 
-                // Chame o método de filtro com o mesmo texto para todos os parâmetros
+                // Chame o método de filtro com query para exibir todas as vagas
                 filterVagas(query,query, query, query, query)
             }
 
             override fun afterTextChanged(s: Editable?) {
-                // Não é necessário fazer nada após a mudança de texto
             }
         })
 
@@ -170,7 +169,6 @@ class FragmentVagas : Fragment() {
                 val itemCount = state.itemCount
 
                 if (position == itemCount - 1) {
-                    // Último item
                     outRect.bottom = bottomSpaceHeight
                 } else {
                     outRect.bottom = 0
@@ -224,7 +222,7 @@ class FragmentVagas : Fragment() {
                         val dataFimVagaStr = vaga.dataFim
                         val dataFimVaga = parseData(dataFimVagaStr)
 
-                        // Verifique se a vaga já expirou (dataFim antes da data atual)
+                        // Verifica se a vaga já expirou (dataFim antes da data atual)
                         if (dataFimVaga != null && dataFimVaga.before(dataAtual)) {
                             // A vaga expirou, remova-a do banco de dados
                             vagaSnapshot.ref.removeValue()
@@ -234,7 +232,6 @@ class FragmentVagas : Fragment() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Trate o erro, se necessário
             }
         })
     }
@@ -344,7 +341,7 @@ class FragmentVagas : Fragment() {
             Log.d("LOGUSUARIO", "USUARIO ATUAL:$userId")
             Log.d("LOGUSUARIO", "USUARIO VAGA:${vaga.idAnunciante}")
 
-            // Verificar a escolha do usuário entre "Vagas Gerais" e "Minhas Vagas"
+            // Verifica a escolha do usuário entre "Vagas Gerais" e "Minhas Vagas"
             val vagaElegivel = when (escolhaUsuario) {
                 "Vagas Gerais" -> true
                 "Minhas Vagas" -> !userId.isNullOrBlank() && vaga.idAnunciante == userId

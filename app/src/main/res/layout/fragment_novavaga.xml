@@ -139,6 +139,7 @@
                     android:spinnerMode="dropdown"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/texto_escuro"
                     android:background="@drawable/borda_dropdown"
                     android:dropDownVerticalOffset="48dp"
                     />
@@ -257,6 +258,7 @@
                     android:paddingStart="55dp"
                     android:paddingEnd="8dp"
                     android:spinnerMode="dropdown"
+                    android:textColor="@color/texto_escuro"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:background="@drawable/borda_dropdown"

@@ -37,6 +37,7 @@ class FragmentPerfil : Fragment() {
         val view = inflater.inflate(R.layout.fragment_perfil, container, false)
 
         val logout = view.findViewById<ImageView>(R.id.logout)
+        val img_perfil = view.findViewById<ImageView>(R.id.img_foto_usuario)
         val back = view.findViewById<ImageView>(R.id.back)
         val editar_senha = view.findViewById<ImageView>(R.id.img_editar_senha)
         val excluir_conta = view.findViewById<ImageView>(R.id.img_excluir_conta)
@@ -45,74 +46,70 @@ class FragmentPerfil : Fragment() {
         val btn_salvar = view.findViewById<Button>(R.id.btn_salvar)
 
 
+        val tipoUsuario = arguments?.getString("tipoUsuario")
 
-// Ouvinte de texto para verificar as alterações nos campos
+        if (tipoUsuario == "Anunciante") {
+            img_perfil.setImageResource(R.drawable.logo_empresa)
+            val layoutParams = img_perfil.layoutParams
+            layoutParams.width = resources.getDimensionPixelSize(R.dimen.width_logo_empresa)
+            layoutParams.height = resources.getDimensionPixelSize(R.dimen.height_logo_empresa)
+            img_perfil.layoutParams = layoutParams
+        }
+
+
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Não é necessário implementar
+
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Verifica se houve alguma alteração nos campos de nome ou email
                 val nomeAtual = nome.text.toString().trim()
                 val emailAtual = email.text.toString().trim()
 
-                // Habilita ou desabilita o botão com base nas alterações
                 val enableButton = nomeAtual != nomeInicial || emailAtual != emailInicial
                 btn_salvar.isEnabled = enableButton
 
-                // Define a cor de fundo com base no estado do botão
                 val colorResId = if (enableButton) R.color.principal else R.color.detalhe
                 btn_salvar.setBackgroundColor(ContextCompat.getColor(view.context, colorResId))
             }
 
             override fun afterTextChanged(s: Editable?) {
-                // Não é necessário implementar
             }
         }
 
-// Define o ouvinte de texto para os campos de nome e email
+
         nome.addTextChangedListener(textWatcher)
         email.addTextChangedListener(textWatcher)
 
-// Desabilita o botão e define a cor de fundo correta no início
         btn_salvar.isEnabled = false
         btn_salvar.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.detalhe))
 
         btn_salvar.setOnClickListener {
-            // Faça a atualização das informações do usuário no Firebase aqui
             val nomeAtual = nome.text.toString().trim()
             val emailAtual = email.text.toString().trim()
 
-            // Use o objeto FirebaseAuth para obter a referência do usuário atualmente autenticado
             val user = FirebaseAuth.getInstance().currentUser
             val userId = user?.uid
 
-            // Use o objeto FirebaseDatabase para obter a referência do nó "users" e do usuário atual
             val database = FirebaseDatabase.getInstance().reference
             val userRef = database.child("users").child(userId!!)
 
-            // Crie um mapa com os dados a serem atualizados
             val userData = hashMapOf<String, Any>(
                 "nome" to nomeAtual,
                 "email" to emailAtual
             )
 
-            // Após atualizar os dados do usuário no Firebase
             userRef.updateChildren(userData)
                 .addOnSuccessListener {
-                    // Atualização bem-sucedida
                     Toast.makeText(
                         requireContext(),
                         "Dados atualizados com sucesso",
                         Toast.LENGTH_SHORT
                     ).show()
 
-                    // Atualize o nome do usuário nas CardVagas
                     val user = FirebaseAuth.getInstance().currentUser
                     val newName = nomeAtual
 
-                    // Use uma referência para as vagas do usuário
                     val vagaReference = FirebaseDatabase.getInstance().reference.child("vagas")
                     val query = vagaReference.orderByChild("idAnunciante").equalTo(user?.uid)
 
@@ -128,16 +125,13 @@ class FragmentPerfil : Fragment() {
                                 val abbreviatedName = "$firstName $lastName"
 
 
-                                // Atualize o nome do anunciante da vaga
                                 vaga?.empresa = abbreviatedName
 
-                                // Salve a atualização da vaga no Firebase
                                 vagaSnapshot.ref.setValue(vaga)
                             }
                         }
 
                         override fun onCancelled(error: DatabaseError) {
-                            // Trate o erro, se necessário
                             Log.d(
                                 "LOGEMPRESANOME2ERRORR",
                                 "Erro na consulta de vagas no Firebase: ${error.message}"
@@ -149,7 +143,6 @@ class FragmentPerfil : Fragment() {
                     btn_salvar.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.detalhe))
                 }
                 .addOnFailureListener { exception ->
-                    // Erro ao atualizar os dados
                     Toast.makeText(
                         requireContext(),
                         "Erro ao atualizar os dados: ${exception.message}",

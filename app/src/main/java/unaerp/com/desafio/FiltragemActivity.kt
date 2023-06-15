@@ -106,7 +106,17 @@ class FiltragemActivity : AppCompatActivity(){
                     val usuarioId = snapshot.key
                     val usuarioNome = snapshot.child("nome").getValue(String::class.java)
                     if (usuarioId != null && usuarioNome != null) {
-                        anuncianteList.add(usuarioNome)
+                        val nomeDividido = usuarioNome.split(" ")
+                        val primeiroNome = nomeDividido.getOrNull(0)
+                        val segundoNome = nomeDividido.getOrNull(1)
+
+                        val nomeExibicao = if (primeiroNome != null && segundoNome != null) {
+                            "$primeiroNome $segundoNome"
+                        } else {
+                            usuarioNome // Mantém o nome completo se não houver primeiro e segundo nome
+                        }
+
+                        anuncianteList.add(nomeExibicao)
                     }
                 }
 

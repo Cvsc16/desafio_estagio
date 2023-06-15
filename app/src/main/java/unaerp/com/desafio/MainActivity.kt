@@ -81,8 +81,14 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.perfil -> {
+                    val perfilFragment = FragmentPerfil()
+
+                    val bundle = Bundle()
+                    bundle.putString("tipoUsuario", tipoConta)
+                    perfilFragment.arguments = bundle
+
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, FragmentPerfil)
+                        .replace(R.id.fragment_container, perfilFragment)
                         .addToBackStack(null)
                         .commit()
                     true
