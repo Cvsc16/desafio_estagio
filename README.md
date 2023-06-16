@@ -5,8 +5,8 @@ Diogo Vitor Oliveira Leme - 836846<br>
 
 **Tela Login:**<br><br>
 **Email Interessado:** interessadodc@gmail.com<br>
-**Senha:** teste123
+**Senha:** interessado123
 
 **Email Anunciante:** anunciantedc@gmail.com<br>
-**Senha:** teste123
+**Senha:** anunciante123
 
