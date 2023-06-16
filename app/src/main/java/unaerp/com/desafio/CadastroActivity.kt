@@ -24,38 +24,39 @@ import androidx.core.content.ContextCompat
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import unaerp.com.desafio.databinding.ActivityCadastroBinding
 
 class CadastroActivity : AppCompatActivity() {
-
+    private lateinit var binding: ActivityCadastroBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cadastro)
+        binding = ActivityCadastroBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.hide()
 
-
-        val esconde_svg = findViewById<ImageView>(R.id.esconde_svg)
-        val back = findViewById<ImageView>(R.id.back)
-        val senha = findViewById<EditText>(R.id.cadastro_senha)
-        val nome = findViewById<EditText>(R.id.cadastro_nome)
-        val email = findViewById<EditText>(R.id.cadastro_email)
-        val btn_cadastro= findViewById<Button>(R.id.btn_cadastro)
+        val esconde_svg = binding.escondeSvg
+        val back = binding.back
+        val senha = binding.cadastroSenha
+        val nome = binding.cadastroNome
+        val email = binding.cadastroEmail
+        val btn_cadastro= binding.cadastroEmail
 
         val tipoConta = intent.getStringExtra("tipo_conta")
 
-        val semContaTextView = findViewById<TextView>(R.id.sem_conta)
+        val semContaTextView = binding.semConta
         trocacor(semContaTextView, ContextCompat.getColor(this, R.color.destaque), View.OnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         })
 
-        val termosTextView = findViewById<TextView>(R.id.termos)
+        val termosTextView = binding.termos
         trocacor1(termosTextView, ContextCompat.getColor(this, R.color.destaque))
 
-        val termos2TextView = findViewById<TextView>(R.id.termos)
+        val termos2TextView = binding.termos
         trocacor2(termos2TextView, ContextCompat.getColor(this, R.color.destaque))
 
-        val loginTextView = findViewById<TextView>(R.id.cadastro_)
+        val loginTextView = binding.cadastro
 
         trocacor_ult(loginTextView, ContextCompat.getColor(this, R.color.principal))
 

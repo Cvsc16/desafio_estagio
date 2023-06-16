@@ -7,10 +7,12 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import unaerp.com.desafio.databinding.ActivityLoginBinding
+import unaerp.com.desafio.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-
+    private lateinit var binding: ActivityMainBinding
     private val FragmentNovaVaga = FragmentNovaVaga()
     private val FragmentPerfil = FragmentPerfil()
     private val FragmentVagas = FragmentVagas()
@@ -21,7 +23,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         supportActionBar?.hide()
 
@@ -39,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavigationView = binding.bottomNavigation
         val menuFlutuante = resources.getDrawable(R.drawable.ic_novavaga_svg, null)
 
         // Recebe o email do usuário por meio do Intent

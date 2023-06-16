@@ -10,21 +10,25 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import unaerp.com.desafio.databinding.ActivityLoginBinding
+import unaerp.com.desafio.databinding.ActivityRedefinirsenhaBinding
 
 class RedefinirSenhaActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityRedefinirsenhaBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_redefinirsenha)
+        binding = ActivityRedefinirsenhaBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.hide()
 
-        val iconeEsconde = findViewById<ImageView>(R.id.esconde_svg)
-        val iconeEsconde2 = findViewById<ImageView>(R.id.esconde_svg2)
-        val iconeEsconde3 = findViewById<ImageView>(R.id.esconde_svgNovaSenha2)
-        val back = findViewById<ImageView>(R.id.back)
-        val btn_redefini = findViewById<Button>(R.id.btn_redifini)
-        val senha = findViewById<EditText>(R.id.senha_atual)
-        val senha_nova = findViewById<EditText>(R.id.senha_nova)
-        val senha_nova2 = findViewById<EditText>(R.id.senha_nova2)
+        val iconeEsconde = binding.escondeSvg
+        val iconeEsconde2 = binding.escondeSvg2
+        val iconeEsconde3 = binding.escondeSvgNovaSenha2
+        val back = binding.back
+        val btn_redefini = binding.btnRedifini
+        val senha = binding.senhaAtual
+        val senha_nova = binding.senhaNova
+        val senha_nova2 = binding.senhaNova2
 
         iconeEsconde.setOnClickListener {
             val cursorPosition = senha.selectionEnd

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import unaerp.com.desafio.databinding.CardvagaBinding
 import java.util.Locale
 
 class VagasAdapter(
@@ -28,57 +29,31 @@ class VagasAdapter(
         notifyDataSetChanged()
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VagaViewHolder {
+        val binding = CardvagaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return VagaViewHolder(binding)
+    }
+    inner class VagaViewHolder(private val binding: CardvagaBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(vaga: ClassVaga) {
+            binding.nomeEmpresa.text = vaga.empresa
+            binding.nomeCidade.text = vaga.cidadeEmpresa
+            binding.nomeVaga.text = vaga.titulo
+            binding.tipoVaga.text = vaga.tipoTrabalho
+            binding.tempoPostagem.text = vaga.dataInicio
+            binding.pagamento.text = "R$ ${vaga.pagamento}"
 
-    inner class VagaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        init {
-            itemView.setOnClickListener {
+            binding.cardVaga.setOnClickListener {
                 clickListener.onClick(filteredVagasList[adapterPosition])
             }
 
-            itemView.findViewById<View>(R.id.ic_excluir).setOnClickListener {
+            binding.icExcluir.setOnClickListener {
                 clickListener.onExcluirClick(vagaList[adapterPosition])
             }
-            itemView.findViewById<View>(R.id.ic_editar).setOnClickListener {
+
+            binding.icEditar.setOnClickListener {
                 clickListener.onEditarClick(vagaList[adapterPosition])
             }
         }
-
-        fun setInfoEmpresa(vaga: ClassVaga) {
-            val nomeEmpresaTv: TextView = itemView.findViewById(R.id.nome_empresa)
-            nomeEmpresaTv.text = vaga.empresa
-        }
-
-        fun setInfoCidade(vaga: ClassVaga) {
-            val nomeCidadeTv: TextView = itemView.findViewById(R.id.nomeCidade)
-            nomeCidadeTv.text = vaga.cidadeEmpresa
-        }
-
-        fun setInfoTitulo(vaga: ClassVaga) {
-            val nomeTituloTv: TextView = itemView.findViewById(R.id.nomeVaga)
-            nomeTituloTv.text = vaga.titulo
-        }
-
-        fun setInfoTipoTrabalho(vaga: ClassVaga) {
-            val nomeTipoTrabalhoTv: TextView = itemView.findViewById(R.id.tipoVaga)
-            nomeTipoTrabalhoTv.text = vaga.tipoTrabalho
-        }
-
-        fun setInfoDataInicio(vaga: ClassVaga) {
-            val dataInicioTv: TextView = itemView.findViewById(R.id.tempoPostagem)
-            dataInicioTv.text = vaga.dataInicio
-        }
-
-        fun setInfoSalario(vaga: ClassVaga) {
-            val salarioTv: TextView = itemView.findViewById(R.id.pagamento)
-            salarioTv.text = "R$ ${vaga.pagamento}"
-        }
-
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VagaViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.cardvaga, parent, false)
-        return VagaViewHolder(view)
     }
 
     override fun getItemCount(): Int {
@@ -86,15 +61,9 @@ class VagasAdapter(
     }
 
     override fun onBindViewHolder(holder: VagaViewHolder, position: Int) {
+        holder.bind(filteredVagasList[position])
         if (vagaList.isNotEmpty()) {
             val vaga = filteredVagasList[position] // Obter a vaga da lista filtrada
-
-            holder.setInfoEmpresa(vaga)
-            holder.setInfoCidade(vaga)
-            holder.setInfoTitulo(vaga)
-            holder.setInfoTipoTrabalho(vaga)
-            holder.setInfoDataInicio(vaga)
-            holder.setInfoSalario(vaga)
 
             if (tipoConta == "Anunciante") {
                 val userId = FirebaseAuth.getInstance().currentUser?.uid

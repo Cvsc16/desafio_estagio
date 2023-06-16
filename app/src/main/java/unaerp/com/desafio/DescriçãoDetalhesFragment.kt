@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import unaerp.com.desafio.databinding.FragmentContatoBinding
+import unaerp.com.desafio.databinding.FragmentDescricaoBinding
 
 class DescricaoFragment : Fragment() {
 
+    private lateinit var binding: FragmentDescricaoBinding
     private lateinit var textViewDescricao: TextView
     private lateinit var textViewAreaConhecimento: TextView
     private lateinit var textViewDataFim: TextView
@@ -18,11 +21,12 @@ class DescricaoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_descricao, container, false)
+        binding = FragmentDescricaoBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        textViewDescricao = view.findViewById(R.id.textarea_descricao)
-        textViewAreaConhecimento = view.findViewById(R.id.tv_descAreaConhecimento)
-        textViewDataFim = view.findViewById(R.id.tv_descDatafim)
+        textViewDescricao = binding.textareaDescricao
+        textViewAreaConhecimento = binding.tvDescAreaConhecimento
+        textViewDataFim = binding.tvDescDatafim
 
         val vaga = arguments?.getSerializable("vaga") as ClassVaga?
         vaga?.let {

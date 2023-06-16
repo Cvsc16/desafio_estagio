@@ -15,22 +15,26 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import unaerp.com.desafio.databinding.ActivityRedefinirsenhaBinding
+import unaerp.com.desafio.databinding.ActivitySplashBinding
 
 class SplashScreenActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySplashBinding
     private val auth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance("https://desafio5semestre-default-rtdb.firebaseio.com/")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         FirebaseDatabase.getInstance().setPersistenceEnabled(true)
 
-        val imageViewGif = findViewById<ImageView>(R.id.img_gif)
+        val imageViewGif = binding.imgGif
 
         Glide.with(this)
             .asGif()
-            .load(R.drawable.loadingdogf)
+            .load(R.drawable.gif_splash)
             .into(imageViewGif)
 
         Log.d("ABRIRAPP", "REALIZOU O LOGIN")

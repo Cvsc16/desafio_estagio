@@ -20,11 +20,14 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import unaerp.com.desafio.databinding.ActivityEsqueceusenhaBinding
+import unaerp.com.desafio.databinding.ActivityFiltragemBinding
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
 class FiltragemActivity : AppCompatActivity(){
 
+    private lateinit var binding: ActivityFiltragemBinding
     private var areaConhecimentoSelecionada: String? = null
     private var cidadeSelecionada: String? = null
     private var empresaSelecionada: String? = null
@@ -34,21 +37,22 @@ class FiltragemActivity : AppCompatActivity(){
     private var tipoConta: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_filtragem)
+        binding = ActivityFiltragemBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         supportActionBar?.hide()
 
-        val back = findViewById<ImageView>(R.id.back)
-        val btn_filtro= findViewById<Button>(R.id.btn_filtrar)
-        val btn_vagasGerais= findViewById<Button>(R.id.btn_vagasGerais)
-        val btn_vagasAnunciante= findViewById<Button>(R.id.btn_minhasVagas)
-        val btn_resetar = findViewById<Button>(R.id.btn_resetar)
+        val back = binding.back
+        val btn_filtro= binding.btnFiltrar
+        val btn_vagasGerais= binding.btnVagasGerais
+        val btn_vagasAnunciante= binding.btnMinhasVagas
+        val btn_resetar = binding.btnResetar
 
-        val spinner_areaConhecimento: Spinner = findViewById(R.id.spinner_areaConhecimento)
-        val spinner_localidade: Spinner = findViewById(R.id.spinner_localidade)
-        val spinner_anunciante: Spinner = findViewById(R.id.spinner_anunciante)
-        val spinner_tipoVaga: Spinner = findViewById(R.id.spinner_tipoVaga)
-        val spinner_remuneracao: Spinner = findViewById(R.id.spinner_remuneracao)
+        val spinner_areaConhecimento: Spinner = binding.spinnerAreaConhecimento
+        val spinner_localidade: Spinner = binding.spinnerLocalidade
+        val spinner_anunciante: Spinner = binding.spinnerAnunciante
+        val spinner_tipoVaga: Spinner = binding.spinnerTipoVaga
+        val spinner_remuneracao: Spinner = binding.spinnerRemuneracao
 
         val adapter_areaConhecimento = ArrayAdapter.createFromResource(this, R.array.opcoes_spinner_areaConhecimento, R.layout.spinner_item)
         adapter_areaConhecimento.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -73,7 +77,7 @@ class FiltragemActivity : AppCompatActivity(){
         spinner_localidade.adapter = adapter_localidade
         spinner_localidade.setSelection(0)
 
-        val editTextPesquisa = findViewById<EditText>(R.id.editTextPesquisa)
+        val editTextPesquisa = binding.editTextPesquisa
 
         editTextPesquisa.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -323,14 +327,14 @@ class FiltragemActivity : AppCompatActivity(){
         }
     }
     fun resetarValores() {
-        val btn_vagasGerais= findViewById<Button>(R.id.btn_vagasGerais)
-        val btn_vagasAnunciante= findViewById<Button>(R.id.btn_minhasVagas)
+        val btn_vagasGerais= binding.btnVagasGerais
+        val btn_vagasAnunciante= binding.btnMinhasVagas
 
-        val spinner_areaConhecimento: Spinner = findViewById(R.id.spinner_areaConhecimento)
-        val spinner_localidade: Spinner = findViewById(R.id.spinner_localidade)
-        val spinner_anunciante: Spinner = findViewById(R.id.spinner_anunciante)
-        val spinner_tipoVaga: Spinner = findViewById(R.id.spinner_tipoVaga)
-        val spinner_remuneracao: Spinner = findViewById(R.id.spinner_remuneracao)
+        val spinner_areaConhecimento: Spinner = binding.spinnerAreaConhecimento
+        val spinner_localidade: Spinner = binding.spinnerLocalidade
+        val spinner_anunciante: Spinner = binding.spinnerAnunciante
+        val spinner_tipoVaga: Spinner = binding.spinnerTipoVaga
+        val spinner_remuneracao: Spinner = binding.spinnerRemuneracao
         spinner_areaConhecimento.setSelection(0)
         spinner_localidade.setSelection(0)
         spinner_anunciante.setSelection(0)
@@ -346,14 +350,14 @@ class FiltragemActivity : AppCompatActivity(){
         atualizarCorBotaoResetar()
     }
     private fun atualizarCorBotaoResetar() {
-        val btn_resetar = findViewById<Button>(R.id.btn_resetar)
+        val btn_resetar = binding.btnResetar
 
-        val spinner_areaConhecimento: Spinner = findViewById(R.id.spinner_areaConhecimento)
-        val spinner_localidade: Spinner = findViewById(R.id.spinner_localidade)
-        val spinner_anunciante: Spinner = findViewById(R.id.spinner_anunciante)
-        val spinner_tipoVaga: Spinner = findViewById(R.id.spinner_tipoVaga)
-        val spinner_remuneracao: Spinner = findViewById(R.id.spinner_remuneracao)
-        val btn_vagasGerais = findViewById<Button>(R.id.btn_vagasGerais)
+        val spinner_areaConhecimento: Spinner = binding.spinnerAreaConhecimento
+        val spinner_localidade: Spinner = binding.spinnerLocalidade
+        val spinner_anunciante: Spinner = binding.spinnerAnunciante
+        val spinner_tipoVaga: Spinner = binding.spinnerTipoVaga
+        val spinner_remuneracao: Spinner = binding.spinnerRemuneracao
+        val btn_vagasGerais = binding.btnVagasGerais
 
         val isDefaultValues = spinner_areaConhecimento.selectedItemPosition == 0 &&
                 spinner_localidade.selectedItemPosition == 0 &&

@@ -6,19 +6,22 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import unaerp.com.desafio.databinding.ActivitySplashBinding
+import unaerp.com.desafio.databinding.ActivityTipocontaBinding
 
 
 class TipoContaActivity : AppCompatActivity() {
-
+    private lateinit var binding: ActivityTipocontaBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tipoconta)
+        binding = ActivityTipocontaBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.hide()
 
-        val contaInteressado = findViewById<ConstraintLayout>(R.id.conta_interessado)
-        val contaAnunciante = findViewById<ConstraintLayout>(R.id.conta_anunciante)
-        val btn_prosseguir = findViewById<Button>(R.id.btn_prosseguir)
-        val back = findViewById<ImageView>(R.id.back)
+        val contaInteressado = binding.contaInteressado
+        val contaAnunciante = binding.contaAnunciante
+        val btn_prosseguir = binding.btnProsseguir
+        val back = binding.back
 
         var tipoConta = "" // variável para guardar o tipo de conta selecionado
 

@@ -21,22 +21,26 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import unaerp.com.desafio.databinding.ActivityEsqueceusenhaBinding
+import unaerp.com.desafio.databinding.ActivityLoginBinding
 import unaerp.com.desafio.ClassUser as LocalbaseUser
 
 class LoginActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.hide()
 
-        val esconde_svg = findViewById<ImageView>(R.id.esconde_svg)
-        val senha = findViewById<EditText>(R.id.senha)
-        val email = findViewById<EditText>(R.id.email)
-        val btn_login = findViewById<Button>(R.id.btn_login)
+        val esconde_svg = binding.escondeSvg
+        val senha = binding.senha
+        val email = binding.email
+        val btn_login = binding.btnLogin
 
         val tipoConta = intent.getStringExtra("tipo_conta")
 
-        val semContaTextView = findViewById<TextView>(R.id.sem_conta)
+        val semContaTextView = binding.semConta
         trocacor(
             semContaTextView,
             ContextCompat.getColor(this, R.color.destaque),
@@ -45,13 +49,13 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(intent)
             })
 
-        val esqueciSenha = findViewById<TextView>(R.id.esqueci_minha_senha)
+        val esqueciSenha = binding.esqueciMinhaSenha
         esqueciSenha.setOnClickListener {
             val intent = Intent(this, EsqueceuSenhaActivity::class.java)
             startActivity(intent)
         }
 
-        val loginTextView = findViewById<TextView>(R.id.login_)
+        val loginTextView = binding.login
         trocacor_ult(loginTextView, ContextCompat.getColor(this, R.color.principal))
 
         esconde_svg.setOnClickListener {

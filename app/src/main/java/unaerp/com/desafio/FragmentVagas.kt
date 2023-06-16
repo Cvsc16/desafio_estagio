@@ -23,6 +23,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import unaerp.com.desafio.databinding.FragmentPerfilBinding
+import unaerp.com.desafio.databinding.FragmentVagasBinding
 import java.text.Normalizer
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -33,6 +35,7 @@ import java.util.Locale
 
 class FragmentVagas : Fragment() {
 
+    private lateinit var binding: FragmentVagasBinding
     private var areaConhecimentoSelecionada: String? = null
     private var cidadeSelecionada: String? = null
     private var empresaSelecionada: String? = null
@@ -49,11 +52,12 @@ class FragmentVagas : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_vagas, container, false)
+        binding = FragmentVagasBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        val iconeFiltro = view.findViewById<ImageView>(R.id.ic_filtro)
+        val iconeFiltro = binding.icFiltro
 
-        val rvVagas: RecyclerView? = view.findViewById(R.id.rvVagas)
+        val rvVagas: RecyclerView? = binding.rvVagas
         rvVagas?.layoutManager = LinearLayoutManager(context)
 
         val handler = Handler(Looper.getMainLooper())
@@ -138,7 +142,7 @@ class FragmentVagas : Fragment() {
             }
         })
 
-        val searchView = view.findViewById<TextView>(R.id.searchView)
+        val searchView = binding.searchView
         searchView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -199,7 +203,7 @@ class FragmentVagas : Fragment() {
 
         // Verifica se o usuário logado tem um cadastro de anunciante"
         if (tipoConta == "Anunciante") {
-            val encontreEstagio = view.findViewById<TextView>(R.id.encontre_estagio)
+            val encontreEstagio = binding.encontreEstagio
             encontreEstagio.text = "Anuncie o seu"
         }
 
@@ -254,10 +258,10 @@ class FragmentVagas : Fragment() {
         tipoTrabalho: String?
     ) {
         val filteredList = mutableListOf<ClassVaga>()
-        val rvVagas: RecyclerView? = view?.findViewById(R.id.rvVagas)
-        val imageNoResults: ImageView? = view?.findViewById(R.id.imageNoResults)
-        val texto_semResultados: TextView? = view?.findViewById(R.id.text_semResultados)
-        val texto_tenteNovamente: TextView? = view?.findViewById(R.id.text_tenteNovamente)
+        val rvVagas: RecyclerView? = binding.rvVagas
+        val imageNoResults: ImageView? = binding.imageNoResults
+        val texto_semResultados: TextView? = binding.textSemResultados
+        val texto_tenteNovamente: TextView? = binding.textTenteNovamente
 
         for (vaga in vagasList) {
             val tituloVaga = text.isNullOrBlank() || vaga.titulo.lowercase(Locale.getDefault()).contains(text.lowercase(Locale.getDefault()))
@@ -296,10 +300,10 @@ class FragmentVagas : Fragment() {
         escolhaUsuario: String?
     ) {
         val filteredList = mutableListOf<ClassVaga>()
-        val rvVagas: RecyclerView? = view?.findViewById(R.id.rvVagas)
-        val imageNoResults: ImageView? = view?.findViewById(R.id.imageNoResults)
-        val texto_semResultados: TextView? = view?.findViewById(R.id.text_semResultados)
-        val texto_tenteNovamente: TextView? = view?.findViewById(R.id.text_tenteNovamente)
+        val rvVagas: RecyclerView? = binding.rvVagas
+        val imageNoResults: ImageView? = binding.imageNoResults
+        val texto_semResultados: TextView? = binding.textSemResultados
+        val texto_tenteNovamente: TextView? = binding.textTenteNovamente
 
         for (vaga in vagasList) {
             val areaConhecimentoVaga =

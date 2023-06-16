@@ -15,9 +15,11 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import unaerp.com.desafio.databinding.FragmentContatoBinding
 
 class ContatoFragment : Fragment() {
 
+    private lateinit var binding: FragmentContatoBinding
     private val requestPhoneCall = 1
     private lateinit var textViewtelefone: TextView
     private lateinit var textViewemail: TextView
@@ -27,12 +29,13 @@ class ContatoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_contato, container, false)
+        binding = FragmentContatoBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        textViewtelefone = view.findViewById(R.id.numeroTelefone)
-        textViewemail= view.findViewById(R.id.emailEmpresa)
-        val emailContato: ConstraintLayout = view.findViewById(R.id.fragment_email)
-        val telefoneContato: ConstraintLayout = view.findViewById(R.id.fragment_telefone)
+        textViewtelefone = binding.numeroTelefone
+        textViewemail= binding.emailEmpresa
+        val emailContato: ConstraintLayout = binding.fragmentEmail
+        val telefoneContato: ConstraintLayout = binding.fragmentTelefone
 
         val vaga = arguments?.getSerializable("vaga") as ClassVaga?
         vaga?.let {

@@ -24,6 +24,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import unaerp.com.desafio.databinding.FragmentContatoBinding
+import unaerp.com.desafio.databinding.FragmentNovavagaBinding
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.text.SimpleDateFormat
@@ -32,6 +34,7 @@ import java.util.Date
 import java.util.Locale
 class FragmentNovaVaga : Fragment() {
 
+    private lateinit var binding: FragmentNovavagaBinding
     private lateinit var nomeEmpresa: EditText
     private lateinit var tituloVaga: EditText
     private lateinit var descricaoVar: EditText
@@ -52,15 +55,17 @@ class FragmentNovaVaga : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_novavaga, container, false)
-        val back = view.findViewById<ImageView>(R.id.back)
+        binding = FragmentNovavagaBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        spinnerAreaConhecimento = view.findViewById(R.id.spinner_areaConhecimento)
-        spinnerLocalidade = view.findViewById(R.id.spinner_localidade)
-        spinnerTipoVaga = view.findViewById(R.id.spinner_tipoVaga)
+        val back = binding.back
+
+        spinnerAreaConhecimento = binding.spinnerAreaConhecimento
+        spinnerLocalidade = binding.spinnerLocalidade
+        spinnerTipoVaga = binding.spinnerTipoVaga
 
 
-        val editText = view.findViewById<EditText>(R.id.nome_anunciante)
+        val editText = binding.nomeAnunciante
         editText.keyListener = null
 
         val areaConhecimentoOptions = resources.getStringArray(R.array.opcoes_spinner_areaConhecimento)
@@ -106,7 +111,7 @@ class FragmentNovaVaga : Fragment() {
         spinnerLocalidade.adapter = adapter_localidade
         spinnerLocalidade.setSelection(0) // Define "Selecione" como o item selecionado
 
-        val editTextPesquisa = view.findViewById<EditText>(R.id.editTextPesquisa)
+        val editTextPesquisa = binding.editTextPesquisa
 
         editTextPesquisa.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -140,10 +145,10 @@ class FragmentNovaVaga : Fragment() {
         adapter_tipoVaga.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerTipoVaga.adapter = adapter_tipoVaga
 
-        val telefoneEditText = view.findViewById<EditText>(R.id.textarea_telefone)
+        val telefoneEditText = binding.textareaTelefone
         telefoneEditText.addTextChangedListener(PhoneNumberFormattingTextWatcher())
 
-        val etData = view.findViewById<EditText>(R.id.textarea_datafim)
+        val etData = binding.textareaDatafim
 
 // Define o listener para o clique no EditText
         etData.setOnClickListener {
@@ -173,7 +178,7 @@ class FragmentNovaVaga : Fragment() {
             datePickerDialog.show()
         }
 
-        val etData2 = view.findViewById<EditText>(R.id.textarea_datainicio)
+        val etData2 = binding.textareaDatainicio
 
 // Cria um SimpleDateFormat para formatar a data atual
         val formato = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -191,7 +196,7 @@ class FragmentNovaVaga : Fragment() {
 
 
         // Obtém a referência do Switch
-        val switch = view.findViewById<Switch>(R.id.switch_anunciante)
+        val switch = binding.switchAnunciante
 
 // Define a cor para quando o Switch estiver desativado (à esquerda)
         val corDesativado = Color.parseColor("#93BCFB")
@@ -211,8 +216,8 @@ class FragmentNovaVaga : Fragment() {
             }
         }
 
-        val editText_nome = view.findViewById<EditText>(R.id.nome_anunciante)
-        val editText_email = view.findViewById<EditText>(R.id.textarea_email)
+        val editText_nome = binding.nomeAnunciante
+        val editText_email = binding.textareaEmail
 
         val user = FirebaseAuth.getInstance().currentUser
         val userId = user?.uid
@@ -263,7 +268,7 @@ class FragmentNovaVaga : Fragment() {
             requireActivity().onBackPressed()
         }
         // Criando uma nova vaga
-        val btnNovaVaga = view.findViewById<Button>(R.id.btn_novaVaga)
+        val btnNovaVaga = binding.btnNovaVaga
 
         btnNovaVaga.setOnClickListener {
             Log.d("MeuBotao", "Botão clicado")
@@ -276,16 +281,16 @@ class FragmentNovaVaga : Fragment() {
         }
 
         // Inicialize as referências aos elementos da interface aqui:
-        tituloVaga = view.findViewById(R.id.textarea_titulo)
-        nomeEmpresa = view.findViewById(R.id.nome_anunciante)
-        descricaoVar = view.findViewById(R.id.textarea_descricao)
-        remuneracao = view.findViewById(R.id.textarea_remuneracao)
-        telefoneVar = view.findViewById(R.id.textarea_telefone)
-        email = view.findViewById(R.id.textarea_email)
-        pesquisa = view.findViewById(R.id.editTextPesquisa)
-        dataInicioVar = view.findViewById(R.id.textarea_datainicio)
-        dataFimVar = view.findViewById(R.id.textarea_datafim)
-        switchVisibilidade = view.findViewById(R.id.switch_anunciante)
+        tituloVaga = binding.textareaTitulo
+        nomeEmpresa = binding.nomeAnunciante
+        descricaoVar = binding.textareaDescricao
+        remuneracao = binding.textareaRemuneracao
+        telefoneVar = binding.textareaTelefone
+        email = binding.textareaEmail
+        pesquisa = binding.editTextPesquisa
+        dataInicioVar = binding.textareaDatainicio
+        dataFimVar = binding.textareaDatafim
+        switchVisibilidade = binding.switchAnunciante
 
         return view
     }

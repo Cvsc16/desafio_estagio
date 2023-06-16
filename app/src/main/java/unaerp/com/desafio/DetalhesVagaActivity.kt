@@ -6,40 +6,44 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
+import unaerp.com.desafio.databinding.ActivityCadastroBinding
+import unaerp.com.desafio.databinding.ActivityDetalhesvagaBinding
 
 class DetalhesVagaActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityDetalhesvagaBinding
     private val detalhesFragment=DescricaoFragment()
     private val contatosFragment=ContatoFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detalhesvaga)
+        binding = ActivityDetalhesvagaBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         supportActionBar?.hide()
 
-        val back = findViewById<ImageView>(R.id.back)
+        val back = binding.back
 
         val vaga = intent.getSerializableExtra("vaga") as ClassVaga
 
 
-        val nomeEmpresaTextView = findViewById<TextView>(R.id.nome_empresa)
+        val nomeEmpresaTextView = binding.nomeEmpresa
         nomeEmpresaTextView.text = vaga.empresa
 
-        val nomeVagaTextView = findViewById<TextView>(R.id.nomeVaga)
+        val nomeVagaTextView = binding.nomeVaga
         nomeVagaTextView.text = vaga.titulo
 
-        val nomeCidadeTextView = findViewById<TextView>(R.id.tv_cidade)
+        val nomeCidadeTextView = binding.tvCidade
         nomeCidadeTextView.text = vaga.cidadeEmpresa
 
-        val tipoVagaTextView = findViewById<TextView>(R.id.tv_tipo_vaga)
+        val tipoVagaTextView = binding.tvTipoVaga
         tipoVagaTextView.text = vaga.tipoTrabalho
 
-        val salarioTextView = findViewById<TextView>(R.id.tv_valorSalario)
+        val salarioTextView = binding.tvValorSalario
         salarioTextView.text = "R$ ${vaga.pagamento}"
 
 
-        val buttonDetalhes = findViewById<Button>(R.id.button_detalhes)
-        val buttonDetalhes2 = findViewById<Button>(R.id.button_detalhes2)
+        val buttonDetalhes = binding.buttonDetalhes
+        val buttonDetalhes2 = binding.buttonDetalhes2
 
         back.setOnClickListener {
             onBackPressed()

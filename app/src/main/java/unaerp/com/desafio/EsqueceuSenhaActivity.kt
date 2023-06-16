@@ -9,16 +9,20 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import unaerp.com.desafio.databinding.ActivityEdicaoVagaBinding
+import unaerp.com.desafio.databinding.ActivityEsqueceusenhaBinding
 
 class EsqueceuSenhaActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityEsqueceusenhaBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_esqueceusenha)
+        binding = ActivityEsqueceusenhaBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.hide()
 
-        val emailRecupera = findViewById<TextView>(R.id.email_recupera)
-        val btnRecupera = findViewById<Button>(R.id.btn_recupera)
-        val back = findViewById<ImageView>(R.id.back)
+        val emailRecupera = binding.emailRecupera
+        val btnRecupera = binding.btnRecupera
+        val back = binding.back
 
         btnRecupera.setOnClickListener {
             val mAuth = FirebaseAuth.getInstance()

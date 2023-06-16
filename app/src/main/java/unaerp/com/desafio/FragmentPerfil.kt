@@ -23,9 +23,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import unaerp.com.desafio.databinding.FragmentNovavagaBinding
+import unaerp.com.desafio.databinding.FragmentPerfilBinding
 
 
 class FragmentPerfil : Fragment() {
+    private lateinit var binding: FragmentPerfilBinding
     private var nomeInicial: String = ""
     private var emailInicial: String = ""
     override fun onCreateView(
@@ -33,17 +36,17 @@ class FragmentPerfil : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentPerfilBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        val view = inflater.inflate(R.layout.fragment_perfil, container, false)
-
-        val logout = view.findViewById<ImageView>(R.id.logout)
-        val img_perfil = view.findViewById<ImageView>(R.id.img_foto_usuario)
-        val back = view.findViewById<ImageView>(R.id.back)
-        val editar_senha = view.findViewById<ImageView>(R.id.img_editar_senha)
-        val excluir_conta = view.findViewById<ImageView>(R.id.img_excluir_conta)
-        val nome = view.findViewById<EditText>(R.id.cadastro_nome)
-        val email = view.findViewById<EditText>(R.id.cadastro_email)
-        val btn_salvar = view.findViewById<Button>(R.id.btn_salvar)
+        val logout = binding.logout
+        val img_perfil = binding.imgFotoUsuario
+        val back = binding.back
+        val editar_senha = binding.imgEditarSenha
+        val excluir_conta = binding.imgExcluirConta
+        val nome = binding.cadastroNome
+        val email = binding.cadastroEmail
+        val btn_salvar = binding.btnSalvar
 
 
         val tipoUsuario = arguments?.getString("tipoUsuario")
@@ -242,8 +245,8 @@ class FragmentPerfil : Fragment() {
     }
 
     private fun updateProfileFields(fullName: String) {
-        val nome = view?.findViewById<EditText>(R.id.cadastro_nome)
-        val nome2 = view?.findViewById<TextView>(R.id.cadastro_)
+        val nome = binding.cadastroNome
+        val nome2 = binding.cadastro
         val names = fullName.split(" ")
         val firstName = names.getOrElse(0) { "" }
         val lastName = names.getOrElse(1) { "" }
@@ -256,9 +259,9 @@ class FragmentPerfil : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val nome = view.findViewById<EditText>(R.id.cadastro_nome)
-        val nome2 = view.findViewById<TextView>(R.id.cadastro_)
-        val email = view.findViewById<EditText>(R.id.cadastro_email)
+        val nome = binding.cadastroNome
+        val nome2 = binding.cadastro
+        val email = binding.cadastroEmail
 
         val user = FirebaseAuth.getInstance().currentUser
         val userId = user?.uid
@@ -271,7 +274,7 @@ class FragmentPerfil : Fragment() {
                     userData?.let { user ->
                         val fullName = user.nome
                         val userEmail = user.email
-                        val btn_salvar = view.findViewById<Button>(R.id.btn_salvar)
+                        val btn_salvar = binding.btnSalvar
 
                         // Extrai os dois primeiros nomes
                         updateProfileFields(fullName)

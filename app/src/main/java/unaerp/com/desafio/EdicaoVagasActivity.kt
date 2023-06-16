@@ -26,6 +26,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import unaerp.com.desafio.databinding.ActivityDetalhesvagaBinding
+import unaerp.com.desafio.databinding.ActivityEdicaoVagaBinding
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.text.SimpleDateFormat
@@ -50,18 +52,21 @@ private var fullName: String = ""
 
 class ActivityEdicaoVagas : AppCompatActivity() {
 
+    private lateinit var binding: ActivityEdicaoVagaBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edicao_vaga)
+        binding = ActivityEdicaoVagaBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         supportActionBar?.hide()
 
         val vaga = intent.getSerializableExtra("vaga") as? ClassVaga
 
-        tituloVaga = findViewById(R.id.textarea_titulo)
+        tituloVaga = binding.textareaTitulo
         tituloVaga.setText(vaga?.titulo)
 
-        spinnerAreaConhecimento = findViewById(R.id.spinner_areaConhecimento)
+        spinnerAreaConhecimento = binding.spinnerAreaConhecimento
         val areaConhecimento = vaga?.areaConhecimento
 
         val areaConhecimentoOptions =
@@ -84,22 +89,22 @@ class ActivityEdicaoVagas : AppCompatActivity() {
             spinnerAreaConhecimento.setSelection(index_areaConhecimento)
         }
 
-        descricaoVar = findViewById(R.id.textarea_descricao)
+        descricaoVar = binding.textareaDescricao
         descricaoVar.setText(vaga?.descricao)
 
-        remuneracao = findViewById(R.id.textarea_remuneracao)
+        remuneracao = binding.textareaRemuneracao
         remuneracao.setText(vaga?.pagamento)
 
-        telefoneVar = findViewById(R.id.textarea_telefone)
+        telefoneVar = binding.textareaTelefone
         telefoneVar.setText(vaga?.telefone)
 
-        emailVar = findViewById(R.id.textarea_email)
+        emailVar = binding.textareaEmail
         emailVar.setText(vaga?.emailEmpresa)
 
-        nomeEmpresa = findViewById(R.id.nome_anunciante)
+        nomeEmpresa = binding.nomeAnunciante
         nomeEmpresa.setText(vaga?.empresa)
 
-        spinnerLocalidade = findViewById(R.id.spinner_localidade)
+        spinnerLocalidade = binding.spinnerLocalidade
         val localidade = vaga?.cidadeEmpresa
 
 // Ler o arquivo de texto contendo as cidades brasileiras
@@ -131,7 +136,7 @@ class ActivityEdicaoVagas : AppCompatActivity() {
             spinnerLocalidade.setSelection(0)
         }
 
-        val editTextPesquisa: EditText = findViewById(R.id.editTextPesquisa)
+        val editTextPesquisa: EditText = binding.editTextPesquisa
         editTextPesquisa.setText(vaga?.cidadeEmpresa)
 
         editTextPesquisa.addTextChangedListener(object : TextWatcher {
@@ -149,7 +154,7 @@ class ActivityEdicaoVagas : AppCompatActivity() {
             }
         })
 
-        spinnerTipoVaga = findViewById(R.id.spinner_tipoVaga)
+        spinnerTipoVaga = binding.spinnerTipoVaga
         val spinner_tipoVaga = vaga?.tipoTrabalho
 
         val tipoVagaOptions =
@@ -171,7 +176,7 @@ class ActivityEdicaoVagas : AppCompatActivity() {
             spinnerTipoVaga.setSelection(index_tipoVaga)
         }
 
-        dataFimVar = findViewById(R.id.textarea_datafim)
+        dataFimVar = binding.textareaDatafim
         dataFimVar.setText(vaga?.dataFim)
 
 // Define o listener para o clique no EditText
@@ -216,7 +221,7 @@ class ActivityEdicaoVagas : AppCompatActivity() {
             datePickerDialog.show()
         }
 
-        dataInicioVar = findViewById(R.id.textarea_datainicio)
+        dataInicioVar = binding.textareaDatainicio
         dataInicioVar.setText(vaga?.dataInicio)
 
 // Cria um SimpleDateFormat para formatar a data atual
@@ -234,7 +239,7 @@ class ActivityEdicaoVagas : AppCompatActivity() {
         dataInicioVar.setFocusableInTouchMode(false)
 
 // Obtém a referência do Switch
-        val switch = findViewById<Switch>(R.id.switch_anunciante)
+        val switch = binding.switchAnunciante
 
 // Define a cor para quando o Switch estiver desativado (à esquerda)
         val corDesativado = Color.parseColor("#93BCFB")
@@ -291,8 +296,8 @@ class ActivityEdicaoVagas : AppCompatActivity() {
 
 
 
-        val back : ImageView = findViewById(R.id.back)
-        val btn_atualizarVaga : Button = findViewById(R.id.btn_atualizarVaga)
+        val back : ImageView = binding.back
+        val btn_atualizarVaga : Button = binding.btnAtualizarVaga
 
         back.setOnClickListener {
             finish()
@@ -307,7 +312,7 @@ class ActivityEdicaoVagas : AppCompatActivity() {
                 Toast.makeText(this, "Erro ao cadastrar a vaga", Toast.LENGTH_SHORT).show()
             }
         }
-        switchVisibilidade = findViewById(R.id.switch_anunciante)
+        switchVisibilidade = binding.switchAnunciante
     }
 
 
