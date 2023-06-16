@@ -35,12 +35,13 @@ class CadastroActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+
         val esconde_svg = binding.escondeSvg
         val back = binding.back
         val senha = binding.cadastroSenha
         val nome = binding.cadastroNome
         val email = binding.cadastroEmail
-        val btn_cadastro= binding.cadastroEmail
+        val btn_cadastro= binding.btnCadastro
 
         val tipoConta = intent.getStringExtra("tipo_conta")
 
